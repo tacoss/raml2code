@@ -1,0 +1,23 @@
+package {{extra.package}}
+{{debug}}
+class {{displayName}} implements Serializable {
+{{#methods}}
+  {{method}}
+  {{#if responses}}
+    {{#each responses}}
+      {{#if this.body}}
+        {{@key}}
+        {{#each this.body}}
+          {{#if this.schema}}
+            {{#parseSchema this.schema}}
+              {{#each properties}}
+                {{@key}} {{this.type}}
+              {{/each}}
+            {{/parseSchema}}
+          {{/if}}
+        {{/each}}
+      {{/if}}
+    {{/each}}
+  {{/if}}
+{{/methods}}
+}

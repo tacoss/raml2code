@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Cat",
+  "description": "A cat from Atoms catalog",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "The unique identifier for a cat",
+      "type": "integer"
+    },
+    "name": {
+      "description": "Name of the cat",
+      "type": "string"
+    },
+    "ownerName":{
+      "description": "Name of the owner",
+      "type": "string"
+    }
+
+  },
+  "required": ["id", "name"]
+}

@@ -1,0 +1,11 @@
+package {{extra.package}}
+{{#if classDescription}}
+/**
+*{{classDescription}}
+**/{{/if}}
+public class {{className}} implements Serializable {
+  {{#classMembers}}
+    {{#if comment}}/* {{comment}} */{{/if}}
+    {{type}} {{name}}
+  {{/classMembers}}
+}

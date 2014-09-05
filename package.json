@@ -1,0 +1,37 @@
+{
+  "name": "raml2code",
+  "version": "0.0.1",
+  "description": "Raml spec to code",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:gextech/raml2code.git"
+  },
+  "keywords": [
+    "RAML",
+    "CODEGEN"
+  ],
+  "author": "Tomas S.",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gextech/raml2code/issues"
+  },
+  "homepage": "https://github.com/gextech/raml2code",
+  "dependencies": {
+    "data2code": "~0.0.1",
+    "gulp-util": "~3.0.1",
+    "raml-parser": "~0.8.7",
+    "through2": "~0.6.1"
+  },
+  "devDependencies": {
+    "gulp": "3.8.7",
+    "gulp-util": "3.0.1",
+    "gulp-coffee": "2.2.0",
+    "gulp-mocha" : "1.0.0",
+    "chai": "~1.9.1",
+    "mocha": "~1.20.1"
+  }
+}
