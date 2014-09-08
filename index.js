@@ -1,8 +1,9 @@
 var through = require('through2');
 var gutil = require('gulp-util');
 var data2code = new require('data2code');
-var raml = require('raml-parser');
 var util = require('util');
+var path = require('path');
+
 
 var PluginError = gutil.PluginError;
 
@@ -10,19 +11,25 @@ var PluginError = gutil.PluginError;
 const PLUGIN_NAME = 'raml2code';
 
 
-function process(fileName, self, callback, options){
+function processData(fileName, self, callback, options){
+  var raml = require('raml-parser');
+  var cwd = process.cwd();
+  var nwd = path.resolve(path.dirname(fileName.path));
+  process.chdir(nwd);
   raml.loadFile(fileName.path).then(function (data) {
     if(options && options.generator){
       options.generator.handleRender = function(results){
         results.forEach(function(element, index, array){
-          if(element.name && element.str){
+          if(element.name && element.content){
             var fileG = new gutil.File({
               base: "",
               cwd: "",
               path: element.name,
-              contents: new Buffer(element.str)
+              contents: new Buffer(element.content)
             });
             self.push(fileG);
+          }else{
+            self.emit('error', new PluginError(PLUGIN_NAME, 'Data array element must contain name and content properties'));
           }
         });
 
@@ -31,11 +38,12 @@ function process(fileName, self, callback, options){
     }else{
       self.emit('error', new PluginError(PLUGIN_NAME, 'Generator not supplied'));
     }
+    process.chdir(cwd);
     callback();
-    console.log("heee");
   }, function (error) {
     var message = util.format('Parse error%s: %s', error);
     self.emit('error', new PluginError(PLUGIN_NAME, error));
+    process.chdir(cwd);
     callback();
   });
 }
@@ -50,9 +58,7 @@ module.exports = function(options){
       return cb();
     }
     if (file.isBuffer()) {
-      process(file, this, cb, options);
-      // this.emit('error', new PluginError(PLUGIN_NAME, 'Streams are not supported!'));
-      return cb();
+      return processData(file, this, cb, options);
     }  
   });
   return stream;

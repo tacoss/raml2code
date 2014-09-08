@@ -2,6 +2,48 @@
 ---
 title: Compra venta de gatitos
 version: v1
-#baseUri: http:/localhost:8080/{version}/
-baseUri: http://mocksvc.mulesoft.com/mocks/08923082-658e-41d9-a5e5-d1eacb438183
+baseUri: http:/localhost:8080/{version}/
 mediaType: application/json
+schemas:
+  - cat: !include cat.schema.json
+  - cats: !include cats.schema.json
+resourceTypes:
+  - collection:
+      get:
+        responses:
+          200:
+            body:
+              schema: <<resourcePathName>>
+      post:
+        responses:
+          200:
+            body:
+              schema: <<resourcePathName | !singularize>>
+          
+  - member:
+      get:
+        responses:
+          200:
+            body:
+              schema: <<resourcePathName>>
+              
+      put:
+        responses:
+          201:
+            body:
+              schema: <<resourcePathName>>
+      delete:
+        responses:
+          304:
+    
+
+/cats:
+  displayName: Gatitos
+  description: Compra, venta y renta de gatitos
+  type: collection
+    
+  /{catId}:
+    description: Un gatito en especifico
+    type: member
+  
+
