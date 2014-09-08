@@ -11,7 +11,7 @@ describe('RAML to Groovy ', function () {
 
   it('DTO from RAML file', function(done) {
 
-    var raml2codeInstance = raml2code({generator:genDTO});
+    var raml2codeInstance = raml2code({generator:genDTO, extra: {package: 'org.gex'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
     var examplePath = path.join(__dirname, '../examples/CatDTO.groovy');
 

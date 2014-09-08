@@ -1,4 +1,4 @@
-package 
+package org.gex
 /**
 *A cat from Atoms catalog
 **/

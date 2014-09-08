@@ -3,13 +3,10 @@ var gutil = require('gulp-util');
 var data2code = new require('data2code');
 var util = require('util');
 var path = require('path');
-
-
 var PluginError = gutil.PluginError;
 
 // consts
 const PLUGIN_NAME = 'raml2code';
-
 
 function processData(fileName, self, callback, options){
   var raml = require('raml-parser');
@@ -18,6 +15,7 @@ function processData(fileName, self, callback, options){
   process.chdir(nwd);
   raml.loadFile(fileName.path).then(function (data) {
     if(options && options.generator){
+      data.extra = options.extra;
       options.generator.handleRender = function(results){
         results.forEach(function(element, index, array){
           if(element.name && element.content){
@@ -47,7 +45,6 @@ function processData(fileName, self, callback, options){
     callback();
   });
 }
-
 
 
 module.exports = function(options){
