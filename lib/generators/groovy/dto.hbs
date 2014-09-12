@@ -1,11 +1,16 @@
 package {{extra.package}}
+import groovy.transform.*
 {{#if classDescription}}
 /**
 *{{classDescription}}
 **/{{/if}}
+@CompileStatic
+@Canonical
 public class {{className}} implements Serializable {
-  {{#classMembers}}
-    {{#if comment}}/* {{comment}} */{{/if}}
-    {{type}} {{name}}
-  {{/classMembers}}
+
+{{#classMembers}}
+{{#if comment}}  /* {{comment}} */{{/if}}
+  {{type}} {{name}}
+
+{{/classMembers}}
 }
