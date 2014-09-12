@@ -15,8 +15,6 @@ gulp.task('copy-templates', function(){
   .pipe(gulp.dest('./lib/'));
 });
 
-
-
 gulp.task('test', ['coffee', 'copy-templates'], function(){
   gulp.src('./test/index.js')
   .pipe(mocha(
@@ -28,3 +26,4 @@ gulp.task('test', ['coffee', 'copy-templates'], function(){
   ));
 });
 
+gulp.task('default', ['test']);

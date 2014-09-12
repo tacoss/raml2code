@@ -2,7 +2,7 @@ var raml2code =require('../..');
 var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
-var genDTO = require("../../lib/generators/groovy/raml2DTO")
+var genDTO = require("../../lib/generators/groovy/pojo")
 var wrapAssertion = require("../helpers").wrapAssertion;
 
 console.log(wrapAssertion);

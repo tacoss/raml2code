@@ -16,27 +16,22 @@ A generator is a simple object with the following properties:
     * partials -> Handlebars partials. 
 
 
-## generators included
-    * raml to DTO groovy
+## generators included and tested
+    * raml to Groovy pojo
     
-## As gulp-plugin
+## Gulp-plugin
 ```
 var gulp = require('gulp');
-var data2code = require('raml2code');
-var gen = require('raml2code/raml2DTO.js')
+var raml2code = require('raml2code');
+var genDTO = require("raml2code/lib/generators/groovy/raml2DTO.js");
 
 gulp.task("test", function(){
   gulp.src('./test/cats.raml')
-    .pipe(data2code({generator:gen}))
+    .pipe(raml2code({generator: genDTO, extra: {package:'com.gex'}}))
     .pipe(gulp.dest('build'));
 });
 
 ```
 
-## As command line 
 
-
- ```bash
-  node lib/raml2code.js -i test/cats.raml -g "./generators/groovy/raml2DTO.js" -o target -e '{"package":"gex.dt"}'
-```
 
