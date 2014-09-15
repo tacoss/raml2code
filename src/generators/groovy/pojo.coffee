@@ -22,7 +22,7 @@ generator.parser = (datos) ->
       model.classDescription = data.description ? ""
 
       if data.type is "array"
-        ref = data.items['$ref'].replace("#/", "")
+        ref = data.items['$ref'].replace("#/", "").split(".")[0]
         ref = capitalize(ref)
         model.classMembers.push {name: "items", type: "List<#{ref}>"}
       for key of data.properties
@@ -36,7 +36,7 @@ generator.parser = (datos) ->
             property.name = "items"
           when 'string' then property.type = "String"
           when 'boolean' then property.type = "Boolean"
-          when 'Number' then property.type = "Double"
+          when 'number' then property.type = "Double"
           when 'integer' then property.type = "Integer"
 
         model.classMembers.push property

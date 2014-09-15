@@ -24,7 +24,7 @@ describe('RAML to Groovy ', function () {
     }));
 
     raml2codeInstance.on('data', function(file){
-      console.log(file.path);
+      console.log('what', file.path);
       if(file.path == 'CatDTO.groovy'){
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);

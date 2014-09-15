@@ -2,15 +2,18 @@ package {{extra.package}}
 import groovy.transform.*
 {{#if classDescription}}
 /**
-*{{classDescription}}
+*{{{classDescription}}}
 **/{{/if}}
 @CompileStatic
 @Canonical
-public class {{className}} implements Serializable {
+public class {{{className}}} implements Serializable {
 
 {{#classMembers}}
 {{#if comment}}  /* {{comment}} */{{/if}}
-  {{type}} {{name}}
+  {{{type}}} {{name}}
 
 {{/classMembers}}
 }
+
+
+Paaa
