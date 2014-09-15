@@ -26,6 +26,7 @@ function processData(fileName, self, callback, options){
               contents: new Buffer(element.content)
             });
             self.push(fileG);
+            gutil.log(gutil.colors.cyan('Generating file'), element.name);
           }else{
             self.emit('error', new PluginError(PLUGIN_NAME, 'Data array element must contain name and content properties'));
           }

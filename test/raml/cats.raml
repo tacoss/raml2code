@@ -1,6 +1,6 @@
 #%RAML 0.8
 ---
-title: Compra venta de gatitos
+title: Gatitos API
 version: v1
 baseUri: http:/localhost:8080/{version}/
 mediaType: application/json
@@ -19,22 +19,23 @@ resourceTypes:
           200:
             body:
               schema: <<resourcePathName | !singularize>>
+        body:
+          schema : <<resourcePathName | !singularize>>
           
   - member:
       get:
         responses:
           200:
             body:
-              schema: <<resourcePathName>>
+              schema: <<resourcePathName | !singularize>>
               
       put:
         responses:
           201:
             body:
-              schema: <<resourcePathName>>
-      delete:
-        responses:
-          304:
+              schema: <<resourcePathName | !singularize>>>
+        body:
+          schema : <<resourcePathName | !singularize>>
     
 
 /cats:
@@ -43,6 +44,7 @@ resourceTypes:
   type: collection
     
   /{catId}:
+    displayName: Gatito
     description: Un gatito en especifico
     type: member
   

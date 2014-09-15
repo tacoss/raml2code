@@ -4,7 +4,7 @@ var mocha = require('gulp-mocha');
 
 var coffee = require('gulp-coffee');
 
-gulp.task('coffee', function() {
+gulp.task('coffee', ['copy-templates'], function() {
   gulp.src('./src/**/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(gulp.dest('./lib/'))

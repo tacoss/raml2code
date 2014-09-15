@@ -1,0 +1,17 @@
+package {{extra.package}}
+import retrofit.http.Body;
+import retrofit.http.Path;
+import retrofit.http.DELETE;
+import retrofit.http.GET;
+import retrofit.http.POST;
+import rx.Observable;
+{{extra.import}}
+
+public interface {{{className}}} {
+
+{{#methods}}
+  @{{annotation}}("{{{uri}}}")
+  public Observable<{{{respond}}}> {{{name}}}({{#each args}}{{#if @index}},{{/if}} @Path {{type}} {{name}}{{/each}});
+  
+{{/methods}}
+}
