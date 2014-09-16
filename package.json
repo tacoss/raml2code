@@ -1,6 +1,6 @@
 {
   "name": "raml2code",
-  "version": "0.0.2.1",
+  "version": "0.0.3",
   "description": "Raml spec to code",
   "main": "index.js",
   "scripts": {
@@ -27,7 +27,7 @@
     "through2": "~0.6.1"
   },
   "devDependencies": {
-    "gulp": "3.8.7",
+    "gulp": "3.8.8",
     "gulp-util": "3.0.1",
     "gulp-coffee": "2.2.0",
     "gulp-mocha" : "1.0.0",

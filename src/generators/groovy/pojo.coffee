@@ -41,7 +41,7 @@ generator.parser = (datos) ->
 
         model.classMembers.push property
       model.extra = datos.extra if datos.extra
-      parsed.push {name: capitalize("#{schemaName}DTO.groovy") , model}
+      parsed.push {name: capitalize("#{schemaName}.groovy") , model}
   parsed
 
  module.exports = generator

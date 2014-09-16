@@ -13,12 +13,13 @@ generator.parser = (data) ->
   methodParse = []
   for resource in data.resources
     parseResource(resource, methodParse)
- 
+
   model = {}
   model.methods = methodParse
+  model.extra = data.extra if data.extra
 
   model.className = data.title.split(" ").join("")
-  parsed.push {name: model.className , model}
+  parsed.push {name: model.className + ".java" , model}
   parsed
 
 
@@ -36,7 +37,7 @@ parseResource = (resource, parsed, parentUri = "") ->
 
     methodDef.request = request.title ? null
     methodDef.respond = if respond.type is "array" then "List<#{respond.title}>" else respond.title 
-    methodDef.annotation = m.method
+    methodDef.annotation = m.method.toUpperCase()
     methodDef.name = m.method + resource.displayName
     methodDef.uri = parentUri + resource.relativeUri
     parsed.push methodDef
@@ -68,16 +69,16 @@ getUriParameter = (resource)->
 
 
 getBestValidResponse = (responses) ->
-  response = responses["304"] ? 
-  response = responses["201"] ? 
-  response = responses["200"] ? 
+  response = responses["304"] ?
+  response = responses["201"] ?
+  response = responses["200"] ?
   response 
 
 
 parseSchema = (body) ->
 
   schema = {}
-  if body and body['application/json'] 
+  if body and body['application/json']
     schema = JSON.parse(body['application/json'].schema)
   schema
 

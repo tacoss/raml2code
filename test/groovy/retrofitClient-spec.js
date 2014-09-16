@@ -10,7 +10,7 @@ describe('RAML to Retrofit client ', function () {
 
   it('should generate a retrofit client from RAML file', function(done) {
 
-    var raml2codeInstance = raml2code({generator:gen, extra: {package: 'org.gex'}});
+    var raml2codeInstance = raml2code({generator: gen, extra: {package: 'org.gex.client', importPojos: 'com.pojos'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
     var examplePath = path.join(__dirname, '../examples/CatDTO.groovy');
 
