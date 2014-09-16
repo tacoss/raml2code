@@ -61,7 +61,7 @@ getUriParameter = (resource)->
         when 'boolean' then property.type = "Boolean"
         when 'number' then property.type = "Double"
         when 'integer' then property.type = "Integer"
-      property.kind = "@Path"
+      property.kind = "@Path(\"#{property.name}\")"
       uriParameters.push property
     uriParameters
   else 

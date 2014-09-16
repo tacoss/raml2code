@@ -17,7 +17,7 @@ public interface {{{className}}} {
 
 {{#methods}}
   @{{annotation}}("{{{uri}}}")
-  public Observable<{{{respond}}}> {{{name}}}({{#each args}}{{#if @index}}, {{/if}}{{kind}}("{{name}}") {{type}} {{name}}{{/each}});
+  public Observable<{{{respond}}}> {{{name}}}({{#each args}}{{#if @index}}, {{/if}}{{{kind}}}{{type}} {{name}}{{/each}});
   
 {{/methods}}
 }
