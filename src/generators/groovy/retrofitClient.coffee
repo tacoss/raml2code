@@ -26,7 +26,6 @@ generator.parser = (data) ->
 parseResource = (resource, parsed, parentUri = "") ->
   # console.log "resource>", resource
   for m in resource.methods
-    # console.log m
     methodDef = {}
     methodDef.args =  getUriParameter(resource) 
     respond = parseSchema(getBestValidResponse(m.responses).body)
@@ -71,6 +70,7 @@ getUriParameter = (resource)->
 getBestValidResponse = (responses) ->
   response = responses["304"] ?
   response = responses["201"] ?
+  response = responses["204"] ?
   response = responses["200"] ?
   response 
 

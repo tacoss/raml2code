@@ -5,7 +5,9 @@ var gutil = require('gulp-util');
 var stream = require('stream');
 var path = require('path');
 var fs = require('fs');
-
+var wrapAssertion = require("./helpers").wrapAssertion;
+var chai = require('chai');
+chai.should();
 
 describe('raml2code basic test', function () {
 
@@ -71,9 +73,10 @@ describe('raml2code basic test', function () {
       }));
 
       raml2codeInstance.on('data', function(file){
+        wrapAssertion(function () {
         file.path.should.equal('test.test');
-        file.contents.toString('utf8').should.equal("Compra venta de gatitos finos");
-        done();
+        file.contents.toString('utf8').should.equal("Gatitos API finos");
+        }, done);
       });
 
     });

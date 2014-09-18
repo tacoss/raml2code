@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var mocha = require('gulp-mocha');
-
 var coffee = require('gulp-coffee');
 
 gulp.task('coffee', ['copy-templates'], function() {
@@ -11,12 +10,13 @@ gulp.task('coffee', ['copy-templates'], function() {
 });
 
 gulp.task('copy-templates', function(){
-  gulp.src('./src/**/*.hbs')
+  var stream = gulp.src('./src/**/*.hbs')
   .pipe(gulp.dest('./lib/'));
+  return stream;
 });
 
-gulp.task('test', ['coffee', 'copy-templates'], function(){
-  gulp.src('./test/index.js')
+gulp.task('test', ['coffee', 'copy-templates'], function(cb){
+  gulp.src('./test/**/*spec.js')
   .pipe(mocha(
     {
       require: ['chai', 'chai-as-promised'],

@@ -6,6 +6,9 @@ var genDTO = require("../../lib/generators/groovy/pojo")
 var wrapAssertion = require("../helpers").wrapAssertion;
 
 
+var chai = require('chai');
+chai.should();
+
 describe('RAML to Pojo Groovy ', function () {
 
   it('DTO from RAML file', function(done) {
@@ -23,13 +26,11 @@ describe('RAML to Pojo Groovy ', function () {
     }));
 
     raml2codeInstance.on('data', function(file){
-      if(file.path == 'CatDTO.groovy'){
+      if(file.path == 'Cat.groovy'){
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
           var content = file.contents.toString('utf8');
-          console.log("-----");
           console.log(content);
-          console.log("-----");
           exampleContents = exampleContents.toString('utf8').split('\n');
           content.split('\n').forEach(function(e,i){
             e.should.equal(exampleContents[i]);

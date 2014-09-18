@@ -1,5 +1,3 @@
-
-
 function wrapAssertion(fn, done) {
   try {
     fn();
