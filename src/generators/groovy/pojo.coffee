@@ -1,11 +1,12 @@
 fs = require('fs')
 commonHelpers = require("../helpers/common.js").helpers()
+util = require('./util.js')
 path = require('path')
 
 generator = {}
 generator.helpers = commonHelpers
 dirname = path.dirname(__filename)
-template = path.resolve(dirname, "pojo.hbs")
+template = path.resolve(dirname, "tmpl/pojo.hbs")
 generator.template = fs.readFileSync(template).toString()
 
 capitalize = (str)->
@@ -27,19 +28,7 @@ generator.parser = (datos) ->
         model.classMembers.push {name: "items", type: "List<#{ref}>"}
       for key of data.properties
         p = data.properties[key]
-        property = {}
-        property.name = key
-        property.comment =  p.description
-        switch p.type
-          when 'array'
-            property.type = "List"
-            property.name = "items"
-          when 'string' then property.type = "String"
-          when 'boolean' then property.type = "Boolean"
-          when 'number' then property.type = "Double"
-          when 'integer' then property.type = "Integer"
-
-        model.classMembers.push property
+        model.classMembers.push util.mapProperty(p, key)
       model.extra = datos.extra if datos.extra
       parsed.push {name: capitalize("#{schemaName}.groovy") , model}
   parsed

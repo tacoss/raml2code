@@ -16,7 +16,7 @@ gulp.task('copy-templates', function(){
 });
 
 gulp.task('test', ['coffee', 'copy-templates'], function(cb){
-  gulp.src('./test/**/*spec.js')
+  gulp.src(['./test/**/*spec.js'])
   .pipe(mocha(
     {
       require: ['chai', 'chai-as-promised'],

@@ -2,20 +2,20 @@ var raml2code =require('../..');
 var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
-var genDTO = require("../../lib/generators/groovy/pojo")
+var gen = require("../../lib/generators/groovy/jaxrsInterface");
+//var gen = require("../../lib/generators/groovy/pojo")
 var wrapAssertion = require("../helpers").wrapAssertion;
-
 
 var chai = require('chai');
 chai.should();
 
-describe('should generate a Groovy Pojo', function () {
+describe('RAML to Retrofit client ', function () {
 
-  it('DTO from RAML file', function(done) {
+  it('should generate a resource interface from RAML file', function(done) {
 
-    var raml2codeInstance = raml2code({generator:genDTO, extra: {package: 'org.gex'}});
+    var raml2codeInstance = raml2code({generator:gen, extra: {package: 'org.gex'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
-    var examplePath = path.join(__dirname, '../examples/CatDTO.groovy');
+    var examplePath = path.join(__dirname, '../examples/GatitosResource.groovy');
 
     var ramlContents = fs.readFileSync(ramlPath);
     var exampleContents = fs.readFileSync(examplePath);
@@ -26,16 +26,21 @@ describe('should generate a Groovy Pojo', function () {
     }));
 
     raml2codeInstance.on('data', function(file){
-      if(file.path == 'Cat.groovy'){
+      var content = file.contents.toString('utf8');
+      //console.log("=======");
+      //console.log(content);
+      //console.log("=======")
+      if(file.path == 'GatitosResource.groovy'){
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
           var content = file.contents.toString('utf8');
-          //console.log(content);
+          console.log(content);
           exampleContents = exampleContents.toString('utf8').split('\n');
           content.split('\n').forEach(function(e,i){
             e.should.equal(exampleContents[i]);
           });
         }, done);
+
       }
     });
 
