@@ -19,7 +19,6 @@ util.mapProperty = (property, name)->
     when 'number' then p.type = "Double"
     when 'integer' then p.type = "Integer"
   p.kind = "@Path(\"#{p.name}\")"
-  console.log p
   p
 
 
