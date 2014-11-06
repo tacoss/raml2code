@@ -29,7 +29,7 @@ describe('RAML to Retrofit client ', function () {
       var content = file.contents.toString('utf8');
       //console.log("=======");
       //console.log(content);
-      //console.log("=======")
+      //console.log("=======");
       if(file.path == 'GatitosResource.groovy'){
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
