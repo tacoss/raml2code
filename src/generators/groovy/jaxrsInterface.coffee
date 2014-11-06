@@ -13,8 +13,13 @@ generator.template = fs.readFileSync(template).toString()
 generator.parser = (data) ->
   parsed = []
   methodParse = []
+  annotations =
+    path: "@PathParam"
+    query: "@QueryParam"
+    body: ""
+
   for resource in data.resources
-    util.parseResource(resource, methodParse)
+    util.parseResource(resource, methodParse, annotations)
 
   resourceGroup = _.groupBy(methodParse, (method) ->
     method.displayName

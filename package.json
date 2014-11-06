@@ -1,6 +1,6 @@
 {
   "name": "raml2code",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Raml spec to code",
   "main": "index.js",
   "scripts": {
@@ -24,7 +24,8 @@
     "data2code": "~0.0.1",
     "gulp-util": "~3.0.1",
     "raml-parser": "~0.8.7",
-    "through2": "~0.6.1"
+    "through2": "~0.6.1",
+    "lodash": "^2.4.1"
   },
   "devDependencies": {
     "chai": "^1.9.1",
@@ -33,7 +34,6 @@
     "gulp-jasmine": "^1.0.1",
     "gulp-mocha": "1.0.0",
     "gulp-util": "3.0.1",
-    "lodash": "^2.4.1",
     "mocha": "^1.20.1"
   }
 }

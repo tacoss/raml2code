@@ -12,8 +12,12 @@ generator.template = fs.readFileSync(template).toString()
 generator.parser = (data) ->
   parsed = []
   methodParse = []
+  annotations =
+    path: "@Path"
+    query: "@Query"
+    body: "@Body"
   for resource in data.resources
-    util.parseResource(resource, methodParse)
+    util.parseResource(resource, methodParse, annotations)
 
   model = {}
   model.methods = methodParse

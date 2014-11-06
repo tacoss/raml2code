@@ -1,12 +1,20 @@
 util = {}
-util.getUriParameter = (resource)->
+util.getUriParameter = (resource, annotation)->
   uriParameters = []
   for key of resource.uriParameters
     p = resource.uriParameters[key]
-    uriParameters.push util.mapProperty(p, key)
+    uriParameters.push util.mapProperty(p, key, annotation)
   uriParameters
 
-util.mapProperty = (property, name)->
+util.getQueryparams = (queryParams, annotation)->
+  params = []
+  for key of queryParams
+    p = queryParams[key]
+    params.push util.mapProperty(p, key, annotation)
+  params
+
+
+util.mapProperty = (property, name, annotation)->
   p = {}
   p.name = name
   p.comment =  property.description
@@ -18,23 +26,24 @@ util.mapProperty = (property, name)->
     when 'boolean' then p.type = "Boolean"
     when 'number' then p.type = "Double"
     when 'integer' then p.type = "Integer"
-  p.kind = "@Path(\"#{p.name}\")"
+  p.kind = annotation + "(\"#{p.name}\")"
   p
 
 
 
-util.parseResource = (resource, parsed, parentUri = "", parentUriArgs = []) ->
-  # console.log "resource>", resource
+util.parseResource = (resource, parsed, annotations,  parentUri = "", parentUriArgs = []) ->
+
   for m in resource.methods
     methodDef = {}
     methodDef.uri = parentUri + resource.relativeUri
-    uriArgs = util.getUriParameter(resource)
+    uriArgs = util.getUriParameter(resource, annotations.path)
     methodDef.args = parentUriArgs.concat(uriArgs)
+    methodDef.args = methodDef.args.concat(util.getQueryparams(m.queryParameters, annotations.query))
     request = util.parseSchema(m.body,  "#{methodDef.uri} body" )
     respond = util.parseSchema(util.getBestValidResponse(m.responses).body,  "#{methodDef.uri} response" )
     if request.title
       methodDef.args = methodDef.args ? []
-      methodDef.args.push {'kind': '@Body', 'type': request.title, 'name': request.title.toLowerCase()}
+      methodDef.args.push {'kind': annotations.body, 'type': request.title, 'name': request.title.toLowerCase()}
 
     methodDef.request = request.title ? null
     methodDef.respond = if respond.type is "array" then "List<#{respond.title}>" else respond.title
@@ -44,7 +53,7 @@ util.parseResource = (resource, parsed, parentUri = "", parentUriArgs = []) ->
     parsed.push methodDef
   if resource.resources
     for innerResource in resource.resources
-      util.parseResource(innerResource, parsed, resource.relativeUri, uriArgs)
+      util.parseResource(innerResource, parsed, annotations, resource.relativeUri, uriArgs)
   undefined
 
 

@@ -14,6 +14,12 @@ resourceTypes:
           200:
             body:
               schema: <<resourcePathName>>
+        queryParameters:
+          search:
+            displayName: Search
+            type: string
+            required: false
+
       post:
         responses:
           200:
@@ -28,7 +34,12 @@ resourceTypes:
           200:
             body:
               schema: <<resourcePathName | !singularize>>
-              
+        queryParameters:
+          filterBy:
+            displayName: FilterBy
+            type: string
+            required: false
+
       put:
         responses:
           201:
