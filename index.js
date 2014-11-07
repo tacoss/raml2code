@@ -10,9 +10,7 @@ const PLUGIN_NAME = 'raml2code';
 
 function processData(fileName, self, callback, options) {
   var raml = require('raml-parser');
-  var cwd = process.cwd();
-  var nwd = path.resolve(path.dirname(fileName.path));
-  process.chdir(nwd);
+
   raml.loadFile(fileName.path).then(function (data) {
     if (options && options.generator) {
       data.extra = options.extra;
@@ -20,8 +18,6 @@ function processData(fileName, self, callback, options) {
         results.forEach(function (element, index, array) {
           if (element.name && element.content) {
             var fileG = new gutil.File({
-              base: "",
-              cwd: "",
               path: element.name,
               contents: new Buffer(element.content)
             });
@@ -37,12 +33,10 @@ function processData(fileName, self, callback, options) {
     } else {
       self.emit('error', new PluginError(PLUGIN_NAME, 'Generator not supplied'));
     }
-    process.chdir(cwd);
     callback();
   }, function (error) {
     var message = util.format('Parse error%s: %s', error);
     self.emit('error', new PluginError(PLUGIN_NAME, error));
-    process.chdir(cwd);
     callback();
   });
 }
