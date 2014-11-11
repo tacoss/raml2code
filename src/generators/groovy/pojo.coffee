@@ -33,6 +33,6 @@ generator.parser = (datos) ->
       parsed.push {name: capitalize("#{schemaName}.groovy") , model}
   parsed
 
- module.exports = generator
+module.exports = generator
 
 

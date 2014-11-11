@@ -26,6 +26,7 @@ util.mapProperty = (property, name, annotation)->
     when 'boolean' then p.type = "Boolean"
     when 'number' then p.type = "Double"
     when 'integer' then p.type = "Integer"
+    when 'object' then p.type = "Map"
   p.kind = annotation + "(\"#{p.name}\")"
   p
 

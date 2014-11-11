@@ -2,8 +2,6 @@ var raml2code =require('../..');
 var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
-var gen = require("../../lib/generators/groovy/jaxrsInterface");
-//var gen = require("../../lib/generators/groovy/pojo")
 var wrapAssertion = require("../helpers").wrapAssertion;
 
 var chai = require('chai');
@@ -12,7 +10,7 @@ chai.should();
 describe('RAML to Retrofit client ', function () {
 
   it('should generate a resource interface from RAML file', function(done) {
-
+    var gen = require("../../lib/generators/groovy/jaxrsInterface");
     var raml2codeInstance = raml2code({generator:gen, extra: {package: 'org.gex'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
     var examplePath = path.join(__dirname, '../examples/GatitosResource.groovy');

@@ -2,17 +2,16 @@ var raml2code =require('../..');
 var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
-var genDTO = require("../../lib/generators/groovy/pojo")
 var wrapAssertion = require("../helpers").wrapAssertion;
 
 
 var chai = require('chai');
 chai.should();
 
-describe('should generate a Groovy Pojo', function () {
+describe('should generate a Pojo', function () {
 
-  it('DTO from RAML file', function(done) {
-
+  it('from a RAML file', function(done) {
+    var genDTO = require("../../lib/generators/groovy/pojo");
     var raml2codeInstance = raml2code({generator:genDTO, extra: {package: 'org.gex'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
     var examplePath = path.join(__dirname, '../examples/CatDTO.groovy');

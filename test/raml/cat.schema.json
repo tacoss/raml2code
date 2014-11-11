@@ -15,6 +15,20 @@
     "ownerName":{
       "description": "Name of the owner",
       "type": "string"
+    },
+    "toy":{
+      "description": "Something to play",
+      "type": "object"
+    },
+    "food":{
+      "description": "Something to eat",
+      "type": "object",
+      "properties" : {
+        "name":{
+          "description": "what the cat eats",
+          "type": "string"
+        }
+      }
     }
 
   },

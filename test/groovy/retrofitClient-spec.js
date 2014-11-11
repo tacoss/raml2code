@@ -2,7 +2,6 @@ var raml2code =require('../..');
 var path = require('path');
 var fs = require('fs');
 var gutil = require('gulp-util');
-var gen = require("../../lib/generators/groovy/retrofitClient")
 var wrapAssertion = require("../helpers").wrapAssertion;
 
 var chai = require('chai');
@@ -11,6 +10,7 @@ chai.should();
 describe('RAML to Retrofit client ', function () {
 
   it('should generate a retrofit client from RAML file', function(done) {
+    var gen = require("../../lib/generators/groovy/retrofitClient");
 
     var raml2codeInstance = raml2code({generator: gen, extra: {package: 'org.gex.client', importPojos: 'com.pojos'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');

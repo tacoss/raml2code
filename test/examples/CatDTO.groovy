@@ -16,4 +16,10 @@ public class Cat implements Serializable {
   /* Name of the owner */
   String ownerName
 
+  /* Something to play */
+  Map toy
+
+  /* Something to eat */
+  Map food
+
 }
