@@ -22,4 +22,7 @@ public class Cat implements Serializable {
   /* Something to eat */
   Map food
 
+  /* Errores al procesar la petición */
+  List errors
+
 }

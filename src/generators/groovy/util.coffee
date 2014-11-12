@@ -20,9 +20,8 @@ util.mapProperty = (property, name, annotation)->
   p.comment =  property.description
   switch property.type
     when 'array'
-      console.log property
       p.type = "List"
-      p.name = "items"
+#      p.name = "items"
     when 'string' then p.type = "String"
     when 'boolean' then p.type = "Boolean"
     when 'number' then p.type = "Double"
@@ -49,7 +48,7 @@ util.parseResource = (resource, parsed, annotations,  parentUri = "", parentUriA
       methodDef.args.push {'kind': annotations.body, 'type': request.title, 'name': request.title.toLowerCase()}
 
     methodDef.request = request.title ? null
-    methodDef.respond = if respond.type is "array" then "List<#{respond.title}>" else respond.title
+    methodDef.respond = respond.title
     methodDef.annotation = m.method.toUpperCase()
     methodDef.name = m.method + resource.displayName
     methodDef.displayName = resource.displayName

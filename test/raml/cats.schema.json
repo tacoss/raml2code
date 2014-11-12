@@ -2,6 +2,13 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Cats",
   "description": "A cats collection",
-  "type": "array",
-  "items": { "$ref": "#/cat" }
+  "properties": {
+    "cats" : {
+      "title": "Cats",
+      "description": "A lot of cats",
+      "type": "array",
+      "items": { "$ref": "cat.schema.json" }
+    }
+  }
+
 }

@@ -1,0 +1,11 @@
+{
+  "id": 123,
+  "name": "hola",
+  "errors": [
+    {
+      "code": "500",
+      "messages": "Error",
+      "status": 200
+    }
+  ]
+}

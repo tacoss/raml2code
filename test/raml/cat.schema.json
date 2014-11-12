@@ -1,6 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
   "title": "Cat",
+  "id": "cat.schema.json",
   "description": "A cat from Atoms catalog",
   "type": "object",
   "properties": {
@@ -30,12 +31,12 @@
         }
       }
     },
-    "error":{
-      "title": "Errors",
-      "description": "Errores al procesar la petición",
+    "errors":{
+        "title": "Errors",
+        "description": "Errores al procesar la petición",
       "type": "array",
-      "items": { "$ref": "error.schema#/definitions/errors/definitions/errors" }
+      "items": { "$ref": "error.schema.json" }
     }
   },
-  "required": ["id", "name"]
+  "required": ["id", "name", "errors"]
 }

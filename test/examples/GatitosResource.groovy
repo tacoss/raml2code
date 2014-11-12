@@ -11,7 +11,7 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON
 interface GatitosResource {
 
   /***
-   * @return Response This must be a valid List<Cats> JSON object.
+   * @return Response This must be a valid Cats JSON object.
    */
   @GET
   Response getGatitos(@QueryParam("search") String search);
