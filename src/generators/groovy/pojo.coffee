@@ -12,6 +12,13 @@ generator.template = fs.readFileSync(template).toString()
 capitalize = (str)->
   str.charAt(0).toUpperCase() + str.slice(1)
 
+sanitize = (str)->
+  aux = str.split(".")
+  res = ''
+  aux.forEach (it)->
+    res += capitalize(it)
+  res
+
 generator.parser = (datos) ->
   parsed = []
   for row in datos.schemas
@@ -30,7 +37,7 @@ generator.parser = (datos) ->
         p = data.properties[key]
         model.classMembers.push util.mapProperty(p, key)
       model.extra = datos.extra if datos.extra
-      parsed.push {name: capitalize("#{schemaName}.groovy") , model}
+      parsed.push {name: capitalize("#{sanitize(schemaName)}.groovy") , model}
   parsed
 
 module.exports = generator
