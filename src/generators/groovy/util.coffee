@@ -20,6 +20,7 @@ util.mapProperty = (property, name, annotation)->
   p.comment =  property.description
   switch property.type
     when 'array'
+      console.log property
       p.type = "List"
       p.name = "items"
     when 'string' then p.type = "String"
@@ -27,6 +28,7 @@ util.mapProperty = (property, name, annotation)->
     when 'number' then p.type = "Double"
     when 'integer' then p.type = "Integer"
     when 'object' then p.type = "Map"
+
   p.kind = annotation + "(\"#{p.name}\")"
   p
 

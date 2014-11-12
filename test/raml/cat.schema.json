@@ -29,8 +29,13 @@
           "type": "string"
         }
       }
+    },
+    "error":{
+      "title": "Errors",
+      "description": "Errores al procesar la petición",
+      "type": "array",
+      "items": { "$ref": "error.schema#/definitions/errors/definitions/errors" }
     }
-
   },
   "required": ["id", "name"]
 }
