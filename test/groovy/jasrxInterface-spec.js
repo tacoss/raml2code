@@ -7,9 +7,9 @@ var wrapAssertion = require("../helpers").wrapAssertion;
 var chai = require('chai');
 chai.should();
 
-describe('RAML to Retrofit client ', function () {
+describe('RAML to JAX-RS', function () {
 
-  it('should generate a resource interface from RAML file', function(done) {
+  it('should generate a resource interface', function(done) {
     var gen = require("../../lib/generators/groovy/jaxrsInterface");
     var raml2codeInstance = raml2code({generator:gen, extra: {package: 'org.gex'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
@@ -25,13 +25,12 @@ describe('RAML to Retrofit client ', function () {
 
     raml2codeInstance.on('data', function(file){
       var content = file.contents.toString('utf8');
-      //console.log("=======");
-      //console.log(content);
-      //console.log("=======");
       if(file.path == 'GatitosResource.groovy'){
+
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
           var content = file.contents.toString('utf8');
+          console.log(content)
           exampleContents = exampleContents.toString('utf8').split('\n');
           content.split('\n').forEach(function(e,i){
             e.should.equal(exampleContents[i]);

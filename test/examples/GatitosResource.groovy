@@ -14,13 +14,15 @@ interface GatitosResource {
    * @return Response This must be a valid Cats JSON object.
    */
   @GET
-  Response getGatitos(@QueryParam("search") String search);
+  Response getGatitos(
+    @QueryParam("search")String search);
 
   /***
    * @return Response This must be a valid Cat JSON object.
    */
   @POST
-  Response postGatitos( Cat cat);
+  Response postGatitos(
+    Cat cat);
 
 
 }

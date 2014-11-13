@@ -15,7 +15,8 @@ interface {{className}} {
    * @return Response This must be a valid {{{respond}}} JSON object.
    */
   @{{annotation}}
-  Response {{{name}}}({{#each args}}{{#if @index}}, {{/if}}{{{kind}}} {{type}} {{name}}{{/each}});
+  Response {{{name}}}({{#each args}}{{#if @index}}, {{/if}}
+    {{{kind}}}{{type}} {{name}}{{/each}});
 
 {{/methods}}
 

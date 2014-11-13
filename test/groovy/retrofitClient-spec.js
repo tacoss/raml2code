@@ -14,7 +14,7 @@ describe('RAML to Retrofit client ', function () {
 
     var raml2codeInstance = raml2code({generator: gen, extra: {package: 'org.gex.client', importPojos: 'com.pojos'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
-    var examplePath = path.join(__dirname, '../examples/CatDTO.groovy');
+    var examplePath = path.join(__dirname, '../examples/GatitosApi.java');
 
     var ramlContents = fs.readFileSync(ramlPath);
     var exampleContents = fs.readFileSync(examplePath);
@@ -30,11 +30,11 @@ describe('RAML to Retrofit client ', function () {
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
           var content = file.contents.toString('utf8');
-          //console.log(content);
+          console.log(content);
           exampleContents = exampleContents.toString('utf8').split('\n');
-          // content.split('\n').forEach(function(e,i){
-          //   e.should.equal(exampleContents[i]);
-          // });
+          content.split('\n').forEach(function(e,i){
+             e.should.equal(exampleContents[i]);
+          });
         }, done);
       }
     });
