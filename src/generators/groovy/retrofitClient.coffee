@@ -23,6 +23,7 @@ generator.parser = (data) ->
   model.methods = methodParse
   model.version = data.version
   if data.extra
+    data.extra.package = "#{data.extra.package}.#{data.version}"
     data.extra.importPojos = "#{data.extra.importPojos}.#{data.version}"
     model.extra = data.extra
 

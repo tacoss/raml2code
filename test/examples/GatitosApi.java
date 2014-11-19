@@ -1,4 +1,4 @@
-package org.gex.client;
+package org.gex.client.v1;
 import retrofit.http.Body;
 import retrofit.http.Path;
 import retrofit.http.DELETE;
