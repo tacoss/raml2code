@@ -1,6 +1,6 @@
 {
   "name": "raml2code",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Raml spec to code",
   "main": "index.js",
   "scripts": {
