@@ -25,7 +25,7 @@ describe('RAML to JAX-RS', function () {
 
     raml2codeInstance.on('data', function(file){
       var content = file.contents.toString('utf8');
-      if(file.path == 'GatitosResource.groovy'){
+      if(file.path == 'v1/GatitosResource.groovy'){
 
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);

@@ -1,4 +1,4 @@
-package org.gex
+package org.gex.v1
 import javax.ws.rs.*
 import javax.ws.rs.core.*
 

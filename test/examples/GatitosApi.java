@@ -13,16 +13,26 @@ import com.pojos.*;
 
 public interface GatitosAPI {
 
-  @GET("/cats")
-  public Observable<Cats> getGatitos(@Query("search") String search);
+  @GET("/v1/cats")
+  Observable<Cats> getGatitos(
+    @Query("search") String search);
 
-  @POST("/cats")
-  public Observable<Cat> postGatitos(@Body Cat cat);
+  @POST("/v1/cats")
+  Observable<Cat> postGatitos(
+    @Body Cat cat);
 
-  @GET("/cats/{catId}")
-  public Observable<Cat> getGatitoById(@Path("catId") String catId, @Query("filterBy") String filterBy);
+  @GET("/v1/cats/{catId}")
+  Observable<Cat> getGatitoById(
+    @Path("catId") String catId, 
+    @Query("filterBy") String filterBy);
 
-  @PUT("/cats/{catId}")
-  public Observable<Cat> putGatitoById(@Path("catId") String catId, @Body Cat cat);
+  @PUT("/v1/cats/{catId}")
+  Observable<Cat> putGatitoById(
+    @Path("catId") String catId, 
+    @Body Cat cat);
+
+  @GET("/v1/cats/{catId}/mapping")
+  Observable<Cat> getSingleContentTypeMapping(
+    @Path("catId") String catId);
 
 }

@@ -1,4 +1,4 @@
-package org.gex
+package org.gex.v1
 import groovy.transform.*
 /**
 *A cat from Atoms catalog

@@ -9,18 +9,17 @@ dirname = path.dirname(__filename)
 template = path.resolve(dirname, "tmpl/pojo.hbs")
 generator.template = fs.readFileSync(template).toString()
 
-capitalize = (str)->
-  str.charAt(0).toUpperCase() + str.slice(1)
 
 sanitize = (str)->
   aux = str.split(".")
   res = ''
   aux.forEach (it)->
-    res += capitalize(it)
+    res += util.capitalize(it)
   res
 
 generator.parser = (datos) ->
   parsed = []
+  datos.extra.package = "#{datos.extra.package}.#{datos.version}"
   for row in datos.schemas
     for schemaName of row
       data = JSON.parse(row[schemaName])
@@ -31,13 +30,13 @@ generator.parser = (datos) ->
 
       if data.type is "array"
         ref = data.items['$ref'].replace("#/", "").split(".")[0]
-        ref = capitalize(ref)
+        ref = util.capitalize(ref)
         model.classMembers.push {name: "items", type: "List<#{ref}>"}
       for key of data.properties
         p = data.properties[key]
         model.classMembers.push util.mapProperty(p, key)
       model.extra = datos.extra if datos.extra
-      parsed.push {name: capitalize("#{sanitize(schemaName)}.groovy") , model}
+      parsed.push {name: datos.version + "/" + util.capitalize("#{sanitize(schemaName)}.groovy") , model}
   parsed
 
 module.exports = generator

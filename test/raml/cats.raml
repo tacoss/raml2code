@@ -55,10 +55,15 @@ resourceTypes:
   displayName: Gatitos
   description: Compra, venta y renta de gatitos
   type: collection
-    
   /{catId}:
     displayName: GatitoById
     description: Un gatito en especifico
     type: member
-  
+    /mapping:
+      displayName: SingleContentTypeMapping
+      get:
+        responses:
+          200:
+            body:
+              schema: cat
 

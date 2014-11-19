@@ -55,7 +55,7 @@ util.parseResource = (resource, parsed, annotations,  parentUri = "", parentUriA
     parsed.push methodDef
   if resource.resources
     for innerResource in resource.resources
-      util.parseResource(innerResource, parsed, annotations, resource.relativeUri, uriArgs)
+      util.parseResource(innerResource, parsed, annotations, methodDef.uri, uriArgs)
   undefined
 
 
@@ -78,5 +78,7 @@ util.getBestValidResponse = (responses) ->
     response = responses["200"] ?
     response
 
+util.capitalize = (str)->
+  str.charAt(0).toUpperCase() + str.slice(1)
 
 module.exports = util

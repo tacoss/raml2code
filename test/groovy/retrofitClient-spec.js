@@ -26,7 +26,7 @@ describe('RAML to Retrofit client ', function () {
 
     raml2codeInstance.on('data', function(file){
 
-       if(file.path == 'GatitosAPI.java'){
+       if(file.path == 'v1/GatitosAPI.java'){
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
           var content = file.contents.toString('utf8');

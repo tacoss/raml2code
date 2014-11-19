@@ -21,10 +21,11 @@ generator.parser = (data) ->
 
   model = {}
   model.methods = methodParse
+  model.version = data.version
   model.extra = data.extra if data.extra
 
   model.className = data.title.split(" ").join("")
-  parsed.push {name: model.className + ".java" , model}
+  parsed.push {name: "#{data.version}/#{model.className}.java" , model}
   parsed
 
 module.exports = generator

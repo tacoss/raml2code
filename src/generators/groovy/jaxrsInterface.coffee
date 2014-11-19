@@ -25,6 +25,7 @@ generator.parser = (data) ->
     method.displayName
   )
 
+  data.extra.package = "#{data.extra.package}.#{data.version}"
   for k,v of resourceGroup
     model = {}
     model.extra = data.extra if data.extra
@@ -32,7 +33,7 @@ generator.parser = (data) ->
     model.uri = first.uri
     model.className = "#{first.displayName}Resource"
     model.methods = v
-    parsed.push {name: model.className + ".groovy" , model}
+    parsed.push {name: "#{data.version}/#{model.className}.groovy" , model}
   parsed
 
 

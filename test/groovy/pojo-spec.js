@@ -25,7 +25,7 @@ describe('should generate a Pojo', function () {
     }));
 
     raml2codeInstance.on('data', function(file){
-      if(file.path == 'Cat.groovy'){
+      if(file.path == 'v1/Cat.groovy'){
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
           var content = file.contents.toString('utf8');
