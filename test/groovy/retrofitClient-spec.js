@@ -30,7 +30,7 @@ describe('RAML to Retrofit client ', function () {
         wrapAssertion(function () {
           file.isBuffer().should.equal(true);
           var content = file.contents.toString('utf8');
-          console.log(content);
+          // console.log(content);
           exampleContents = exampleContents.toString('utf8').split('\n');
           content.split('\n').forEach(function(e,i){
              e.should.equal(exampleContents[i]);

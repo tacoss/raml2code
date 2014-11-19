@@ -18,6 +18,6 @@ public interface {{{className}}} {
 {{#methods}}
   @{{annotation}}("{{{uri}}}")
   public Observable<{{{respond}}}> {{{name}}}({{#each args}}{{#if @index}}, {{/if}}{{{kind}}} {{type}} {{name}}{{/each}});
-  
+
 {{/methods}}
 }
