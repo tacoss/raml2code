@@ -25,10 +25,12 @@ generator.parser = (data) ->
     method.displayName
   )
 
-  data.extra.package = "#{data.extra.package}.#{data.version}"
+  if data.extra
+    data.extra.package = "#{data.extra.package}.#{data.version}"
+    data.extra.importPojos = "#{data.extra.importPojos}.#{data.version}"
   for k,v of resourceGroup
     model = {}
-    model.extra = data.extra if data.extra
+    model.extra = data.extra
     first = _.first(v)
     model.uri = first.uri
     model.className = "#{first.displayName}Resource"

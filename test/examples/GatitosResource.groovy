@@ -1,7 +1,7 @@
 package org.gex.v1
 import javax.ws.rs.*
 import javax.ws.rs.core.*
-
+import org.gex.dto.v1.*
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON
 

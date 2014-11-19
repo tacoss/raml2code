@@ -11,7 +11,7 @@ describe('RAML to JAX-RS', function () {
 
   it('should generate a resource interface', function(done) {
     var gen = require("../../lib/generators/groovy/jaxrsInterface");
-    var raml2codeInstance = raml2code({generator:gen, extra: {package: 'org.gex'}});
+    var raml2codeInstance = raml2code({generator:gen, extra: {package: 'org.gex', importPojos: 'org.gex.dto'}});
     var ramlPath = path.join(__dirname, '../raml/cats.raml');
     var examplePath = path.join(__dirname, '../examples/GatitosResource.groovy');
 

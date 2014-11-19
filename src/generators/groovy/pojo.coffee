@@ -19,7 +19,8 @@ sanitize = (str)->
 
 generator.parser = (datos) ->
   parsed = []
-  datos.extra.package = "#{datos.extra.package}.#{datos.version}"
+  if datos.extra
+    datos.extra.package = "#{datos.extra.package}.#{datos.version}"
   for row in datos.schemas
     for schemaName of row
       data = JSON.parse(row[schemaName])
@@ -35,7 +36,7 @@ generator.parser = (datos) ->
       for key of data.properties
         p = data.properties[key]
         model.classMembers.push util.mapProperty(p, key)
-      model.extra = datos.extra if datos.extra
+      model.extra = datos.extra
       parsed.push {name: datos.version + "/" + util.capitalize("#{sanitize(schemaName)}.groovy") , model}
   parsed
 

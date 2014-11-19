@@ -8,7 +8,7 @@ import retrofit.http.PUT;
 import java.util.List;
 
 import rx.Observable;
-import com.pojos.*;
+import com.pojos.v1.*;
 
 
 public interface GatitosAPI {
