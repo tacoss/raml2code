@@ -36,7 +36,7 @@
         "title": "Errors",
         "description": "Errores al procesar la petición",
       "type": "array",
-      "items": { "$ref": "error.schema.json" }
+      "items": { "$ref": "error/error.schema.json" }
     }
   },
   "required": ["id", "name", "errors"]

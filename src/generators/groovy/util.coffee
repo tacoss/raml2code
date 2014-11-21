@@ -31,6 +31,8 @@ util.mapProperty = (property, name, annotation, refMap)->
   data.property = {}
   data.property.name = name
   data.property.comment =  property.description
+  if property['$ref']
+    console.log property['ref']
   switch property.type
     when 'array'
       auxType = "List"
@@ -50,18 +52,17 @@ util.mapProperty = (property, name, annotation, refMap)->
           data.innerClass.classDescription = property.description
           aux = util.mapProperties(property)
           data.innerClass.classMembers = aux.classMembers
-
-      #if object has references we map on the POJO
-      else if property["$ref"]
-        innnerSchema = refMap[property["$ref"].split("#")[0]]
-        data.property.type = util.capitalize(innnerSchema.title)
       else
         data.property.type = 'Map'
     when 'string' then data.property.type = "String"
     when 'boolean' then data.property.type = "Boolean"
     when 'number' then data.property.type = "Double"
     when 'integer' then data.property.type = "Integer"
-    when 'object' then data.property.type = "Map"
+
+  #if object has $references we map on the POJO
+  if property["$ref"]
+    innnerSchema = refMap[property["$ref"].split("#")[0]]
+    data.property.type = util.capitalize(innnerSchema.title)
 
   data.property.kind = annotation + "(\"#{data.property.name}\")"
   data
