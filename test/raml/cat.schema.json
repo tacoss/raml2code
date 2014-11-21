@@ -13,10 +13,6 @@
       "description": "Name of the cat",
       "type": "string"
     },
-    "ownerName":{
-      "description": "Name of the owner",
-      "type": "string"
-    },
     "toy":{
       "description": "Something to play",
       "type": "object"
@@ -30,6 +26,11 @@
           "type": "string"
         }
       }
+    },
+    "owner":{
+      "type": "object",
+      "description": "The owner of the cat.",
+      "$ref": "owner.schema.json"
     },
     "errors":{
         "title": "Errors",

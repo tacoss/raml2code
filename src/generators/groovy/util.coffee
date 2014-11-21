@@ -1,3 +1,4 @@
+deref = require('deref')();
 util = {}
 util.getUriParameter = (resource, annotation)->
   uriParameters = []
@@ -20,8 +21,26 @@ util.mapProperty = (property, name, annotation)->
   p.comment =  property.description
   switch property.type
     when 'array'
+#      console.log "--------------", property
       p.type = "List"
+#      console.log "--------------", property.items['$ref']
+#      ref = util.capitalize(ref)
+#      console.log "ref->". ref
+
 #      p.name = "items"
+    when 'object'
+      console.log "=====================1"
+      console.log "OBJECT", property
+      console.log "=====================2"
+      if property.properties
+
+        if property.title
+          p.type = util.capitalize(property.title)
+        else
+          p.type = 'FOO'
+
+      else
+        p.type = 'Object'
     when 'string' then p.type = "String"
     when 'boolean' then p.type = "Boolean"
     when 'number' then p.type = "Double"
@@ -80,5 +99,12 @@ util.getBestValidResponse = (responses) ->
 
 util.capitalize = (str)->
   str.charAt(0).toUpperCase() + str.slice(1)
+
+util.sanitize = (str)->
+  aux = str.split(".")
+  res = ''
+  aux.forEach (it)->
+    res += util.capitalize(it)
+  res
 
 module.exports = util
