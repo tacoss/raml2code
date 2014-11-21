@@ -7,10 +7,11 @@ import groovy.transform.*
 @CompileStatic
 @Canonical
 public class {{{className}}} implements Serializable {
-
-{{#classMembers}}
-{{#if comment}}  /* {{comment}} */{{/if}}
-  {{{type}}} {{name}}
-
-{{/classMembers}}
+{{>classMembers}}
 }
+
+{{#innerClasses}}
+class {{{className}}} implements Serializable {
+{{>classMembers}}
+}
+{{/innerClasses}}

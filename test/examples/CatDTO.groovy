@@ -13,16 +13,23 @@ public class Cat implements Serializable {
   /* Name of the cat */
   String name
 
-  /* Name of the owner */
-  String ownerName
-
   /* Something to play */
   Map toy
 
   /* Something to eat */
-  Map food
+  Food food
+
+  /* The owner of the cat. */
+  Owner owner
 
   /* Errores al procesar la petición */
-  List errors
+  List<Error> errors
+
+}
+
+class Food implements Serializable {
+
+  /* what the cat eats */
+  String name
 
 }

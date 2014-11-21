@@ -4,51 +4,67 @@ util.getUriParameter = (resource, annotation)->
   uriParameters = []
   for key of resource.uriParameters
     p = resource.uriParameters[key]
-    uriParameters.push util.mapProperty(p, key, annotation)
+    uriParameters.push util.mapProperty(p, key, annotation).property
   uriParameters
 
 util.getQueryparams = (queryParams, annotation)->
   params = []
   for key of queryParams
     p = queryParams[key]
-    params.push util.mapProperty(p, key, annotation)
+    params.push util.mapProperty(p, key, annotation).property
   params
 
+util.mapProperties = (expandedSchema, refMap)->
+  data = {}
+  data.classMembers = []
+  data.innerClasses = []
+  for key of expandedSchema.properties
+    property = expandedSchema.properties[key]
+    propParsed = util.mapProperty(property, key, '', refMap)
+    data.classMembers.push propParsed.property
+    data.innerClasses.push propParsed.innerClass if propParsed.innerClass
 
-util.mapProperty = (property, name, annotation)->
-  p = {}
-  p.name = name
-  p.comment =  property.description
+  data
+
+util.mapProperty = (property, name, annotation, refMap)->
+  data = {}
+  data.property = {}
+  data.property.name = name
+  data.property.comment =  property.description
   switch property.type
     when 'array'
-#      console.log "--------------", property
-      p.type = "List"
-#      console.log "--------------", property.items['$ref']
-#      ref = util.capitalize(ref)
-#      console.log "ref->". ref
+      auxType = "List"
+      if property.items["$ref"]
+        innnerSchema = refMap[property.items["$ref"].split("#")[0]]
+        if innnerSchema.title
+          auxType += "<#{util.capitalize(innnerSchema.title)}>"
 
-#      p.name = "items"
+      data.property.type = auxType
+
     when 'object'
-      console.log "=====================1"
-      console.log "OBJECT", property
-      console.log "=====================2"
+      #if object has no references we made a inner class
       if property.properties
+          data.property.type = util.capitalize(name)
+          data.innerClass = {}
+          data.innerClass.className = util.capitalize(name)
+          data.innerClass.classDescription = property.description
+          aux = util.mapProperties(property)
+          data.innerClass.classMembers = aux.classMembers
 
-        if property.title
-          p.type = util.capitalize(property.title)
-        else
-          p.type = 'FOO'
-
+      #if object has references we map on the POJO
+      else if property["$ref"]
+        innnerSchema = refMap[property["$ref"].split("#")[0]]
+        data.property.type = util.capitalize(innnerSchema.title)
       else
-        p.type = 'Object'
-    when 'string' then p.type = "String"
-    when 'boolean' then p.type = "Boolean"
-    when 'number' then p.type = "Double"
-    when 'integer' then p.type = "Integer"
-    when 'object' then p.type = "Map"
+        data.property.type = 'Map'
+    when 'string' then data.property.type = "String"
+    when 'boolean' then data.property.type = "Boolean"
+    when 'number' then data.property.type = "Double"
+    when 'integer' then data.property.type = "Integer"
+    when 'object' then data.property.type = "Map"
 
-  p.kind = annotation + "(\"#{p.name}\")"
-  p
+  data.property.kind = annotation + "(\"#{data.property.name}\")"
+  data
 
 
 

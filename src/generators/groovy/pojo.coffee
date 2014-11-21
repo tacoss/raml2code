@@ -7,7 +7,12 @@ generator = {}
 generator.helpers = commonHelpers
 dirname = path.dirname(__filename)
 template = path.resolve(dirname, "tmpl/pojo.hbs")
+cmPartial = path.resolve(dirname, "tmpl/classMembersPartial.hbs")
 generator.template = fs.readFileSync(template).toString()
+generator.partials = [
+  name : "classMembers"
+  str : fs.readFileSync(cmPartial).toString()
+]
 
 deref = require('deref')();
 
@@ -31,21 +36,18 @@ generator.parser = (datos) ->
 
 
   for schema in schemas
-    expandedSchema = deref(schema, schemas, true)
+    normSchema = deref(schema, schemas)
 
     model = {}
-    model.className = expandedSchema.title
-    model.classMembers = []
-    model.classDescription = expandedSchema.description ? ""
+    model.className = normSchema.title
+    model.classDescription = normSchema.description ? ""
 
-    for key of expandedSchema.properties
-      p = expandedSchema.properties[key]
-      model.classMembers.push util.mapProperty(p, key)
+    someData = util.mapProperties(normSchema, deref.refs)
+    model.classMembers = someData.classMembers
+    model.innerClasses = someData.innerClasses
 
     model.extra = datos.extra
     parsed.push {name: datos.version + "/" + util.capitalize("#{model.className}.groovy") , model}
-
-
 
   parsed
 
