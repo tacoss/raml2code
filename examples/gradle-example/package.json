@@ -1,0 +1,10 @@
+{
+  "name": "tempalte-builder-service",
+  "version": "0.0.1",
+  "description": "Temaplate builder service API(RAML definitions)",
+  "devDependencies": {
+    "gulp": "3.8.8",
+    "gulp-raml": "0.1.3",
+    "raml2code": "0.0.14"
+  }
+}

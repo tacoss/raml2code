@@ -3,3 +3,4 @@ node_modules
 npm-debug.log
 .idea/
 raml2code.iml
+examples/gradle-example/src

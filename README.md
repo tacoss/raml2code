@@ -17,7 +17,10 @@ A generator is a simple object with the following properties:
 
 
 ## generators included and tested
-    * raml to Groovy pojo
+    * Groovy POJO
+    * JAX-RS Interface
+    * RETROFIT Client
+
     
 ## Gulp-plugin
 ```
