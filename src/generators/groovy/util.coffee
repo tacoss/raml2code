@@ -31,15 +31,16 @@ util.mapProperty = (property, name, annotation, refMap)->
   data.property = {}
   data.property.name = name
   data.property.comment =  property.description
-  if property['$ref']
-    console.log property['ref']
   switch property.type
     when 'array'
       auxType = "List"
       if property.items["$ref"]
-        innnerSchema = refMap[property.items["$ref"].split("#")[0]]
-        if innnerSchema.title
+        key = property.items["$ref"].split("#")[0]
+        innnerSchema = refMap[key]
+        if innnerSchema and innnerSchema.title
           auxType += "<#{util.capitalize(innnerSchema.title)}>"
+        else
+          log.error "key not found: #{key}"
 
       data.property.type = auxType
 
