@@ -31,16 +31,18 @@ util.mapProperty = (property, name, annotation, refMap)->
   data.property = {}
   data.property.name = name
   data.property.comment =  property.description
+  if property.items and property.items["$ref"]
+    keyRef = property.items["$ref"].split("#")[0]
+  else if property["$ref"] 
+    keyRef = property["$ref"].split("#")[0]
   switch property.type
     when 'array'
       auxType = "List"
-      if property.items["$ref"]
-        key = property.items["$ref"].split("#")[0]
-        innnerSchema = refMap[key]
-        if innnerSchema and innnerSchema.title
-          auxType += "<#{util.capitalize(innnerSchema.title)}>"
-        else
-          log.error "key not found: #{key}"
+      innnerSchema = refMap[keyRef]
+      if innnerSchema and innnerSchema.title
+        auxType += "<#{util.capitalize(innnerSchema.title)}>"
+      else
+        console.error "$ref not found: #{keyRef}"
 
       data.property.type = auxType
 
@@ -62,8 +64,11 @@ util.mapProperty = (property, name, annotation, refMap)->
 
   #if object has $references we map on the POJO
   if property["$ref"]
-    innnerSchema = refMap[property["$ref"].split("#")[0]]
-    data.property.type = util.capitalize(innnerSchema.title)
+    innnerSchema = refMap[keyRef]
+    if innnerSchema and innnerSchema.title
+      data.property.type = util.capitalize(innnerSchema.title)
+    else
+      console.error "$ref not found: #{keyRef}"
 
   data.property.kind = annotation + "(\"#{data.property.name}\")"
   data
