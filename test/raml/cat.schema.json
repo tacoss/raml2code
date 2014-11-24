@@ -20,6 +20,7 @@
     "food":{
       "description": "Something to eat",
       "type": "object",
+      "title" : "food",
       "properties" : {
         "name":{
           "description": "what the cat eats",

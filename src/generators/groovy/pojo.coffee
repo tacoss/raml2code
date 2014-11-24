@@ -40,7 +40,7 @@ generator.parser = (datos) ->
 #    console.log "norm", JSON.stringify(normSchema, null, 2)
 #    console.log "--", Object.keys deref.refs
     model = {}
-    model.className = normSchema.title
+    model.className = util.capitalize(normSchema.title)
     model.classDescription = normSchema.description ? ""
 
     someData = util.mapProperties(normSchema, deref.refs)
@@ -48,7 +48,7 @@ generator.parser = (datos) ->
     model.innerClasses = someData.innerClasses
 
     model.extra = datos.extra
-    parsed.push {name: datos.version + "/" + util.capitalize("#{model.className}.groovy") , model}
+    parsed.push {name: datos.version + "/#{model.className}.groovy" , model}
 
   parsed
 

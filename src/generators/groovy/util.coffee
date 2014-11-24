@@ -49,12 +49,14 @@ util.mapProperty = (property, name, annotation, refMap)->
     when 'object'
       #if object has no references we made a inner class
       if property.properties
-          data.property.type = util.capitalize(name)
-          data.innerClass = {}
-          data.innerClass.className = util.capitalize(name)
-          data.innerClass.classDescription = property.description
-          aux = util.mapProperties(property)
-          data.innerClass.classMembers = aux.classMembers
+        if not property.title
+          console.error "please provide a title for property:", name
+        data.property.type = util.capitalize(property.title)
+        data.innerClass = {}
+        data.innerClass.className = data.property.type
+        data.innerClass.classDescription = property.description
+        aux = util.mapProperties(property, refMap)
+        data.innerClass.classMembers = aux.classMembers
       else
         data.property.type = 'Map'
     when 'string' then data.property.type = "String"
