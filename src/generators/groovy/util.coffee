@@ -89,7 +89,7 @@ util.parseResource = (resource, parsed, annotations,  parentUri = "", parentUriA
     respond = util.parseSchema(util.getBestValidResponse(m.responses).body,  "#{methodDef.uri} response" )
     if request.title
       methodDef.args = methodDef.args ? []
-      methodDef.args.push {'kind': annotations.body, 'type': request.title, 'name': request.title.toLowerCase()}
+      methodDef.args.push {'kind': annotations.body, 'type': util.capitalize(request.title), 'name': request.title.toLowerCase()}
 
     methodDef.request = request.title ? null
     methodDef.respond = respond.title
