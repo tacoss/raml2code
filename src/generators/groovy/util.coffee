@@ -1,3 +1,4 @@
+_ = require('lodash')
 deref = require('deref')();
 util = {}
 util.getUriParameter = (resource, annotation)->
@@ -20,6 +21,8 @@ util.mapProperties = (expandedSchema, refMap)->
   data.innerClasses = []
   for key of expandedSchema.properties
     property = expandedSchema.properties[key]
+    property.required = true if expandedSchema.required and _.contains(expandedSchema.required, key)
+
     propParsed = util.mapProperty(property, key, '', refMap)
     data.classMembers.push propParsed.property
     data.innerClasses.push propParsed.innerClass if propParsed.innerClass
@@ -27,9 +30,15 @@ util.mapProperties = (expandedSchema, refMap)->
   data
 
 util.mapProperty = (property, name, annotation, refMap)->
+
   data = {}
   data.property = {}
   data.property.name = name
+  data.property.notNull =  true if property.required
+  data.property.size = []
+  data.property.size.push {"name" : "min", "value" : property.minLength} if property.minLength
+  data.property.size.push {"name" : "max", "value" : property.maxLength} if property.maxLength
+
   data.property.comment =  property.description
   if property.items and property.items["$ref"]
     keyRef = property.items["$ref"].split("#")[0]
@@ -50,7 +59,7 @@ util.mapProperty = (property, name, annotation, refMap)->
       #if object has no references we made a inner class
       if property.properties
         if not property.title
-          console.error "please provide a title for property:", name
+          console.error "Please provide a title for property:", name
         data.property.type = util.capitalize(property.title)
         data.innerClass = {}
         data.innerClass.className = data.property.type
@@ -61,7 +70,7 @@ util.mapProperty = (property, name, annotation, refMap)->
         data.property.type = 'Map'
     when 'string' then data.property.type = "String"
     when 'boolean' then data.property.type = "Boolean"
-    when 'number' then data.property.type = "Double"
+    when 'number' then data.property.type = "BigDecimal"
     when 'integer' then data.property.type = "Integer"
 
   #if object has $references we map on the POJO
@@ -71,6 +80,14 @@ util.mapProperty = (property, name, annotation, refMap)->
       data.property.type = util.capitalize(innnerSchema.title)
     else
       console.error "$ref not found: #{keyRef}"
+
+  if data.property.type == "BigDecimal"
+    data.property.decimalMax = property.maximum
+    data.property.decimalMin = property.minimum
+  else if data.property.type == "Integer"
+    data.property.max =  property.maximum
+    data.property.min = property.minimum
+
 
   data.property.kind = annotation + "(\"#{data.property.name}\")"
   data

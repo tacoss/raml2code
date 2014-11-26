@@ -1,6 +1,12 @@
 
 {{#classMembers}}
-  {{#if comment}}/* {{comment}} */{{/if}}
+  {{#if comment}}/* {{comment}} */{{/if}}{{#if notNull}}
+  @NotNull{{/if}}{{#if min}}
+  @Min({{min}}){{/if}}{{#if max}}
+  @Max({{max}}){{/if}}{{#if decimalMin}}
+  @DecimalMin("{{decimalMin}}"){{/if}}{{#if decimalMax}}
+  @DecimalMax("{{decimalMax}}"){{/if}}{{#if size}}
+  @Size({{#each size}}{{#if @index}}, {{/if}}{{this.name}}={{value}}{{/each}}){{/if}}
   {{{type}}} {{name}}
 
 {{/classMembers}}

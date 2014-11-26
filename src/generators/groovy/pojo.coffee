@@ -37,8 +37,6 @@ generator.parser = (datos) ->
 
   for schema in schemas
     normSchema = deref(schema, schemas)
-#    console.log "norm", JSON.stringify(normSchema, null, 2)
-#    console.log "--", Object.keys deref.refs
     model = {}
     model.className = util.capitalize(normSchema.title)
     model.classDescription = normSchema.description ? ""

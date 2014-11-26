@@ -1,5 +1,6 @@
 package org.gex.v1
 import groovy.transform.*
+import javax.validation.constraints.*
 /**
 *A cat from Atoms catalog
 **/
@@ -8,13 +9,21 @@ import groovy.transform.*
 public class Cat implements Serializable {
 
   /* The unique identifier for a cat */
+  @NotNull
   Integer id
 
   /* Name of the cat */
+  @NotNull
   String name
 
   /* Something to play */
   Map toy
+
+  /* The age of the cat */
+  Integer age
+
+  /* The weight of the cat */
+  BigDecimal weight
 
   /* Something to eat */
   Food food
@@ -23,6 +32,7 @@ public class Cat implements Serializable {
   Owner owner
 
   /* Errores al procesar la petición */
+  @NotNull
   List<Error> errors
 
 }
