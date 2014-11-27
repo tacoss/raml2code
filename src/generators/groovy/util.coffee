@@ -29,6 +29,15 @@ util.mapProperties = (expandedSchema, refMap)->
 
   data
 
+util.resolveTypeByRef = (keyRef, refMap)->
+  innnerSchema = deref.util.findByRef(keyRef, refMap)
+  type = ""
+  if innnerSchema and innnerSchema.title
+    type = util.capitalize(innnerSchema.title)
+  else if keyRef
+    console.error "$ref not found: #{keyRef} }"
+  type
+
 util.mapProperty = (property, name, annotation, refMap)->
 
   data = {}
@@ -41,18 +50,15 @@ util.mapProperty = (property, name, annotation, refMap)->
 
   data.property.comment =  property.description
   if property.items and property.items["$ref"]
-    keyRef = property.items["$ref"].split("#")[0]
+    keyRef = property.items["$ref"]
   else if property["$ref"] 
-    keyRef = property["$ref"].split("#")[0]
+    keyRef = property["$ref"]
+
   switch property.type
     when 'array'
       auxType = "List"
-      innnerSchema = refMap[keyRef]
-      if innnerSchema and innnerSchema.title
-        auxType += "<#{util.capitalize(innnerSchema.title)}>"
-      else
-        console.error "$ref not found: #{keyRef}"
-
+      if keyRef
+        auxType += "<#{util.resolveTypeByRef(keyRef, refMap)}>"
       data.property.type = auxType
 
     when 'object'
@@ -66,6 +72,8 @@ util.mapProperty = (property, name, annotation, refMap)->
         data.innerClass.classDescription = property.description
         aux = util.mapProperties(property, refMap)
         data.innerClass.classMembers = aux.classMembers
+      else if keyRef
+        data.property.type = util.resolveTypeByRef(keyRef, refMap)
       else
         data.property.type = 'Map'
     when 'string' then data.property.type = "String"
@@ -73,13 +81,6 @@ util.mapProperty = (property, name, annotation, refMap)->
     when 'number' then data.property.type = "BigDecimal"
     when 'integer' then data.property.type = "Integer"
 
-  #if object has $references we map on the POJO
-  if property["$ref"]
-    innnerSchema = refMap[keyRef]
-    if innnerSchema and innnerSchema.title
-      data.property.type = util.capitalize(innnerSchema.title)
-    else
-      console.error "$ref not found: #{keyRef}"
 
   if data.property.type == "BigDecimal"
     data.property.decimalMax = property.maximum

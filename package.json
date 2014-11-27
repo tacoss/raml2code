@@ -1,6 +1,6 @@
 {
   "name": "raml2code",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "description": "Raml spec to code",
   "main": "index.js",
   "scripts": {
@@ -26,7 +26,7 @@
     "raml-parser": "~0.8.7",
     "through2": "~0.6.1",
     "lodash": "^2.4.1",
-    "deref": "0.2.4"
+    "deref": "0.2.5"
   },
   "devDependencies": {
     "chai": "^1.9.1",
