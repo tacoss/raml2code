@@ -28,6 +28,7 @@ generator.parser = (datos) ->
   schemas = []
   if datos.extra
     datos.extra.package = "#{datos.extra.package}.#{datos.version}"
+    datos.extra.enableAnnotations ?= true
   for row in datos.schemas
 
     for schemaName of row

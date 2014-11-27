@@ -1,6 +1,6 @@
 package {{extra.package}}
-import groovy.transform.*
-import javax.validation.constraints.*
+import groovy.transform.*{{#if extra.enableAnnotations}}
+import javax.validation.constraints.*{{/if}}
 {{#if classDescription}}
 /**
 *{{{classDescription}}}
