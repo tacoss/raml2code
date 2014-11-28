@@ -8,7 +8,7 @@ import groovy.transform.*
 public class Cat implements Serializable {
 
   /* The unique identifier for a cat */
-  Integer id
+  Long id
 
   /* Name of the cat */
   String name
@@ -17,7 +17,7 @@ public class Cat implements Serializable {
   Map toy
 
   /* The age of the cat */
-  Integer age
+  Long age
 
   /* The weight of the cat */
   BigDecimal weight

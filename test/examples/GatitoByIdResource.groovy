@@ -6,23 +6,25 @@ import org.gex.dto.v1.*
 import org.glassfish.jersey.media.multipart.*
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON
 
-@Path("/cats")
+@Path("/cats/{catId}")
 @Consumes(APPLICATION_JSON)
 @Produces(APPLICATION_JSON)
-interface GatitosResource {
-
-  /***
-   * @return Response This must be a valid Cats JSON object.
-   */
-  @GET
-  Response getGatitos(
-    @QueryParam("search")String search);
+interface GatitoByIdResource {
 
   /***
    * @return Response This must be a valid Cat JSON object.
    */
-  @POST
-  Response postGatitos(
+  @GET
+  Response getGatitoById(
+    @PathParam("catId")String catId,
+    @QueryParam("filterBy")String filterBy);
+
+  /***
+   * @return Response This must be a valid Cat JSON object.
+   */
+  @PUT
+  Response putGatitoById(
+    @PathParam("catId")String catId,
     Cat cat);
 
 

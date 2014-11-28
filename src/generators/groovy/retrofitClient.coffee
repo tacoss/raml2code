@@ -16,8 +16,19 @@ generator.parser = (data) ->
     path: "@Path"
     query: "@Query"
     body: "@Body"
+    multiPart: "@Part"
+    form: "@Field"
+  mapping =
+   'string' : "String"
+   'boolean' : "Boolean"
+   'number' : "BigDecimal"
+   'integer' : "Long"
+   'array' : "List"
+   'object' : "Map"
+   'file' : "TypedFile"
+
   for resource in data.resources
-    util.parseResource(resource, methodParse, annotations)
+    util.parseResource(resource, methodParse, annotations, mapping)
 
   model = {}
   model.methods = methodParse

@@ -10,7 +10,7 @@ public class Cat implements Serializable {
 
   /* The unique identifier for a cat */
   @NotNull
-  Integer id
+  Long id
 
   /* Name of the cat */
   @NotNull
@@ -23,7 +23,7 @@ public class Cat implements Serializable {
   /* The age of the cat */
   @Min(1)
   @Max(15)
-  Integer age
+  Long age
 
   /* The weight of the cat */
   @DecimalMin(".1")

@@ -24,6 +24,15 @@ sanitize = (str)->
   res
 
 generator.parser = (datos) ->
+  mapping =
+    'string' : "String"
+    'boolean' : "Boolean"
+    'number' : "BigDecimal"
+    'integer' : "Long"
+    'array' : "List"
+    'object' : "Map"
+    'file' : "InputStream"
+
   parsed = []
   schemas = []
   if datos.extra
@@ -42,7 +51,7 @@ generator.parser = (datos) ->
     model.className = util.capitalize(normSchema.title)
     model.classDescription = normSchema.description ? ""
 
-    someData = util.mapProperties(normSchema, deref.refs)
+    someData = util.mapProperties(normSchema, deref.refs, mapping)
     model.classMembers = someData.classMembers
     model.innerClasses = someData.innerClasses
 

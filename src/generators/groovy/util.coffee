@@ -1,21 +1,41 @@
 _ = require('lodash')
 deref = require('deref')();
 util = {}
-util.getUriParameter = (resource, annotation)->
+util.getUriParameter = (resource, annotation, mapping)->
+  console.log "getUriParameter", mapping isnt undefined
   uriParameters = []
   for key of resource.uriParameters
     p = resource.uriParameters[key]
-    uriParameters.push util.mapProperty(p, key, annotation).property
+    uriParameters.push util.mapProperty(p, key, annotation, mapping).property
   uriParameters
 
-util.getQueryparams = (queryParams, annotation)->
+util.getQueryparams = (queryParams, annotation, mapping)->
+  console.log "getQueryparams", mapping isnt undefined
   params = []
   for key of queryParams
     p = queryParams[key]
-    params.push util.mapProperty(p, key, annotation).property
+    params.push util.mapProperty(p, key, annotation, mapping).property
   params
 
-util.mapProperties = (expandedSchema, refMap)->
+util.parseForm = (body, annotations, mapping) ->
+  args = []
+  if body and (body['multipart/form-data'] or body["application/x-www-form-urlencoded"])
+    form = body["multipart/form-data"] or body["application/x-www-form-urlencoded"]
+    if body["multipart/form-data"] isnt undefined
+      annotation = annotations.multiPart
+    else
+      annotation = annotations.form
+    data = form.formParameters or form.formParameters
+    for key of data
+      p = data[key]
+      parsedProperty = util.mapProperty(p, key, annotation, mapping).property
+      args.push parsedProperty
+      if parsedProperty.type is "InputStream"
+        args.push {name: parsedProperty.name + "Data" , type: "FormDataContentDisposition", kind: annotation + "(\"#{parsedProperty.name}\")"}
+  args
+
+util.mapProperties = (expandedSchema, refMap, mapping)->
+  console.log "1", mapping
   data = {}
   data.classMembers = []
   data.innerClasses = []
@@ -23,7 +43,7 @@ util.mapProperties = (expandedSchema, refMap)->
     property = expandedSchema.properties[key]
     property.required = true if expandedSchema.required and _.contains(expandedSchema.required, key)
 
-    propParsed = util.mapProperty(property, key, '', refMap)
+    propParsed = util.mapProperty(property, key, '', mapping, refMap)
     data.classMembers.push propParsed.property
     data.innerClasses.push propParsed.innerClass if propParsed.innerClass
 
@@ -38,8 +58,8 @@ util.resolveTypeByRef = (keyRef, refMap)->
     console.error "$ref not found: #{keyRef} }"
   type
 
-util.mapProperty = (property, name, annotation, refMap)->
-
+util.mapProperty = (property, name, annotation, mapping, refMap)->
+  console.log "mapping", mapping
   data = {}
   data.property = {}
   data.property.name = name
@@ -70,22 +90,23 @@ util.mapProperty = (property, name, annotation, refMap)->
         data.innerClass = {}
         data.innerClass.className = data.property.type
         data.innerClass.classDescription = property.description
-        aux = util.mapProperties(property, refMap)
+        aux = util.mapProperties(property, refMap, mapping)
         data.innerClass.classMembers = aux.classMembers
       else if keyRef
         data.property.type = util.resolveTypeByRef(keyRef, refMap)
       else
         data.property.type = 'Map'
-    when 'string' then data.property.type = "String"
-    when 'boolean' then data.property.type = "Boolean"
-    when 'number' then data.property.type = "BigDecimal"
-    when 'integer' then data.property.type = "Integer"
+    when 'string' then data.property.type = mapping[property.type]
+    when 'boolean' then data.property.type = mapping[property.type]
+    when 'number' then data.property.type = mapping[property.type]
+    when 'integer' then data.property.type = mapping[property.type]
+    when 'file' then data.property.type = mapping[property.type]
 
 
   if data.property.type == "BigDecimal"
     data.property.decimalMax = property.maximum
     data.property.decimalMin = property.minimum
-  else if data.property.type == "Integer"
+  else if data.property.type == "Long"
     data.property.max =  property.maximum
     data.property.min = property.minimum
 
@@ -95,14 +116,16 @@ util.mapProperty = (property, name, annotation, refMap)->
 
 
 
-util.parseResource = (resource, parsed, annotations,  parentUri = "", parentUriArgs = []) ->
+util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", parentUriArgs = []) ->
 
+  console.log "2", mapping
   for m in resource.methods
     methodDef = {}
     methodDef.uri = parentUri + resource.relativeUri
-    uriArgs = util.getUriParameter(resource, annotations.path)
+    uriArgs = util.getUriParameter(resource, annotations.path, mapping)
     methodDef.args = parentUriArgs.concat(uriArgs)
-    methodDef.args = methodDef.args.concat(util.getQueryparams(m.queryParameters, annotations.query))
+    methodDef.args = methodDef.args.concat(util.getQueryparams(m.queryParameters, annotations.query, mapping))
+    methodDef.args = methodDef.args.concat(util.parseForm(m.body, annotations, mapping))
     request = util.parseSchema(m.body,  "#{methodDef.uri} body" )
     respond = util.parseSchema(util.getBestValidResponse(m.responses).body,  "#{methodDef.uri} response" )
     if request.title
@@ -112,12 +135,17 @@ util.parseResource = (resource, parsed, annotations,  parentUri = "", parentUriA
     methodDef.request = request.title ? null
     methodDef.respond = respond.title
     methodDef.annotation = m.method.toUpperCase()
+    formData = _.find(methodDef.args, (arg)->
+      arg.type is "InputStream"
+    )
+    if formData
+      methodDef.consumes = "MediaType.MULTIPART_FORM_DATA"
     methodDef.name = m.method + resource.displayName
     methodDef.displayName = resource.displayName
     parsed.push methodDef
   if resource.resources
     for innerResource in resource.resources
-      util.parseResource(innerResource, parsed, annotations, methodDef.uri, uriArgs)
+      util.parseResource(innerResource, parsed, annotations, mapping, methodDef.uri, uriArgs)
   undefined
 
 
@@ -130,6 +158,7 @@ util.parseSchema = (body, meta = '') ->
       console.log "-----JSON ERROR on #{meta}---------"
       console.log body['application/json'].schema
       throw e
+
 
   schema
 

@@ -1,48 +1,30 @@
-var raml2code =require('../..');
-var path = require('path');
-var fs = require('fs');
-var gutil = require('gulp-util');
-var wrapAssertion = require("../helpers").wrapAssertion;
-
+var test = require("../helpers").test;
 var chai = require('chai');
 chai.should();
 
-describe('RAML to JAX-RS', function () {
 
-  it('should generate a resource interface', function(done) {
-    var gen = require("../../lib/generators/groovy/jaxrsInterface");
-    var raml2codeInstance = raml2code({generator:gen, extra: {package: 'org.gex', importPojos: 'org.gex.dto'}});
-    var ramlPath = path.join(__dirname, '../raml/cats.raml');
-    var examplePath = path.join(__dirname, '../examples/GatitosResource.groovy');
 
-    var ramlContents = fs.readFileSync(ramlPath);
-    var exampleContents = fs.readFileSync(examplePath);
+xdescribe('RAML to JAX-RS', function () {
+  var generator = require("../../lib/generators/groovy/jaxrsInterface");
 
-    raml2codeInstance.write(new gutil.File({
-      path: ramlPath,
-      contents: ramlContents
-    }));
+  var gatitosResource = function (done) {
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitosResource.groovy", "v1/GatitosResource.groovy")
+  };
+  var gatitoByIdResource = function (done) {
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitoByIdResource.groovy", "v1/GatitoByIdResource.groovy")
+  };
 
-    raml2codeInstance.on('data', function(file){
-      var content = file.contents.toString('utf8');
-      if(file.path == 'v1/GatitosResource.groovy'){
+  var gatitoByIdPictureResource = function (done) {
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitoByIdPictureResource.groovy", "v1/GatitoByIdPictureResource.groovy")
+  };
 
-        wrapAssertion(function () {
-          file.isBuffer().should.equal(true);
-          var content = file.contents.toString('utf8');
-          exampleContents = exampleContents.toString('utf8').split('\n');
-          content.split('\n').forEach(function(e,i){
-            e.should.equal(exampleContents[i]);
-          });
-        }, done);
+  var gatitopByIdFormResource = function (done) {
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitopByIdFormResource.groovy", "v1/GatitopByIdFormResource.groovy")
+  };
 
-      }
-    });
-
-    raml2codeInstance.on('error', function(error) {
-      console.log("error", error);
-    });
-
-  });
+  it('should generate a resource interface', gatitosResource);
+  it('should generate a resourceById interface', gatitoByIdResource);
+  it('should generate a GatitoByIdPictureResource upload interface', gatitoByIdPictureResource);
+  it('should generate a GatitopByIdFormResource upload interface', gatitopByIdFormResource);
 
 });

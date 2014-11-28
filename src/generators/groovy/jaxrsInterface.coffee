@@ -17,9 +17,20 @@ generator.parser = (data) ->
     path: "@PathParam"
     query: "@QueryParam"
     body: ""
+    multiPart: "@FormDataParam"
+    form: "@FormDataParam"
+
+  mapping =
+    'string' : "String"
+    'boolean' : "Boolean"
+    'number' : "BigDecimal"
+    'integer' : "Long"
+    'array' : "List"
+    'object' : "Map"
+    'file' : "InputStream"
 
   for resource in data.resources
-    util.parseResource(resource, methodParse, annotations)
+    util.parseResource(resource, methodParse, annotations, mapping)
 
   resourceGroup = _.groupBy(methodParse, (method) ->
     method.displayName

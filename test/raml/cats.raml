@@ -66,4 +66,28 @@ resourceTypes:
           200:
             body:
               schema: cat
-
+    /picture:
+      displayName: GatitoByIdPicture
+      post:
+        body:
+          multipart/form-data:
+            formParameters:
+              file:
+                type: file
+                required: true
+        responses:
+          200:
+            body:
+              schema: cat
+    /webFormCat:
+      displayName:  GatitopByIdForm
+      post:
+        body:
+          application/x-www-form-urlencoded:
+            formParameters:
+              name:
+                type: string
+        responses:
+          200:
+            body:
+              schema: cat
