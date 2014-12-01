@@ -2,7 +2,6 @@ _ = require('lodash')
 deref = require('deref')();
 util = {}
 util.getUriParameter = (resource, annotation, mapping)->
-  console.log "getUriParameter", mapping isnt undefined
   uriParameters = []
   for key of resource.uriParameters
     p = resource.uriParameters[key]
@@ -10,7 +9,6 @@ util.getUriParameter = (resource, annotation, mapping)->
   uriParameters
 
 util.getQueryparams = (queryParams, annotation, mapping)->
-  console.log "getQueryparams", mapping isnt undefined
   params = []
   for key of queryParams
     p = queryParams[key]
@@ -35,7 +33,6 @@ util.parseForm = (body, annotations, mapping) ->
   args
 
 util.mapProperties = (expandedSchema, refMap, mapping)->
-  console.log "1", mapping
   data = {}
   data.classMembers = []
   data.innerClasses = []
@@ -59,7 +56,6 @@ util.resolveTypeByRef = (keyRef, refMap)->
   type
 
 util.mapProperty = (property, name, annotation, mapping, refMap)->
-  console.log "mapping", mapping
   data = {}
   data.property = {}
   data.property.name = name
@@ -118,7 +114,6 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
 
 util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", parentUriArgs = []) ->
 
-  console.log "2", mapping
   for m in resource.methods
     methodDef = {}
     methodDef.uri = parentUri + resource.relativeUri

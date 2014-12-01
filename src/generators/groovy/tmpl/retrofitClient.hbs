@@ -12,7 +12,7 @@ public interface {{{className}}} {
 
 {{#methods}}
   @{{annotation}}("/{{{../version}}}{{{uri}}}")
-  Observable<{{{respond}}}> {{{name}}}({{#each args}}{{#if @index}}, {{/if}}
+  Observable<{{{respond}}}> {{{name}}}({{#each args}}{{#if @index}},{{/if}}
     {{{kind}}} {{type}} {{name}}{{/each}});
 
 {{/methods}}

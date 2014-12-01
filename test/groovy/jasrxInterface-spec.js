@@ -4,7 +4,7 @@ chai.should();
 
 
 
-xdescribe('RAML to JAX-RS', function () {
+describe('RAML to JAX-RS', function () {
   var generator = require("../../lib/generators/groovy/jaxrsInterface");
 
   var gatitosResource = function (done) {
