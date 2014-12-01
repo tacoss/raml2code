@@ -4,6 +4,7 @@ import javax.ws.rs.core.*
 {{#if extra.importPojos}}import {{extra.importPojos}}.*{{/if}}
 
 import org.glassfish.jersey.media.multipart.*
+import retrofit.mime.TypedFile
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON
 
 @Path("{{{uri}}}")
