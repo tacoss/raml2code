@@ -3,6 +3,7 @@ import retrofit.http.*;
 import java.util.List;
 
 import rx.Observable;
+import retrofit.mime.TypedFile
 import com.pojos.v1.*;
 
 
