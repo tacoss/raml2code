@@ -21,8 +21,8 @@ public class Cat implements Serializable {
   Map toy
 
   /* The age of the cat */
-  @Min(1)
-  @Max(15)
+  @Min(1l)
+  @Max(15l)
   Long age
 
   /* The weight of the cat */

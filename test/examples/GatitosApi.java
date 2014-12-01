@@ -32,6 +32,7 @@ public interface GatitosAPI {
     @Path("catId") String catId);
 
   @POST("/v1/cats/{catId}/picture")
+  @Multipart
   Observable<Cat> postGatitoByIdPicture(
     @Path("catId") String catId,
     @Part("file") TypedFile file);

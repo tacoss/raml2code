@@ -131,10 +131,11 @@ util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", pa
     methodDef.respond = respond.title
     methodDef.annotation = m.method.toUpperCase()
     formData = _.find(methodDef.args, (arg)->
-      arg.type is "InputStream"
+      arg.type is "InputStream" or arg.type is "TypedFile"
     )
     if formData
       methodDef.consumes = "MediaType.MULTIPART_FORM_DATA"
+      methodDef.additionalAnnotation = "Multipart"
     methodDef.name = m.method + resource.displayName
     methodDef.displayName = resource.displayName
     parsed.push methodDef
