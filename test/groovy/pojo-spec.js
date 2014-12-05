@@ -12,7 +12,7 @@ describe('should generate a Pojo', function () {
     test(generator, done, {package: 'org.gex'}, "CatDTOJSR303.groovy", "v1/Cat.groovy")
   };
   var widgetDTOInlineRef = function(done){
-    test(generator, done, {package: 'org.gex'}, "CatDTOJSR303.groovy", "v1/Cat.groovy")
+    test(generator, done, {package: 'org.gex'}, "CatDTOJSR303.groovy", "v1/Widget.groovy", true)
   };
 
   it('from a RAML file', catDTO );
