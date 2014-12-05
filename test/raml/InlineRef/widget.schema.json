@@ -1,0 +1,47 @@
+{
+  "id": "widget",
+  "type": "object",
+  "title": "Widget",
+  "description": "A widget is used to generated partials",
+  "required": ["id", "name", "groupId", "artifactId", "revision", "description"],
+  "properties": {
+    "$ref": "#/definitions/innerProperties"
+  },
+  "definitions": {
+    "innerProperties": {
+      "id": {
+        "description": "The unique identifier of the widget ",
+        "type": "string"
+      },
+      "name": {
+        "description": "The friendly name of the widget ",
+        "type": "string"
+      },
+      "tags": {
+        "description": "Common set of keywords to categorize widgets",
+        "type": "array",
+        "items": {
+          "type": "string",
+          "format": "[a-z]{1,20}"
+        },
+        "uniqueItems": true
+      },
+      "groupId": {
+        "description": "The version of the Widget ",
+        "type": "string"
+      },
+      "artifactId": {
+        "description": "The version of the Widget ",
+        "type": "string"
+      },
+      "revision": {
+        "description": "The version of the Widget ",
+        "type": "string"
+      },
+      "description": {
+        "description": "The description of the Widget ",
+        "type": "string"
+      }
+    }
+  }
+}

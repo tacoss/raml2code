@@ -11,9 +11,14 @@ describe('should generate a Pojo', function () {
   var catDTOJSR303 = function(done){
     test(generator, done, {package: 'org.gex'}, "CatDTOJSR303.groovy", "v1/Cat.groovy")
   };
+  var widgetDTOInlineRef = function(done){
+    test(generator, done, {package: 'org.gex'}, "CatDTOJSR303.groovy", "v1/Cat.groovy")
+  };
 
   it('from a RAML file', catDTO );
   it('from a RAML file with bean validation', catDTOJSR303 );
+  it('from a Schema with inline ref', widgetDTOInlineRef )
+
 
 
 });
