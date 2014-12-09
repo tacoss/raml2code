@@ -20,10 +20,10 @@ gulp.task('test', ['coffee', 'copy-templates'], function(cb){
   .pipe(mocha(
     {
       require: ['chai', 'chai-as-promised'],
-      reporter: 'nyan',
+      reporter: 'spec',
       growl: true
     }
   ));
 });
 
-gulp.task('default', ['test']);
+gulp.task('default', [ 'test']);

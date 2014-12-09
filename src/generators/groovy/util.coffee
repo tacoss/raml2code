@@ -36,23 +36,42 @@ util.mapProperties = (expandedSchema, refMap, mapping)->
   data = {}
   data.classMembers = []
   data.innerClasses = []
+
+  if expandedSchema.properties and expandedSchema.properties.$ref
+    keyRef = expandedSchema.properties.$ref
+    expandedSchema.properties = deref.util.findByRef(keyRef, refMap)
+
   for key of expandedSchema.properties
     property = expandedSchema.properties[key]
-    property.required = true if expandedSchema.required and _.contains(expandedSchema.required, key)
-
-    propParsed = util.mapProperty(property, key, '', mapping, refMap)
-    data.classMembers.push propParsed.property
-    data.innerClasses.push propParsed.innerClass if propParsed.innerClass
+    #Canonical dereferencing and inline dereferencing
+    #http://json-schema.org/latest/json-schema-core.html#anchor30
+    if typeof property isnt 'string'
+      property.required = true if expandedSchema.required and _.contains(expandedSchema.required, key)
+      propParsed = util.mapProperty(property, key, '', mapping, refMap)
+      data.classMembers.push propParsed.property
+      data.innerClasses.push propParsed.innerClass if propParsed.innerClass
 
   data
 
-util.resolveTypeByRef = (keyRef, refMap)->
-  innnerSchema = deref.util.findByRef(keyRef, refMap)
-  type = ""
-  if innnerSchema and innnerSchema.title
-    type = util.capitalize(innnerSchema.title)
+util.resolveTypeByRef = (keyRef, refMap, propertyName)->
+  data = {}
+  data.innnerSchema = deref.util.findByRef(keyRef, refMap)
+  data.type = ""
+  if data.innnerSchema
+    data.type = util.resolveType(data.innnerSchema, propertyName)
+
   else if keyRef
-    console.error "$ref not found: #{keyRef} }"
+    console.error "$ref not found: #{keyRef} RefMap.keys -> [#{Object.keys(refMap)}]"
+    console.error JSON.stringify(refMap)
+  data
+
+util.resolveType = (schema, propertyName)->
+  type = ""
+  if schema
+    if schema.title
+      type = util.capitalize(schema.title)
+    else
+      type = util.capitalize(propertyName)
   type
 
 util.mapProperty = (property, name, annotation, mapping, refMap)->
@@ -64,32 +83,46 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
   data.property.size.push {"name" : "min", "value" : property.minLength} if property.minLength
   data.property.size.push {"name" : "max", "value" : property.maxLength} if property.maxLength
 
-  data.property.comment =  property.description
   if property.items and property.items["$ref"]
     keyRef = property.items["$ref"]
+    keyRefData = util.resolveTypeByRef(keyRef, refMap, name)
   else if property["$ref"] 
     keyRef = property["$ref"]
+    keyRefData = util.resolveTypeByRef(keyRef, refMap, name)
+    data.property.type = keyRefData.type
+    if keyRefData.innnerSchema.type
+#      property.description = "TOM!"
+      property.type = keyRefData.innnerSchema.type
+    else
+      property.properties = keyRefData.innnerSchema
+      data.innerClass = util.resolveInnerClass(keyRefData.type, property, refMap, mapping)
 
+
+
+  data.property.comment =  property.description
   switch property.type
     when 'array'
+
       auxType = "List"
-      if keyRef
-        auxType += "<#{util.resolveTypeByRef(keyRef, refMap)}>"
+      if keyRefData
+        auxType += "<#{keyRefData.type}>"
       data.property.type = auxType
 
     when 'object'
+
       #if object has no references we made a inner class
       if property.properties
-        if not property.title
-          console.error "Please provide a title for property:", name
-        data.property.type = util.capitalize(property.title)
-        data.innerClass = {}
-        data.innerClass.className = data.property.type
-        data.innerClass.classDescription = property.description
-        aux = util.mapProperties(property, refMap, mapping)
-        data.innerClass.classMembers = aux.classMembers
-      else if keyRef
-        data.property.type = util.resolveTypeByRef(keyRef, refMap)
+        if keyRefData and keyRefData.type
+          data.property.type =  keyRefData.type
+        else
+          data.property.type = util.resolveType(property, name)
+        innerClass = util.resolveInnerClass( data.property.type, property, refMap, mapping)
+        data.innerClass = innerClass
+
+      else if keyRefData and keyRefData.innnerSchema
+        data.property.type = keyRefData.type
+        property.properties = keyRefData.innnerSchema
+        data.innerClass = util.resolveInnerClass(keyRefData.type, property, refMap, mapping)
       else
         data.property.type = 'Map'
     when 'string' then data.property.type = mapping[property.type]
@@ -110,7 +143,16 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
   data.property.kind = annotation + "(\"#{data.property.name}\")"
   data
 
-
+util.resolveInnerClass = (name, property, refMap, mapping)->
+  data = null
+  #if the property has #ref and title we don't need innerClass
+  if property and not property.properties.title
+    data = {}
+    data.className = name
+    data.classDescription = property.description
+    aux = util.mapProperties(property, refMap, mapping)
+    data.classMembers = aux.classMembers
+  data
 
 util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", parentUriArgs = []) ->
 

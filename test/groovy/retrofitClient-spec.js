@@ -12,5 +12,4 @@ describe('RAML to Retrofit client ', function () {
 
   it('should generate a retrofit client from RAML file', gatitosAPI );
 
-
 });

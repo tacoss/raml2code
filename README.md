@@ -16,10 +16,14 @@ A generator is a simple object with the following properties:
     * partials -> Handlebars partials. 
 
 
-## generators included and tested
+## Generators included and tested
     * Groovy POJO
+      If the json schema has $ref, it would try to use the title to make references, if the title doesn't exits
+      it would generate a inner classes with the name of the property.
+      If there are $ref definitions, consider the following http://json-schema.org/latest/json-schema-core.html#anchor30
     * JAX-RS Interface
     * RETROFIT Client
+
 
     
 ## Gulp-plugin

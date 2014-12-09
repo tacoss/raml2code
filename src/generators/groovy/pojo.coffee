@@ -16,13 +16,6 @@ generator.partials = [
 
 deref = require('deref')();
 
-sanitize = (str)->
-  aux = str.split(".")
-  res = ''
-  aux.forEach (it)->
-    res += util.capitalize(it)
-  res
-
 generator.parser = (datos) ->
   mapping =
     'string' : "String"
@@ -46,17 +39,26 @@ generator.parser = (datos) ->
 
 
   for schema in schemas
-    normSchema = deref(schema, schemas)
+
+#   normSchema = deref(schema, schemas, true)  #Expanded
+    normSchema = deref(schema, schemas)  #Expanded
+
     model = {}
     model.className = util.capitalize(normSchema.title)
     model.classDescription = normSchema.description ? ""
 
     someData = util.mapProperties(normSchema, deref.refs, mapping)
+
     model.classMembers = someData.classMembers
     model.innerClasses = someData.innerClasses
 
+
     model.extra = datos.extra
-    parsed.push {name: datos.version + "/#{model.className}.groovy" , model}
+    if someData.classMembers.length > 0
+      parsed.push {name: datos.version + "/#{model.className}.groovy" , model}
+    else
+      #if there is not properties it must be a Map maps are not created
+      console.log "----> #{model.className}.groovy is a Map because it doesn't have properties"
 
   parsed
 

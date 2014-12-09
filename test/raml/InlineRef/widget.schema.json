@@ -5,11 +5,21 @@
   "description": "A widget is used to generated partials",
   "required": ["id", "name", "groupId", "artifactId", "revision", "description"],
   "properties": {
-    "$ref": "#/definitions/innerProperties"
+    "name": {
+      "description": "The friendly name of the widget ",
+      "type": "string"
+    },
+    "composite":{
+      "type": "object",
+      "$ref": "widget#/definitions/innerProperties"
+    },
+    "etiquetas":{
+      "$ref": "widget#/definitions/innerProperties/tags"
+    }
   },
   "definitions": {
     "innerProperties": {
-      "id": {
+      "xid": {
         "description": "The unique identifier of the widget ",
         "type": "string"
       },
@@ -39,6 +49,24 @@
         "type": "string"
       },
       "description": {
+        "description": "The description of the Widget ",
+        "type": "string"
+      }
+    },
+    "something": {
+      "xid": {
+        "description": "The unique identifier of the widget ",
+        "type": "string"
+      },
+      "colour": {
+        "description": "The friendly name of the widget ",
+        "type": "string"
+      },
+      "ipsum": {
+        "description": "The version of the Widget ",
+        "type": "string"
+      },
+      "lorem": {
         "description": "The description of the Widget ",
         "type": "string"
       }

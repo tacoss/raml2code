@@ -1,0 +1,7 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id" : "genericMap.schema.json",
+  "title": "genericMap",
+  "description": "A generic map",
+  "type": "object"
+}

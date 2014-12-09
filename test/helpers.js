@@ -39,7 +39,7 @@ helpers.test = function (generator, done, extra, sampleFile, validateWith, logCo
         }
         exampleContents = exampleContents.toString('utf8').split('\n');
         content.split('\n').forEach(function (e, i) {
-          e.should.equal(exampleContents[i]);
+          e.trim().should.equal(exampleContents[i].trim(), "In line " + i);
         });
       }, done);
     }

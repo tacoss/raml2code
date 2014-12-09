@@ -24,17 +24,16 @@
     "data2code": "~0.0.1",
     "gulp-util": "~3.0.1",
     "raml-parser": "~0.8.7",
-    "through2": "~0.6.1",
+    "through2": "~0.6.3",
     "lodash": "^2.4.1",
-    "deref": "0.2.5"
+    "deref": "0.2.6"
   },
   "devDependencies": {
-    "chai": "^1.9.1",
-    "gulp": "3.8.8",
+    "chai": "^1.10.0",
+    "gulp": "3.8.10",
     "gulp-coffee": "2.2.0",
     "gulp-jasmine": "^1.0.1",
-    "gulp-mocha": "1.0.0",
-    "gulp-util": "3.0.1",
-    "mocha": "^1.20.1"
+    "gulp-mocha": "2.0.0",
+    "mocha": "^2.0.1"
   }
 }
