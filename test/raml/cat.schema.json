@@ -15,44 +15,56 @@
       "minLength": 5,
       "maxLength": 20
     },
-    "toy":{
+    "toy": {
       "description": "Something to play",
       "type": "object"
+    },
+    "friends": {
+      "description": "friends",
+      "$ref": "genericArray.schema.json"
+    },
+    "sings": {
+      "description": "characteristics",
+      "$ref": "genericMap.schema.json"
     },
     "age": {
       "description": "The age of the cat",
       "type": "integer",
       "minimum": 1,
-      "maximum" : 15
+      "maximum": 15
     },
-    "weight":{
-      "description" : "The weight of the cat",
+    "weight": {
+      "description": "The weight of the cat",
       "type": "number",
       "minimum": ".1",
       "maximum": "10.00"
     },
-    "food":{
+    "food": {
       "description": "Something to eat",
       "type": "object",
-      "title" : "food",
-      "properties" : {
-        "name":{
+      "title": "food",
+      "properties": {
+        "name": {
           "description": "what the cat eats",
           "type": "string"
         }
       }
     },
-    "owner":{
+    "owner": {
       "type": "object",
       "description": "The owner of the cat.",
       "$ref": "owner.schema.json"
     },
-    "errors":{
-        "title": "Errors",
-        "description": "Errores al procesar la petición",
+    "errors": {
+      "title": "Errors",
+      "description": "Errores al procesar la petición",
       "type": "array",
-      "items": { "$ref": "error/error.schema.json" }
+      "items": {"$ref": "error/error.schema.json"}
     }
   },
-  "required": ["id", "name", "errors"]
+  "required": [
+    "id",
+    "name",
+    "errors"
+  ]
 }

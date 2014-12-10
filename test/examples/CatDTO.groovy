@@ -16,6 +16,12 @@ public class Cat implements Serializable {
   /* Something to play */
   Map toy
 
+  /* friends */
+  List friends
+
+  /* characteristics */
+  Map sings
+
   /* The age of the cat */
   Long age
 

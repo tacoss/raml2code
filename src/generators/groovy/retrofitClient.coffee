@@ -29,7 +29,6 @@ generator.parser = (data) ->
 
   for resource in data.resources
     util.parseResource(resource, methodParse, annotations, mapping)
-
   model = {}
   model.methods = methodParse
   model.version = data.version
@@ -37,7 +36,6 @@ generator.parser = (data) ->
     data.extra.package = "#{data.extra.package}.#{data.version}"
     data.extra.importPojos = "#{data.extra.importPojos}.#{data.version}"
     model.extra = data.extra
-
   model.className = data.title.split(" ").join("")
   parsed.push {name: "#{data.version}/#{model.className}.java" , model}
   parsed

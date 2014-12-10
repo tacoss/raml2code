@@ -53,16 +53,23 @@ util.mapProperties = (expandedSchema, refMap, mapping)->
 
   data
 
-util.resolveTypeByRef = (keyRef, refMap, propertyName)->
+util.resolveTypeByRef = (keyRef, refMap, propertyName, isArray=false)->
   data = {}
-  data.innnerSchema = deref.util.findByRef(keyRef, refMap)
   data.type = ""
-  if data.innnerSchema
-    data.type = util.resolveType(data.innnerSchema, propertyName)
+  innerSchema =  deref.util.findByRef(keyRef, refMap)
+  if innerSchema
+    if isArray
+      data.innnerSchema ={}
+      data.innnerSchema.items = innerSchema
+    else
+      data.innnerSchema = innerSchema
+
+    data.type = util.resolveType(innerSchema, propertyName)
 
   else if keyRef
     console.error "$ref not found: #{keyRef} RefMap.keys -> [#{Object.keys(refMap)}]"
     console.error JSON.stringify(refMap)
+
   data
 
 util.resolveType = (schema, propertyName)->
@@ -72,6 +79,7 @@ util.resolveType = (schema, propertyName)->
       type = util.capitalize(schema.title)
     else
       type = util.capitalize(propertyName)
+
   type
 
 util.mapProperty = (property, name, annotation, mapping, refMap)->
@@ -83,29 +91,34 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
   data.property.size.push {"name" : "min", "value" : property.minLength} if property.minLength
   data.property.size.push {"name" : "max", "value" : property.maxLength} if property.maxLength
 
+  data.property.comment =  property.description
   if property.items and property.items["$ref"]
     keyRef = property.items["$ref"]
-    keyRefData = util.resolveTypeByRef(keyRef, refMap, name)
+    keyRefData =
+    keyRefData = util.resolveTypeByRef(keyRef, refMap, name, true)
   else if property["$ref"] 
     keyRef = property["$ref"]
     keyRefData = util.resolveTypeByRef(keyRef, refMap, name)
     data.property.type = keyRefData.type
     if keyRefData.innnerSchema.type
-#      property.description = "TOM!"
       property.type = keyRefData.innnerSchema.type
     else
       property.properties = keyRefData.innnerSchema
       data.innerClass = util.resolveInnerClass(keyRefData.type, property, refMap, mapping)
-
+      property.type = util.resolveType(data.innerClass, name)
 
 
   data.property.comment =  property.description
   switch property.type
     when 'array'
-
       auxType = "List"
-      if keyRefData
-        auxType += "<#{keyRefData.type}>"
+      if keyRefData and keyRefData.innnerSchema.items isnt undefined
+        primitiveType = mapping[keyRefData.innnerSchema.items.type]
+        if keyRefData.innnerSchema.items.title
+          auxType += "<#{keyRefData.type}>"
+        else if primitiveType
+          auxType += "<#{primitiveType}>"
+
       data.property.type = auxType
 
     when 'object'
@@ -116,20 +129,17 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
           data.property.type =  keyRefData.type
         else
           data.property.type = util.resolveType(property, name)
-        innerClass = util.resolveInnerClass( data.property.type, property, refMap, mapping)
-        data.innerClass = innerClass
+          innerClass = util.resolveInnerClass( data.property.type, property, refMap, mapping)
+          data.innerClass = innerClass
 
-      else if keyRefData and keyRefData.innnerSchema
+      else if keyRefData and keyRefData.innnerSchema and keyRefData.innnerSchema.properties
         data.property.type = keyRefData.type
         property.properties = keyRefData.innnerSchema
         data.innerClass = util.resolveInnerClass(keyRefData.type, property, refMap, mapping)
       else
         data.property.type = 'Map'
-    when 'string' then data.property.type = mapping[property.type]
-    when 'boolean' then data.property.type = mapping[property.type]
-    when 'number' then data.property.type = mapping[property.type]
-    when 'integer' then data.property.type = mapping[property.type]
-    when 'file' then data.property.type = mapping[property.type]
+    else
+      data.property.type = mapping[property.type] ? property.type
 
 
   if data.property.type == "BigDecimal"
@@ -155,7 +165,6 @@ util.resolveInnerClass = (name, property, refMap, mapping)->
   data
 
 util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", parentUriArgs = []) ->
-
   for m in resource.methods
     methodDef = {}
     methodDef.uri = parentUri + resource.relativeUri
@@ -184,6 +193,7 @@ util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", pa
   if resource.resources
     for innerResource in resource.resources
       util.parseResource(innerResource, parsed, annotations, mapping, methodDef.uri, uriArgs)
+
   undefined
 
 
@@ -202,10 +212,10 @@ util.parseSchema = (body, meta = '') ->
 
 util.getBestValidResponse = (responses) ->
   response = responses["304"] ?
-    response = responses["204"] ?
-    response = responses["201"] ?
-    response = responses["200"] ?
-    response
+  response = responses["204"] ?
+  response = responses["201"] ?
+  response = responses["200"] ?
+  response
 
 util.capitalize = (str)->
   str.charAt(0).toUpperCase() + str.slice(1)

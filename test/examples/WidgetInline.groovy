@@ -16,7 +16,7 @@ public class Widget implements Serializable {
   Composite composite
 
 
-  List<Etiquetas> etiquetas
+  List<String> etiquetas
 
 }
 

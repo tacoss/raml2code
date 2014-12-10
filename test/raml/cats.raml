@@ -9,8 +9,8 @@ schemas:
   - cats: !include cats.schema.json
   - error: !include error/error.schema.json
   - owner: !include owner.schema.json
-  - content: !include GenericMap.schema.json
-  - content: !include GenericArray.schema.json
+  - content: !include genericMap.schema.json
+  - content: !include genericArray.schema.json
   - widget: !include inlineRef/widget.schema.json
   - widgetInlineProperty: !include inlineRef/widgetInlineProperty.schema.json
 resourceTypes:
@@ -33,7 +33,7 @@ resourceTypes:
               schema: <<resourcePathName | !singularize>>
         body:
           schema : <<resourcePathName | !singularize>>
-          
+
   - member:
       get:
         responses:
@@ -53,7 +53,7 @@ resourceTypes:
               schema: <<resourcePathName | !singularize>>>
         body:
           schema : <<resourcePathName | !singularize>>
-    
+
 
 /cats:
   displayName: Gatitos

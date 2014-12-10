@@ -58,7 +58,7 @@ generator.parser = (datos) ->
       parsed.push {name: datos.version + "/#{model.className}.groovy" , model}
     else
       #if there is not properties it must be a Map maps are not created
-      console.log "----> #{model.className}.groovy is a Map because it doesn't have properties"
+      console.log "----> #{model.className}.groovy is too abstract to create a file using List or Map"
 
   parsed
 

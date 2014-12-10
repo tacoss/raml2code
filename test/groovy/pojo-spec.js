@@ -6,7 +6,7 @@ describe('should generate a Pojo', function () {
 
   var generator = require("../../lib/generators/groovy/pojo");
   var catDTO = function(done){
-    test(generator, done, {package: 'org.gex', enableAnnotations: false}, "CatDTO.groovy" , "v1/Cat.groovy" )
+    test(generator, done, {package: 'org.gex', enableAnnotations: false}, "CatDTO.groovy" , "v1/Cat.groovy")
   };
   var catDTOJSR303 = function(done){
     test(generator, done, {package: 'org.gex'}, "CatDTOJSR303.groovy", "v1/Cat.groovy")
