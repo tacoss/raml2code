@@ -1,6 +1,7 @@
 package org.gex.client.v1;
 import retrofit.http.*;
 import java.util.List;
+import java.util.Map;
 
 import rx.Observable;
 import retrofit.mime.TypedFile;
