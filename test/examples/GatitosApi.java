@@ -42,4 +42,27 @@ public interface GatitosAPI {
     @Path("catId") String catId,
     @Field("name") String name);
 
+  @GET("/v1/settings/{key}")
+  Observable<Map> getSettings(
+      @Path("key") String key);
+
+  @POST("/v1/settings/{key}")
+  Observable<Map> postSettings(
+      @Path("key") String key,
+      @Body Map genericmap);
+
+  @PUT("/v1/settings/{key}")
+  Observable<List> putSettings(
+      @Path("key") String key,
+      @Body List genericarray);
+
+  @DELETE("/v1/settings/{key}")
+  Observable deleteSettings(
+      @Path("key") String key,
+      @Body List<Cat> genericarray);
+
+  @POST("/v1/arrayprimitives")
+  Observable<List<String>> postArrayPrimitives(
+      @Body List<String> genericarray);
+
 }

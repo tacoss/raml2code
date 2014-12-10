@@ -12,6 +12,7 @@ generator.template = fs.readFileSync(template).toString()
 
 generator.parser = (data) ->
   parsed = []
+  schemas = util.loadSchemas(data)
   methodParse = []
   annotations =
     path: "@PathParam"
@@ -30,7 +31,7 @@ generator.parser = (data) ->
     'file' : "InputStream"
 
   for resource in data.resources
-    util.parseResource(resource, methodParse, annotations, mapping)
+    util.parseResource(resource, methodParse, annotations, mapping, schemas)
 
   resourceGroup = _.groupBy(methodParse, (method) ->
     method.displayName

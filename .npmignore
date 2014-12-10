@@ -1,1 +1,4 @@
 examples
+.idea/
+raml2code.iml
+src

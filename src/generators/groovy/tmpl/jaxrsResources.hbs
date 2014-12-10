@@ -13,12 +13,12 @@ interface {{className}} {
 
 {{#methods}}
   /***
-   * @return Response This must be a valid {{{respond}}} JSON object.
+   * @return Response This must be a valid {{{respondComment}}} JSON object.
    */
   @{{annotation}}{{#if consumes}}
   @Consumes({{consumes}}){{/if}}
   Response {{{name}}}({{#each args}}{{#if @index}},{{/if}}
-    {{{kind}}}{{type}} {{name}}{{/each}});
+    {{{kind}}}{{{type}}} {{name}}{{/each}});
 
 {{/methods}}
 

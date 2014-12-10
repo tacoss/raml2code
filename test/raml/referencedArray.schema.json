@@ -1,0 +1,10 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "id" : "genericArray.schema.json",
+  "title": "GenericArray",
+  "description": "A single array",
+  "type": "array",
+  "items":{
+    "$ref": "cat.schema.json"
+  }
+}

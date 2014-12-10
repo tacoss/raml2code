@@ -1,5 +1,5 @@
 _ = require('lodash')
-deref = require('deref')();
+Deref = require('deref');
 util = {}
 util.getUriParameter = (resource, annotation, mapping)->
   uriParameters = []
@@ -29,7 +29,7 @@ util.parseForm = (body, annotations, mapping) ->
       parsedProperty = util.mapProperty(p, key, annotation, mapping).property
       args.push parsedProperty
       if parsedProperty.type is "InputStream"
-        args.push {name: parsedProperty.name + "Data" , type: "FormDataContentDisposition", kind: annotation + "(\"#{parsedProperty.name}\")"}
+        args.push {name: parsedProperty.name + "Data", type: "FormDataContentDisposition", kind: annotation + "(\"#{parsedProperty.name}\")"}
   args
 
 util.mapProperties = (expandedSchema, refMap, mapping)->
@@ -39,7 +39,7 @@ util.mapProperties = (expandedSchema, refMap, mapping)->
 
   if expandedSchema.properties and expandedSchema.properties.$ref
     keyRef = expandedSchema.properties.$ref
-    expandedSchema.properties = deref.util.findByRef(keyRef, refMap)
+    expandedSchema.properties = Deref.util.findByRef(keyRef, refMap)
 
   for key of expandedSchema.properties
     property = expandedSchema.properties[key]
@@ -53,13 +53,13 @@ util.mapProperties = (expandedSchema, refMap, mapping)->
 
   data
 
-util.resolveTypeByRef = (keyRef, refMap, propertyName, isArray=false)->
+util.resolveTypeByRef = (keyRef, refMap, propertyName, isArray = false)->
   data = {}
   data.type = ""
-  innerSchema =  deref.util.findByRef(keyRef, refMap)
+  innerSchema = Deref.util.findByRef(keyRef, refMap)
   if innerSchema
     if isArray
-      data.innnerSchema ={}
+      data.innnerSchema = {}
       data.innnerSchema.items = innerSchema
     else
       data.innnerSchema = innerSchema
@@ -86,17 +86,17 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
   data = {}
   data.property = {}
   data.property.name = name
-  data.property.notNull =  true if property.required
+  data.property.notNull = true if property.required
   data.property.size = []
-  data.property.size.push {"name" : "min", "value" : property.minLength} if property.minLength
-  data.property.size.push {"name" : "max", "value" : property.maxLength} if property.maxLength
+  data.property.size.push {"name": "min", "value": property.minLength} if property.minLength
+  data.property.size.push {"name": "max", "value": property.maxLength} if property.maxLength
 
-  data.property.comment =  property.description
+  data.property.comment = property.description
   if property.items and property.items["$ref"]
     keyRef = property.items["$ref"]
     keyRefData =
-    keyRefData = util.resolveTypeByRef(keyRef, refMap, name, true)
-  else if property["$ref"] 
+      keyRefData = util.resolveTypeByRef(keyRef, refMap, name, true)
+  else if property["$ref"]
     keyRef = property["$ref"]
     keyRefData = util.resolveTypeByRef(keyRef, refMap, name)
     data.property.type = keyRefData.type
@@ -108,7 +108,7 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
       property.type = util.resolveType(data.innerClass, name)
 
 
-  data.property.comment =  property.description
+  data.property.comment = property.description
   switch property.type
     when 'array'
       auxType = "List"
@@ -123,13 +123,13 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
 
     when 'object'
 
-      #if object has no references we made a inner class
+    #if object has no references we made a inner class
       if property.properties
         if keyRefData and keyRefData.type
-          data.property.type =  keyRefData.type
+          data.property.type = keyRefData.type
         else
           data.property.type = util.resolveType(property, name)
-          innerClass = util.resolveInnerClass( data.property.type, property, refMap, mapping)
+          innerClass = util.resolveInnerClass(data.property.type, property, refMap, mapping)
           data.innerClass = innerClass
 
       else if keyRefData and keyRefData.innnerSchema and keyRefData.innnerSchema.properties
@@ -146,7 +146,7 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
     data.property.decimalMax = property.maximum
     data.property.decimalMin = property.minimum
   else if data.property.type == "Long"
-    data.property.max =  property.maximum
+    data.property.max = property.maximum
     data.property.min = property.minimum
 
 
@@ -156,6 +156,7 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
 util.resolveInnerClass = (name, property, refMap, mapping)->
   data = null
   #if the property has #ref and title we don't need innerClass
+  #because it should be already mapped
   if property and not property.properties.title
     data = {}
     data.className = name
@@ -164,7 +165,15 @@ util.resolveInnerClass = (name, property, refMap, mapping)->
     data.classMembers = aux.classMembers
   data
 
-util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", parentUriArgs = []) ->
+util.loadSchemas = (data)->
+  schemas = []
+  for row in data.schemas
+    for schemaName of row
+      schema = util.parseSchema(row[schemaName], "Trouble parsing schema: #{schemaName}")
+      schemas.push schema
+  schemas
+
+util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri = "", parentUriArgs = []) ->
   for m in resource.methods
     methodDef = {}
     methodDef.uri = parentUri + resource.relativeUri
@@ -172,14 +181,19 @@ util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", pa
     methodDef.args = parentUriArgs.concat(uriArgs)
     methodDef.args = methodDef.args.concat(util.getQueryparams(m.queryParameters, annotations.query, mapping))
     methodDef.args = methodDef.args.concat(util.parseForm(m.body, annotations, mapping))
-    request = util.parseSchema(m.body,  "#{methodDef.uri} body" )
-    respond = util.parseSchema(util.getBestValidResponse(m.responses).body,  "#{methodDef.uri} response" )
+    request = util.parseBodyJson(m.body, "#{methodDef.uri} body")
+    respond = util.parseBodyJson(util.getBestValidResponse(m.responses).body, "#{methodDef.uri} response")
     if request.title
       methodDef.args = methodDef.args ? []
-      methodDef.args.push {'kind': annotations.body, 'type': util.capitalize(request.title), 'name': request.title.toLowerCase()}
+      type = util.mapRequestResponse(request, schemas, mapping)
+      methodDef.args.push {'kind': annotations.body, 'type': type, 'name': request.title.toLowerCase()}
 
     methodDef.request = request.title ? null
-    methodDef.respond = respond.title
+    responseType = util.mapRequestResponse(respond, schemas, mapping)
+    methodDef.respondComment = respond.title
+    if responseType
+      methodDef.respond =  "<#{responseType}>"
+
     methodDef.annotation = m.method.toUpperCase()
     formData = _.find(methodDef.args, (arg)->
       arg.type is "InputStream" or arg.type is "TypedFile"
@@ -192,30 +206,64 @@ util.parseResource = (resource, parsed, annotations, mapping, parentUri = "", pa
     parsed.push methodDef
   if resource.resources
     for innerResource in resource.resources
-      util.parseResource(innerResource, parsed, annotations, mapping, methodDef.uri, uriArgs)
-
+      util.parseResource(innerResource, parsed, annotations, mapping, schemas, methodDef.uri, uriArgs)
   undefined
 
+util.mapRequestResponse = (scheme, schemas, mapping)->
+  type = ""
+  switch scheme.type
+    when "array"
+      if scheme.items
+        type = "List<Maps>"
+        if scheme.items.$ref
+          deref = Deref()
+          normSchema = deref(scheme, schemas) #Expanded
+          dataRef = deref.util.findByRef(normSchema.items.$ref, deref.refs)
+          if dataRef and dataRef.title
+            type = "List<#{util.capitalize(dataRef.title)}>"
+          else
+            type = "List"
+        else if scheme.items.title
+          type = "List<#{util.capitalize(scheme.title)}>"
+        else if scheme.items.type
+          primitiveType = mapping[scheme.items.type]
+          if primitiveType
+            type = "List<#{primitiveType}>"
+      else
+        type = "List"
+    when "object"
+      if scheme.properties
+        type = util.capitalize(scheme.title)
+      else
+        type = "Map"
+    else
+      console.warn "-------the following scheme doesn't have type: -------"
+      console.warn "#{JSON.stringify(scheme)} "
 
-util.parseSchema = (body, meta = '') ->
+  type
+
+util.parseBodyJson = (body, meta = '') ->
   schema = {}
   if body and body['application/json']
+    schema = util.parseSchema(body['application/json'].schema, meta)
+  schema
+
+util.parseSchema = (raw, meta = '') ->
+  schema = {}
+  if raw
     try
-      schema = JSON.parse(body['application/json'].schema)
+      schema = JSON.parse(raw)
     catch e
       console.log "-----JSON ERROR on #{meta}---------"
-      console.log body['application/json'].schema
       throw e
-
-
   schema
 
 util.getBestValidResponse = (responses) ->
   response = responses["304"] ?
-  response = responses["204"] ?
-  response = responses["201"] ?
-  response = responses["200"] ?
-  response
+    response = responses["204"] ?
+    response = responses["201"] ?
+    response = responses["200"] ?
+    response
 
 util.capitalize = (str)->
   str.charAt(0).toUpperCase() + str.slice(1)

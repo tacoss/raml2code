@@ -9,8 +9,10 @@ schemas:
   - cats: !include cats.schema.json
   - error: !include error/error.schema.json
   - owner: !include owner.schema.json
-  - content: !include genericMap.schema.json
-  - content: !include genericArray.schema.json
+  - genericMap: !include genericMap.schema.json
+  - genericArray: !include genericArray.schema.json
+  - referencedArray: !include referencedArray.schema.json
+  - stringArray: !include stringArray.schema.json
   - widget: !include inlineRef/widget.schema.json
   - widgetInlineProperty: !include inlineRef/widgetInlineProperty.schema.json
 resourceTypes:
@@ -54,7 +56,6 @@ resourceTypes:
         body:
           schema : <<resourcePathName | !singularize>>
 
-
 /cats:
   displayName: Gatitos
   description: Compra, venta y renta de gatitos
@@ -95,3 +96,45 @@ resourceTypes:
           200:
             body:
               schema: cat
+
+/settings/{key}:
+ displayName: Settings
+ description: key, value service
+ get:
+   responses:
+     200:
+       body:
+         schema: genericMap
+ post:
+  body:
+    schema: genericMap
+  responses:
+    201:
+      body:
+        schema: genericMap
+ put:
+  body:
+    schema: genericArray
+  responses:
+    201:
+      body:
+        schema: genericArray
+ delete:
+  body:
+    schema: referencedArray
+  responses:
+    204:
+      body:
+        schema: "{}"
+
+/arrayprimitives:
+  displayName: ArrayPrimitives
+  description: key, value service
+  post:
+    body:
+      schema: stringArray
+    responses:
+      200:
+        body:
+          schema: stringArray
+

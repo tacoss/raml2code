@@ -11,6 +11,7 @@ generator.template = fs.readFileSync(template).toString()
 
 generator.parser = (data) ->
   parsed = []
+  schemas = util.loadSchemas(data)
   methodParse = []
   annotations =
     path: "@Path"
@@ -28,7 +29,7 @@ generator.parser = (data) ->
    'file' : "TypedFile"
 
   for resource in data.resources
-    util.parseResource(resource, methodParse, annotations, mapping)
+    util.parseResource(resource, methodParse, annotations, mapping, schemas)
   model = {}
   model.methods = methodParse
   model.version = data.version

@@ -19,10 +19,18 @@ describe('RAML to JAX-RS', function () {
   var gatitopByIdFormResource = function (done) {
     test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitopByIdFormResource.groovy", "v1/GatitopByIdFormResource.groovy")
   };
+  var settingsResource = function (done) {
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "SettingsResource.groovy", "v1/SettingsResource.groovy")
+  };
+  var arrayPrimitivesResource = function (done) {
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "ArrayPrimitivesResource.groovy", "v1/ArrayPrimitivesResource.groovy")
+  };
+
 
   it('should generate a resource interface', gatitosResource);
   it('should generate a resourceById interface', gatitoByIdResource);
   it('should generate a GatitoByIdPictureResource upload interface', gatitoByIdPictureResource);
   it('should generate a GatitopByIdFormResource upload interface', gatitopByIdFormResource);
-
+  it('should generate a SettingsResource', settingsResource);
+  it('should generate a SettingsResource', arrayPrimitivesResource);
 });

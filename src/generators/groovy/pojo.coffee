@@ -27,15 +27,11 @@ generator.parser = (datos) ->
     'file' : "InputStream"
 
   parsed = []
-  schemas = []
+  schemas = util.loadSchemas(datos)
+
   if datos.extra
     datos.extra.package = "#{datos.extra.package}.#{datos.version}"
     datos.extra.enableAnnotations ?= true
-  for row in datos.schemas
-
-    for schemaName of row
-      data = JSON.parse(row[schemaName])
-      schemas.push data
 
 
   for schema in schemas

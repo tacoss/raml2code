@@ -16,8 +16,8 @@ public interface {{{className}}} {
   {{#if additionalAnnotation}}
   @{{additionalAnnotation}}
   {{/if}}
-  Observable<{{{respond}}}> {{{name}}}({{#each args}}{{#if @index}},{{/if}}
-    {{{kind}}} {{type}} {{name}}{{/each}});
+  Observable{{{respond}}} {{{name}}}({{#each args}}{{#if @index}},{{/if}}
+    {{{kind}}} {{{type}}} {{name}}{{/each}});
 
 {{/methods}}
 }
