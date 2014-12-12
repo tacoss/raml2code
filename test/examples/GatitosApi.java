@@ -59,6 +59,7 @@ public interface GatitosAPI {
       @Body List genericarray);
 
   @DELETE("/v1/settings/{key}")
+  @Headers({"Content-type: application/json"})
   Observable<Response> deleteSettings(
       @Path("key") String key,
       @Body List<Cat> genericarray);

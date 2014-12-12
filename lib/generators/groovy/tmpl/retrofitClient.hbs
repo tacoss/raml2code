@@ -16,7 +16,7 @@ public interface {{{className}}} {
 {{#methods}}
   @{{annotation}}("/{{{../version}}}{{{uri}}}")
   {{#if additionalAnnotation}}
-  @{{additionalAnnotation}}
+  @{{{additionalAnnotation}}}
   {{/if}}
   Observable{{{respond}}} {{{name}}}({{#each args}}{{#if @index}},{{/if}}
     {{{kind}}} {{{type}}} {{name}}{{/each}});

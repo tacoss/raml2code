@@ -203,6 +203,8 @@ util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri
     if formData
       methodDef.consumes = "MediaType.MULTIPART_FORM_DATA"
       methodDef.additionalAnnotation = "Multipart"
+    if methodDef.annotation is "DELETE"
+      methodDef.additionalAnnotation = 'Headers({"Content-type: application/json"})'
     methodDef.name = m.method + resource.displayName
     methodDef.displayName = resource.displayName
     parsed.push methodDef
