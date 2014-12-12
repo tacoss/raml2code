@@ -1,5 +1,6 @@
 package org.gex.client.v1;
 import retrofit.http.*;
+import retrofit.client.Response;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public interface GatitosAPI {
       @Body List genericarray);
 
   @DELETE("/v1/settings/{key}")
-  Observable deleteSettings(
+  Observable<Response> deleteSettings(
       @Path("key") String key,
       @Body List<Cat> genericarray);
 

@@ -193,6 +193,8 @@ util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri
     methodDef.respondComment = respond.title
     if responseType
       methodDef.respond =  "<#{responseType}>"
+    else
+      methodDef.respond =  "<Response>"
 
     methodDef.annotation = m.method.toUpperCase()
     formData = _.find(methodDef.args, (arg)->
@@ -237,7 +239,7 @@ util.mapRequestResponse = (scheme, schemas, mapping)->
       else
         type = "Map"
     else
-      console.warn "-------the following scheme doesn't have type: -------"
+      console.warn "-------WARNING the following scheme doesn't have type: -------"
       console.warn "#{JSON.stringify(scheme)} "
 
   type
