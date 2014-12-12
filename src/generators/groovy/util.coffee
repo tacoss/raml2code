@@ -174,6 +174,7 @@ util.loadSchemas = (data)->
   schemas
 
 util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri = "", parentUriArgs = []) ->
+
   for m in resource.methods
     methodDef = {}
     methodDef.uri = parentUri + resource.relativeUri
@@ -183,6 +184,7 @@ util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri
     methodDef.args = methodDef.args.concat(util.parseForm(m.body, annotations, mapping))
     request = util.parseBodyJson(m.body, "#{methodDef.uri} body")
     respond = util.parseBodyJson(util.getBestValidResponse(m.responses).body, "#{methodDef.uri} response")
+    type = null
     if request.title
       methodDef.args = methodDef.args ? []
       type = util.mapRequestResponse(request, schemas, mapping)
@@ -200,11 +202,20 @@ util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri
     formData = _.find(methodDef.args, (arg)->
       arg.type is "InputStream" or arg.type is "TypedFile"
     )
+    formEncoded = _.find(methodDef.args, (arg)->
+      arg.kind.indexOf("@Field") > -1 or arg.kind.indexOf("@FormDataParam") > -1
+    )
     if formData
       methodDef.consumes = "MediaType.MULTIPART_FORM_DATA"
       methodDef.additionalAnnotation = "Multipart"
-    if methodDef.annotation is "DELETE"
-      methodDef.additionalAnnotation = 'Headers({"Content-type: application/json"})'
+    if formEncoded
+      methodDef.additionalAnnotation = "FormUrlEncoded"
+
+    mediaType = "application/json"
+    if m.body and Object.keys(m.body)[0]
+      mediaType = Object.keys(m.body)[0]
+    if methodDef.annotation isnt "GET" and not type and not formData and not formEncoded
+      methodDef.additionalAnnotation = "Headers({\"Content-type: #{mediaType}\"})"
     methodDef.name = m.method + resource.displayName
     methodDef.displayName = resource.displayName
     parsed.push methodDef

@@ -41,8 +41,7 @@ interface SettingsResource {
    */
   @DELETE
   Response deleteSettings(
-      @PathParam("key")String key,
-      List<Cat> genericarray);
+      @PathParam("key")String key);
 
 
 }

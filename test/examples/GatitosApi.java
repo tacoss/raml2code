@@ -40,6 +40,7 @@ public interface GatitosAPI {
     @Part("file") TypedFile file);
 
   @POST("/v1/cats/{catId}/webFormCat")
+  @FormUrlEncoded
   Observable<Cat> postGatitopByIdForm(
     @Path("catId") String catId,
     @Field("name") String name);
@@ -61,8 +62,7 @@ public interface GatitosAPI {
   @DELETE("/v1/settings/{key}")
   @Headers({"Content-type: application/json"})
   Observable<Response> deleteSettings(
-      @Path("key") String key,
-      @Body List<Cat> genericarray);
+      @Path("key") String key);
 
   @POST("/v1/arrayprimitives")
   Observable<List<String>> postArrayPrimitives(
