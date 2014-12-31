@@ -1,6 +1,10 @@
 _ = require('lodash')
 Deref = require('deref');
+utilText = require('../util/text')
+utilSchemas = require('../util/schemas')
+
 util = {}
+
 util.getUriParameter = (resource, annotation, mapping)->
   uriParameters = []
   for key of resource.uriParameters
@@ -76,9 +80,9 @@ util.resolveType = (schema, propertyName)->
   type = ""
   if schema
     if schema.title
-      type = util.capitalize(schema.title)
+      type = utilText.capitalize(schema.title)
     else
-      type = util.capitalize(propertyName)
+      type = utilText.capitalize(propertyName)
 
   type
 
@@ -165,13 +169,7 @@ util.resolveInnerClass = (name, property, refMap, mapping)->
     data.classMembers = aux.classMembers
   data
 
-util.loadSchemas = (data)->
-  schemas = []
-  for row in data.schemas
-    for schemaName of row
-      schema = util.parseSchema(row[schemaName], "Trouble parsing schema: #{schemaName}")
-      schemas.push schema
-  schemas
+
 
 util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri = "", parentUriArgs = []) ->
 
@@ -182,8 +180,8 @@ util.parseResource = (resource, parsed, annotations, mapping, schemas, parentUri
     methodDef.args = parentUriArgs.concat(uriArgs)
     methodDef.args = methodDef.args.concat(util.getQueryparams(m.queryParameters, annotations.query, mapping))
     methodDef.args = methodDef.args.concat(util.parseForm(m.body, annotations, mapping))
-    request = util.parseBodyJson(m.body, "#{methodDef.uri} body")
-    respond = util.parseBodyJson(util.getBestValidResponse(m.responses).body, "#{methodDef.uri} response")
+    request = utilSchemas.parseBodyJson(m.body, "#{methodDef.uri} body")
+    respond = utilSchemas.parseBodyJson(util.getBestValidResponse(m.responses).body, "#{methodDef.uri} response")
     type = null
     if request.title
       methodDef.args = methodDef.args ? []
@@ -235,7 +233,7 @@ util.mapRequestResponse = (scheme, schemas, mapping)->
           normSchema = deref(scheme, schemas) #Expanded
           dataRef = deref.util.findByRef(normSchema.items.$ref, deref.refs)
           if dataRef and dataRef.title
-            type = "List<#{util.capitalize(dataRef.title)}>"
+            type = "List<#{utilText.capitalize(dataRef.title)}>"
           else
             type = "List"
         else if scheme.items.title
@@ -248,7 +246,7 @@ util.mapRequestResponse = (scheme, schemas, mapping)->
         type = "List"
     when "object"
       if scheme.properties
-        type = util.capitalize(scheme.title)
+        type = utilText.capitalize(scheme.title)
       else
         type = "Map"
     else
@@ -257,22 +255,6 @@ util.mapRequestResponse = (scheme, schemas, mapping)->
 
   type
 
-util.parseBodyJson = (body, meta = '') ->
-  schema = {}
-  if body and body['application/json']
-    schema = util.parseSchema(body['application/json'].schema, meta)
-  schema
-
-util.parseSchema = (raw, meta = '') ->
-  schema = {}
-  if raw
-    try
-      schema = JSON.parse(raw)
-    catch e
-      console.log "-----JSON ERROR on #{meta}---------"
-      throw e
-  schema
-
 util.getBestValidResponse = (responses) ->
   response = responses["304"] ?
     response = responses["204"] ?
@@ -280,14 +262,6 @@ util.getBestValidResponse = (responses) ->
     response = responses["200"] ?
     response
 
-util.capitalize = (str)->
-  str.charAt(0).toUpperCase() + str.slice(1)
-
-util.sanitize = (str)->
-  aux = str.split(".")
-  res = ''
-  aux.forEach (it)->
-    res += util.capitalize(it)
-  res
-
 module.exports = util
+
+

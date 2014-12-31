@@ -1,6 +1,7 @@
 fs = require('fs')
-commonHelpers = require("../helpers/common.js").helpers()
-util = require('./util.js')
+commonHelpers = require("../helpers/common").helpers()
+util = require('./util')
+utilSchemas = require('../util/schemas')
 path = require('path')
 
 generator = {}
@@ -11,7 +12,7 @@ generator.template = fs.readFileSync(template).toString()
 
 generator.parser = (data) ->
   parsed = []
-  schemas = util.loadSchemas(data)
+  schemas = utilSchemas.loadSchemas(data)
   methodParse = []
   annotations =
     path: "@Path"
