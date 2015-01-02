@@ -80,8 +80,9 @@ gulp.task('default', ['build']);
 A generator is a simple object with the following properties:
 
  * Required properties:
-    * template -> Handlebars template.
-    * parser(data) -> Function it receives RAML parsed data, returns parsed data.
+    * template -> Handlebars template (you could use your own templates).
+    * parser(data) -> Function it receives RAML parsed data, returns model that will be used in the
+     template engine, each model must have a name, this name is the file that will be generated.
     [{ name: "test.test", model: {title:data.title + " finos"}}]
  * Optional properties:
     * helpers -> Handlebars helpers.  
