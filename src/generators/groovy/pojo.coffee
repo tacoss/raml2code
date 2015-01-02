@@ -40,7 +40,7 @@ generator.parser = (datos) ->
   for schema in schemas
 
 #   normSchema = deref(schema, schemas, true)  #Expanded
-    normSchema = deref(schema, schemas)  #Expanded
+    normSchema = deref(schema, schemas) 
 
     model = {}
     model.className = utilText.capitalize(normSchema.title)
