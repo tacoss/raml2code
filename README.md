@@ -71,8 +71,9 @@ gulp.task('default', ['build']);
 ```
 
 ## We use the Gradle with the gulp plugin to build or loved Java project
-(https://www.gradle.org/) [gradle]
-(https://github.com/filipblondeel/gradle-gulp-plugin)[gradle-gulp-plugin]
+[gradle](https://www.gradle.org/)
+
+[gradle-gulp-plugin](https://github.com/filipblondeel/gradle-gulp-plugin)
 
   
 ## You don't like our generators, DIY
@@ -90,12 +91,12 @@ A generator is a simple object with the following properties:
 
 
 ## Generators included and tested
-    * Groovy POJO
-      If the json schema has $ref, it would try to use the title to make references, if the title doesn't exits
-      it would generate a inner classes with the name of the property.
-      If there are $ref definitions, consider the following http://json-schema.org/latest/json-schema-core.html#anchor30
-    * JAX-RS Interface
-    * RETROFIT Client
+  * Groovy POJO
+    If the json schema has $ref, it would try to use the title to make references, if the title doesn't exits
+    it would generate a inner classes with the name of the property.
+    If there are $ref definitions, consider the following http://json-schema.org/latest/json-schema-core.html#anchor30
+  * JAX-RS Interface
+  * RETROFIT Client
 
 
     
