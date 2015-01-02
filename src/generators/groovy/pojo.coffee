@@ -1,9 +1,10 @@
 fs = require('fs')
 commonHelpers = require("../helpers/common").helpers()
-util = require('./util')
 path = require('path')
 utilText = require('../util/text')
 utilSchemas = require('../util/schemas')
+utilMapProperty = require('../util/mapProperty')
+
 
 generator = {}
 generator.helpers = commonHelpers
@@ -45,7 +46,7 @@ generator.parser = (datos) ->
     model.className = utilText.capitalize(normSchema.title)
     model.classDescription = normSchema.description ? ""
 
-    someData = util.mapProperties(normSchema, deref.refs, mapping)
+    someData = utilMapProperty.mapProperties(normSchema, deref.refs, mapping)
 
     model.classMembers = someData.classMembers
     model.innerClasses = someData.innerClasses

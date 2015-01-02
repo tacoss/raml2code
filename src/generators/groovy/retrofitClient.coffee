@@ -1,8 +1,10 @@
 fs = require('fs')
 commonHelpers = require("../helpers/common").helpers()
-util = require('./util')
 utilSchemas = require('../util/schemas')
+parseResource = require('../util/parseResource')
+console.log parseResource
 path = require('path')
+_ = require('lodash')
 
 generator = {}
 generator.helpers = commonHelpers
@@ -10,27 +12,43 @@ dirname = path.dirname(__filename)
 template = path.resolve(dirname, "tmpl/retrofitClient.hbs")
 generator.template = fs.readFileSync(template).toString()
 
+customAdapter = (method, methodParsed)->
+  if methodParsed.formData
+    methodParsed.additionalAnnotation = "Multipart"
+  if methodParsed.formEncoded
+    methodParsed.additionalAnnotation = "FormUrlEncoded"
+
+  mediaType = "application/json"
+  if method.body and Object.keys(method.body)[0]
+    mediaType = Object.keys(method.body)[0]
+  if methodParsed.annotation is "DELETE"
+    methodParsed.additionalAnnotation = "Headers({\"Content-type: #{mediaType}\"})"
+
 generator.parser = (data) ->
   parsed = []
   schemas = utilSchemas.loadSchemas(data)
+
+  options =
+    annotations :
+      path: "@Path"
+      query: "@Query"
+      body: "@Body"
+      multiPart: "@Part"
+      form: "@Field"
+    mapping :
+     'string' : "String"
+     'boolean' : "Boolean"
+     'number' : "BigDecimal"
+     'integer' : "Long"
+     'array' : "List"
+     'object' : "Map"
+     'file' : "TypedFile"
   methodParse = []
-  annotations =
-    path: "@Path"
-    query: "@Query"
-    body: "@Body"
-    multiPart: "@Part"
-    form: "@Field"
-  mapping =
-   'string' : "String"
-   'boolean' : "Boolean"
-   'number' : "BigDecimal"
-   'integer' : "Long"
-   'array' : "List"
-   'object' : "Map"
-   'file' : "TypedFile"
 
   for resource in data.resources
-    util.parseResource(resource, methodParse, annotations, mapping, schemas)
+    methodParse.push parseResource(resource, options, schemas, customAdapter)
+
+  methodParse = _.flatten(methodParse)
   model = {}
   model.methods = methodParse
   model.version = data.version
