@@ -6,7 +6,7 @@
   * This module generate code from a RAML definition
   * It uses Handlebars templates
 
-## it must be defined as Gulp-plugin
+## It must be defined as Gulp-plugin
 ```js
 var gulp = require('gulp');
 var raml2code = require('raml2code');
@@ -20,7 +20,7 @@ gulp.task("test", function(){
 
 ```
 
-## sample gulpfile
+## Sample gulpfile
 
 ```js
 var gulp = require('gulp');
@@ -70,8 +70,12 @@ gulp.task('default', ['build']);
 
 ```
 
+## We use the Gradle with the gulp plugin to build or loved Java project
+(https://www.gradle.org/) [gradle]
+(https://github.com/filipblondeel/gradle-gulp-plugin)[gradle-gulp-plugin]
+
   
-## You don't like our generators, dyi
+## You don't like our generators, DIY
 
 A generator is a simple object with the following properties:
 
