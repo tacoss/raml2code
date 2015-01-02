@@ -1,7 +1,10 @@
 fs = require('fs')
-commonHelpers = require("../helpers/common.js").helpers()
-util = require('./util.js')
+commonHelpers = require("../helpers/common").helpers()
 path = require('path')
+utilText = require('../util/text')
+utilSchemas = require('../util/schemas')
+utilMapProperty = require('../util/mapProperty')
+
 
 generator = {}
 generator.helpers = commonHelpers
@@ -27,7 +30,7 @@ generator.parser = (datos) ->
     'file' : "InputStream"
 
   parsed = []
-  schemas = util.loadSchemas(datos)
+  schemas = utilSchemas.loadSchemas(datos)
 
   if datos.extra
     datos.extra.package = "#{datos.extra.package}.#{datos.version}"
@@ -40,10 +43,10 @@ generator.parser = (datos) ->
     normSchema = deref(schema, schemas)  #Expanded
 
     model = {}
-    model.className = util.capitalize(normSchema.title)
+    model.className = utilText.capitalize(normSchema.title)
     model.classDescription = normSchema.description ? ""
 
-    someData = util.mapProperties(normSchema, deref.refs, mapping)
+    someData = utilMapProperty.mapProperties(normSchema, deref.refs, mapping)
 
     model.classMembers = someData.classMembers
     model.innerClasses = someData.innerClasses

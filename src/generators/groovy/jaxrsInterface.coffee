@@ -1,7 +1,8 @@
 fs = require('fs')
 _ = require('lodash')
-util = require('./util.js')
-commonHelpers = require("../helpers/common.js").helpers()
+utilSchemas = require('../util/schemas')
+parseResource = require('../util/parseResource')
+commonHelpers = require("../helpers/common").helpers()
 path = require('path')
 
 generator = {}
@@ -10,29 +11,37 @@ dirname = path.dirname(__filename)
 template = path.resolve(dirname, "tmpl/jaxrsResources.hbs")
 generator.template = fs.readFileSync(template).toString()
 
+customAdapter = (method, methodParsed) ->
+
+  if methodParsed.formData
+    methodParsed.consumes = "MediaType.MULTIPART_FORM_DATA"
+
 generator.parser = (data) ->
   parsed = []
-  schemas = util.loadSchemas(data)
-  methodParse = []
-  annotations =
-    path: "@PathParam"
-    query: "@QueryParam"
-    body: ""
-    multiPart: "@FormDataParam"
-    form: "@FormDataParam"
+  schemas = utilSchemas.loadSchemas(data)
 
-  mapping =
-    'string' : "String"
-    'boolean' : "Boolean"
-    'number' : "BigDecimal"
-    'integer' : "Long"
-    'array' : "List"
-    'object' : "Map"
-    'file' : "InputStream"
+  options =
+    annotations :
+      path: "@PathParam"
+      query: "@QueryParam"
+      body: ""
+      multiPart: "@FormDataParam"
+      form: "@FormDataParam"
+    mapping :
+      'string' : "String"
+      'boolean' : "Boolean"
+      'number' : "BigDecimal"
+      'integer' : "Long"
+      'array' : "List"
+      'object' : "Map"
+      'file' : "InputStream"
+
+  methodParse = []
 
   for resource in data.resources
-    util.parseResource(resource, methodParse, annotations, mapping, schemas)
+    methodParse.push parseResource(resource, options, schemas, customAdapter)
 
+  methodParse = _.flatten(methodParse)
   resourceGroup = _.groupBy(methodParse, (method) ->
     method.displayName
   )

@@ -1,5 +1,6 @@
 var gulp = require('gulp');
 var del = require('del');
+var runSequence = require('run-sequence');
 var gutil = require('gulp-util');
 var mocha = require('gulp-mocha');
 var coffee = require('gulp-coffee');
@@ -11,20 +12,19 @@ gulp.task('clean', function (cb) {
 });
 
 
-gulp.task('coffee', ['clean'], function(cb) {
-  gulp.src('./src/**/*.coffee')
+gulp.task('coffee',  function() {
+  return gulp.src('./src/**/*.coffee')
     .pipe(coffee({bare: true}).on('error', gutil.log))
     .pipe(gulp.dest('./lib/'));
-  cb(null);
 });
 
-gulp.task('copy-templates', ['clean'], function(cb){
+gulp.task('copy-templates', function(){
   var stream = gulp.src('./src/**/*.hbs')
   .pipe(gulp.dest('./lib/'));
   return stream;
 });
 
-gulp.task('test', ['copy-templates', 'coffee'], function(cb){
+gulp.task('test', function(cb){
   gulp.src(['./test/**/*spec.js'])
   .pipe(mocha(
     {
@@ -35,4 +35,12 @@ gulp.task('test', ['copy-templates', 'coffee'], function(cb){
   ));
 });
 
-gulp.task('default', [ 'test']);
+gulp.task('build', function(callback) {
+  runSequence('clean',
+    ['copy-templates', 'coffee'],
+    'test',
+    callback);
+});
+
+
+gulp.task('default', ['build']);
