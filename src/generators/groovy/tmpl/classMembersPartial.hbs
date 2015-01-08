@@ -1,6 +1,6 @@
 
 {{#classMembers}}
-  {{#if comment}}/* {{comment}} */{{/if}}{{#if ../extra.enableAnnotations}}{{#if notNull}}
+  {{#if comment}}/* {{comment}} */{{/if}}{{#if ../extra.enableAnnotations}}{{#if required}}
   @NotNull{{/if}}{{#if min}}
   @Min({{min}}l){{/if}}{{#if max}}
   @Max({{max}}l){{/if}}{{#if decimalMin}}

@@ -49,6 +49,21 @@ generator.parser = (data) ->
     methodParse.push parseResource(resource, options, schemas, customAdapter)
 
   methodParse = _.flatten(methodParse)
+
+  for method in methodParse
+    notReqArgs = _.filter(method.args, (it)->
+      it.required == false
+    )
+
+    if notReqArgs and notReqArgs.length > 0
+      console.log "notReqArgs", notReqArgs, notReqArgs.length
+      reqArgs = _.difference(method.args, notReqArgs)
+      console.log "reqArgs", reqArgs, reqArgs.length
+      permutations = (2 * notReqArgs.length)-1
+      console.log "no permutations", permutations + 1
+      for(i)
+      resolveArrayByMask(permutations, notReqArgs)
+
   model = {}
   model.methods = methodParse
   model.version = data.version
@@ -59,5 +74,28 @@ generator.parser = (data) ->
   model.className = data.title.split(" ").join("")
   parsed.push {name: "#{data.version}/#{model.className}.java" , model}
   parsed
+
+
+arrayFromMask = (nMask) ->
+  # nMask must be between -2147483648 and 2147483647
+  throw new TypeError("arrayFromMask - out of range")  if nMask > 0x7fffffff or nMask < -0x80000000
+  nShifted = nMask
+  aFromMask = []
+
+  while nShifted
+    aFromMask.push(Boolean(nShifted & 1))
+    nShifted >>>= 1
+  aFromMask
+
+resolveArrayByMask = (mask, array) ->
+  res = []
+  i = array.length - 1
+  j = 0
+
+  while i >= 0
+    res.push array[i]  if mask[j]
+    i--
+    j++
+  res
 
 module.exports = generator

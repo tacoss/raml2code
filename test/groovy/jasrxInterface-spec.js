@@ -2,7 +2,7 @@ var test = require("../helpers").test;
 var chai = require('chai');
 chai.should();
 
-describe('RAML to JAX-RS', function () {
+xdescribe('RAML to JAX-RS', function () {
   var generator = require("../../lib/generators/groovy/jaxrsInterface");
 
   var gatitosResource = function (done) {

@@ -75,6 +75,9 @@ gulp.task('default', ['build']);
 
 [gradle-gulp-plugin](https://github.com/filipblondeel/gradle-gulp-plugin)
 
+## And example of project could be found here:
+[raml2codeFullSpringExample](https://github.com/atomsfat/raml2codeFullSpringExample)
+
   
 ## You don't like our generators, DIY
 
