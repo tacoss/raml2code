@@ -2,7 +2,6 @@ fs = require('fs')
 commonHelpers = require("../helpers/common").helpers()
 utilSchemas = require('../util/schemas')
 parseResource = require('../util/parseResource')
-console.log parseResource
 path = require('path')
 _ = require('lodash')
 
@@ -50,22 +49,36 @@ generator.parser = (data) ->
 
   methodParse = _.flatten(methodParse)
 
+  methodParsePermuted = []
+
   for method in methodParse
+
     notReqArgs = _.filter(method.args, (it)->
       it.required == false
     )
 
     if notReqArgs and notReqArgs.length > 0
-      console.log "notReqArgs", notReqArgs, notReqArgs.length
+
       reqArgs = _.difference(method.args, notReqArgs)
-      console.log "reqArgs", reqArgs, reqArgs.length
-      permutations = (2 * notReqArgs.length)-1
-      console.log "no permutations", permutations + 1
-      for(i)
-      resolveArrayByMask(permutations, notReqArgs)
+      permutations = (2 * notReqArgs.length) - 1
+
+      while permutations >= 0
+
+        shallowMethod = _.cloneDeep(method)
+        d = arrayFromMask(permutations)
+
+        permuted = resolveArrayByMask(d, notReqArgs)
+        newArgs = reqArgs.concat(permuted)
+
+        shallowMethod.args = newArgs
+        methodParsePermuted.push shallowMethod
+
+        permutations--
+    else
+      methodParsePermuted.push method
 
   model = {}
-  model.methods = methodParse
+  model.methods = methodParsePermuted
   model.version = data.version
   if data.extra
     data.extra.package = "#{data.extra.package}.#{data.version}"
@@ -93,7 +106,7 @@ resolveArrayByMask = (mask, array) ->
   j = 0
 
   while i >= 0
-    res.push array[i]  if mask[j]
+    res.push array[i] if mask[j]
     i--
     j++
   res
