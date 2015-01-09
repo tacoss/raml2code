@@ -9,7 +9,7 @@ var wrapAssertion = require("./helpers").wrapAssertion;
 var chai = require('chai');
 chai.should();
 
-xdescribe('raml2code basic test', function () {
+describe('raml2code basic test', function () {
 
   describe('in streaming mode', function() {
     it('fails with an error (streams are not supported)', function(done) {

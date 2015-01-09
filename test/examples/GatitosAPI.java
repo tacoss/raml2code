@@ -12,8 +12,8 @@ import com.pojos.v1.*;
 public interface GatitosAPI {
 
   @GET("/v1/cats")
-  Observable<Cats> getGatitos(
-      @Query("search") String search);
+  Observable<Cats> getGatitosAndSearchBy(
+      @Query("searchBy") String searchBy);
 
   @GET("/v1/cats")
   Observable<Cats> getGatitos();
@@ -23,18 +23,18 @@ public interface GatitosAPI {
       @Body Cat cat);
 
   @GET("/v1/cats/{catId}")
-  Observable<Cat> getGatitoById(
+  Observable<Cat> getGatitoByIdAndOrderByAndFilterBy(
       @Path("catId") String catId,
       @Query("orderBy") String orderBy,
       @Query("filterBy") String filterBy);
 
   @GET("/v1/cats/{catId}")
-  Observable<Cat> getGatitoById(
+  Observable<Cat> getGatitoByIdAndFilterBy(
       @Path("catId") String catId,
       @Query("filterBy") String filterBy);
 
   @GET("/v1/cats/{catId}")
-  Observable<Cat> getGatitoById(
+  Observable<Cat> getGatitoByIdAndOrderBy(
       @Path("catId") String catId,
       @Query("orderBy") String orderBy);
 
