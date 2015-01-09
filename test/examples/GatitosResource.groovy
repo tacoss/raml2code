@@ -18,7 +18,7 @@ interface GatitosResource {
    */
   @GET
   Response getGatitos(
-    @QueryParam("search")String search);
+    @QueryParam("searchBy")String searchBy);
 
   /***
    * @return Response This must be a valid Cat JSON object.

@@ -1,6 +1,7 @@
 fs = require('fs')
 commonHelpers = require("../helpers/common").helpers()
 utilSchemas = require('../util/schemas')
+utilText = require('../util/text')
 parseResource = require('../util/parseResource')
 path = require('path')
 _ = require('lodash')
@@ -63,14 +64,17 @@ generator.parser = (data) ->
       permutations = (2 * notReqArgs.length) - 1
 
       while permutations >= 0
-
         shallowMethod = _.cloneDeep(method)
         d = arrayFromMask(permutations)
-
         permuted = resolveArrayByMask(d, notReqArgs)
+        name = shallowMethod.name
+        for arg in permuted
+          name = name  + "And#{utilText.capitalize(arg.name)}"
+
         newArgs = reqArgs.concat(permuted)
 
         shallowMethod.args = newArgs
+        shallowMethod.name = name
         methodParsePermuted.push shallowMethod
 
         permutations--
