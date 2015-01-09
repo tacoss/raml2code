@@ -29,8 +29,7 @@ util.mapProperty = (property, name, annotation, mapping, refMap)->
   data = {}
   data.property = {}
   data.property.name = name
-  data.property.required = if property.required isnt undefined then property.required else true
-  console.log name, data.property.required
+  data.property.required = if property.required isnt undefined then property.required else false
   data.property.size = []
   data.property.size.push {"name": "min", "value": property.minLength} if property.minLength
   data.property.size.push {"name": "max", "value": property.maxLength} if property.maxLength

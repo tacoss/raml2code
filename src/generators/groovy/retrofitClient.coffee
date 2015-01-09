@@ -88,7 +88,7 @@ generator.parser = (data) ->
   parsed.push {name: "#{data.version}/#{model.className}.java" , model}
   parsed
 
-
+#mask array taken from mozilla
 arrayFromMask = (nMask) ->
   # nMask must be between -2147483648 and 2147483647
   throw new TypeError("arrayFromMask - out of range")  if nMask > 0x7fffffff or nMask < -0x80000000

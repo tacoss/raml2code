@@ -19,7 +19,8 @@ interface GatitoByIdResource {
   @GET
   Response getGatitoById(
     @PathParam("catId")String catId,
-    @QueryParam("filterBy")String filterBy);
+    @QueryParam("filterBy")String filterBy,
+    @QueryParam("orderBy")String orderBy);
 
   /***
    * @return Response This must be a valid Cat JSON object.
