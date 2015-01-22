@@ -2,7 +2,7 @@ var test = require("../helpers").test;
 var chai = require('chai');
 chai.should();
 
-describe('should generate a Pojo', function () {
+xdescribe('should generate a Pojo', function () {
 
   var generator = require("../../lib/generators/groovy/pojo");
   var catDTO = function(done){

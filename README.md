@@ -1,12 +1,25 @@
 # Raml to code generator
 
-
 [![Build Status](https://img.shields.io/travis/gextech/raml2code/master.svg?style=flat)](https://travis-ci.org/gextech/raml2code)
-  
+
+## Versioning
+
+The raml2code generator is versioned in the following manner:
+
+```
+x.y.z
+```
+
+in which *x.y* denotes the version of the [RAML specification](http://raml.org/spec.html)
+and *z* is the version of the raml2code.
+
+So *0.1.2* is the 2nd revision of the ralm2code for the *0.1* version
+of the [RAML specification](http://raml.org/spec.html).
+
   * This module generate code from a RAML definition
   * It uses Handlebars templates
 
-## It must be defined as Gulp-plugin
+## It's a Gulp-plugin
 ```js
 var gulp = require('gulp');
 var raml2code = require('raml2code');

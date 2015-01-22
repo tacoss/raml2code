@@ -12,10 +12,9 @@ dirname = path.dirname(__filename)
 template = path.resolve(dirname, "tmpl/pojo.hbs")
 cmPartial = path.resolve(dirname, "tmpl/classMembersPartial.hbs")
 generator.template = fs.readFileSync(template).toString()
-generator.partials = [
-  name : "classMembers"
-  str : fs.readFileSync(cmPartial).toString()
-]
+generator.partials = {
+  classMembers : fs.readFileSync(cmPartial).toString()
+}
 
 deref = require('deref')();
 
