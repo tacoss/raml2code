@@ -127,8 +127,9 @@ A generator is a simple object with the following properties:
       ```
       Will generate GatitosResource
 
-  * RETROFIT Client
-  * raml-client-generator this is javascript generator more info or to report issues [raml-client-generator](https://github.com/mulesoft/raml-client-generator)
+  * RETROFIT Client java interface
+  * raml-client-generator javascript client generator from mulesoft
+    [raml-client-generator](https://github.com/mulesoft/raml-client-generator)
 
     
 
