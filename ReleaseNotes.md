@@ -1,3 +1,6 @@
+## 0.8.39
+Fixing issue #4
+
 ## 0.8.38
 Changing Versioning, adding support to generate a js client
 
