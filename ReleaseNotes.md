@@ -1,5 +1,5 @@
 ## 0.8.38
-Changing version values to RAML spec version supported, adding support to generate a js client
+Changing Versioning, adding support to generate a js client
 
 - Moving retrofit client to src/generators/java this could break some already setup projects
 - Now it generates jsClient it uses [raml-client-generator](https://github.com/mulesoft/raml-client-generator)
