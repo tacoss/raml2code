@@ -13,7 +13,7 @@ x.y.z
 in which *x.y* denotes the version of the [RAML specification](http://raml.org/spec.html)
 and *z* is the version of the raml2code.
 
-So *0.1.2* is the 2nd revision of the ralm2code for the *0.1* version
+So *0.8.38* is the 38nd revision of the ralm2code for the *0.8* version
 of the [RAML specification](http://raml.org/spec.html).
 
   * This module generate code from a RAML definition
@@ -108,12 +108,27 @@ A generator is a simple object with the following properties:
 
 ## Generators included and tested
   * Groovy POJO
-    If the json schema has $ref, it would try to use the title to make references, if the title doesn't exits
-    it would generate a inner classes with the name of the property.
-    If there are $ref definitions, consider the following http://json-schema.org/latest/json-schema-core.html#anchor30
-  * JAX-RS Interface
-  * RETROFIT Client
+    This generator use json-schema spec heavily, when using $ref certain rules apply:
+      * If the json schema has $ref and the schema referred has title we will use it to make a reference. For
+       example the property owner on:
+         [cat.schema.json](src/test/raml/cat.schema.json)
+       it will result on the property Owner in [CatDTO.groovy](src/test/examples/CatDTO.groovy)
+      * if the json schema has a property of type object like food on :
+        [cat.schema.json](src/test/raml/cat.schema.json)
+       it will result on a inner class called Food in [CatDTO.groovy](src/test/examples/CatDTO.groovy)
 
+    More info on $ref definitions, http://json-schema.org/latest/json-schema-core.html#anchor30
+  * JAX-RS Interface
+      We use the optional resource.displayName to name resource classes, if you use this generator don't forget to provide it.
+      Example:
+      ```groovy
+        /cats:
+          displayName: Gatitos
+      ```
+      Will generate GatitosResource
+
+  * RETROFIT Client
+  * raml-client-generator this is javascript generator more info or to report issues [raml-client-generator](https://github.com/mulesoft/raml-client-generator)
 
     
 

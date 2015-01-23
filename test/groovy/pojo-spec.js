@@ -2,21 +2,21 @@ var test = require("../helpers").test;
 var chai = require('chai');
 chai.should();
 
-xdescribe('should generate a Pojo', function () {
+describe('should generate a Pojo', function () {
 
   var generator = require("../../lib/generators/groovy/pojo");
   var catDTO = function(done){
-    test(generator, done, {package: 'org.gex', enableAnnotations: false}, "CatDTO.groovy" , "v1/Cat.groovy")
+    test(generator, done, {package: 'org.gex', enableAnnotations: false}, "groovy/CatDTO.groovy" , "v1/Cat.groovy")
   };
   var catDTOJSR303 = function(done){
-    test(generator, done, {package: 'org.gex'}, "CatDTOJSR303.groovy", "v1/Cat.groovy")
+    test(generator, done, {package: 'org.gex'}, "groovy/CatDTOJSR303.groovy", "v1/Cat.groovy")
   };
   var widgetDTOInlineRef = function(done){
-    test(generator, done, {package: 'org.gex'}, "WidgetInline.groovy", "v1/Widget.groovy")
+    test(generator, done, {package: 'org.gex'}, "groovy/WidgetInline.groovy", "v1/Widget.groovy")
   };
 
   var widgetDTOInlinePropertyRef = function(done){
-    test(generator, done, {package: 'org.gex'}, "WidgetInlineProperty.groovy", "v1/WidgetInlineProperty.groovy")
+    test(generator, done, {package: 'org.gex'}, "groovy/WidgetInlineProperty.groovy", "v1/WidgetInlineProperty.groovy")
   };
 
   it('from a RAML file', catDTO );

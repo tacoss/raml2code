@@ -1,15 +1,17 @@
-fs = require('fs')
-commonHelpers = require("../helpers/common").helpers()
+extend  = require('raml-client-generator/node_modules/extend');
 languages  = require('raml-client-generator/languages');
+context = require('raml-client-generator/lib/compile/context');
 
+defaultHelpers = require('raml-client-generator/lib/compile/helpers');
 generator = {}
 
-partials = {
+generator.partials = {
   auth:      require('raml-client-generator/languages/javascript/partials/auth.js.hbs'),
   utils:     require('raml-client-generator/languages/javascript/partials/utils.js.hbs'),
   client:    require('raml-client-generator/languages/javascript/partials/client.js.hbs'),
   resources: require('raml-client-generator/languages/javascript/partials/resources.js.hbs')
 }
+
 helpers = {
   stringify:         require('raml-client-generator/node_modules/javascript-stringify'),
   dependencies:      require('raml-client-generator/languages/javascript/helpers/dependencies'),
@@ -17,7 +19,21 @@ helpers = {
   parametersSnippet: require('raml-client-generator/languages/javascript/helpers/parameters-snippet')
 }
 
-template =  require('raml-client-generator/languages/javascript//templates/index.js.hbs')
+generator.helpers = extend({}, defaultHelpers, helpers)
+generator.template =  require('raml-client-generator/languages/javascript//templates/index.js.hbs')
 
-console.log partials
-console.log template
+camelCase = require('raml-client-generator/node_modules/camel-case')
+
+generator.parser = (data) ->
+  parsed = []
+  spec =
+    format:
+      variable: camelCase
+
+  model = context(data, spec)
+
+  parsed.push {name: model.version + "/#{camelCase(model.title)}Client.js" , model}
+  parsed
+
+
+module.exports = generator

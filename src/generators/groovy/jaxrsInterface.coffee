@@ -1,18 +1,13 @@
-fs = require('fs')
 _ = require('lodash')
 utilSchemas = require('../util/schemas')
 parseResource = require('../util/parseResource')
 commonHelpers = require("../helpers/common").helpers()
-path = require('path')
 
 generator = {}
 generator.helpers = commonHelpers
-dirname = path.dirname(__filename)
-template = path.resolve(dirname, "tmpl/jaxrsResources.hbs")
-generator.template = fs.readFileSync(template).toString()
+generator.template = require("./tmpl/jaxrsResources.hbs")
 
 customAdapter = (method, methodParsed) ->
-
   if methodParsed.formData
     methodParsed.consumes = "MediaType.MULTIPART_FORM_DATA"
 

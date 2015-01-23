@@ -1,16 +1,13 @@
-fs = require('fs')
 commonHelpers = require("../helpers/common").helpers()
 utilSchemas = require('../util/schemas')
 utilText = require('../util/text')
 parseResource = require('../util/parseResource')
-path = require('path')
 _ = require('lodash')
 
 generator = {}
 generator.helpers = commonHelpers
-dirname = path.dirname(__filename)
-template = path.resolve(dirname, "tmpl/retrofitClient.hbs")
-generator.template = fs.readFileSync(template).toString()
+
+generator.template = require("./tmpl/retrofitClient.hbs")
 
 customAdapter = (method, methodParsed)->
   if methodParsed.formData
