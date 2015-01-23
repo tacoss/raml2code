@@ -58,7 +58,7 @@ generator.parser = (data) ->
     if notReqArgs and notReqArgs.length > 0
 
       reqArgs = _.difference(method.args, notReqArgs)
-      permutations = (2 * notReqArgs.length) - 1
+      permutations = (Math.pow(2, notReqArgs.length)) - 1
 
       while permutations >= 0
         shallowMethod = _.cloneDeep(method)

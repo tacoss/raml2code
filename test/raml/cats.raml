@@ -44,13 +44,12 @@ resourceTypes:
               schema: <<resourcePathName | !singularize>>
         queryParameters:
           filterBy:
-            displayName: FilterBy
             type: string
-            required: false
           orderBy:
-            displayName: OrderBy
             type: string
-            required: false
+          clientSecret:
+            type: string
+
 
       put:
         responses:
