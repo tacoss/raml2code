@@ -6,24 +6,24 @@ describe('RAML to JAX-RS', function () {
   var generator = require("../../lib/generators/groovy/jaxrsInterface");
 
   var gatitosResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitosResource.groovy", "v1/GatitosResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitosResource.groovy", "v1/GatitosResource.groovy")
   };
   var gatitoByIdResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitoByIdResource.groovy", "v1/GatitoByIdResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitoByIdResource.groovy", "v1/GatitoByIdResource.groovy")
   };
 
   var gatitoByIdPictureResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitoByIdPictureResource.groovy", "v1/GatitoByIdPictureResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitoByIdPictureResource.groovy", "v1/GatitoByIdPictureResource.groovy")
   };
 
   var gatitopByIdFormResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "GatitopByIdFormResource.groovy", "v1/GatitopByIdFormResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitopByIdFormResource.groovy", "v1/GatitopByIdFormResource.groovy")
   };
   var settingsResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "SettingsResource.groovy", "v1/SettingsResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/SettingsResource.groovy", "v1/SettingsResource.groovy")
   };
   var arrayPrimitivesResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "ArrayPrimitivesResource.groovy", "v1/ArrayPrimitivesResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/ArrayPrimitivesResource.groovy", "v1/ArrayPrimitivesResource.groovy")
   };
 
 

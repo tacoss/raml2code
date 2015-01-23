@@ -1,21 +1,14 @@
-fs = require('fs')
 commonHelpers = require("../helpers/common").helpers()
-path = require('path')
 utilText = require('../util/text')
 utilSchemas = require('../util/schemas')
 utilMapProperty = require('../util/mapProperty')
 
-
 generator = {}
 generator.helpers = commonHelpers
-dirname = path.dirname(__filename)
-template = path.resolve(dirname, "tmpl/pojo.hbs")
-cmPartial = path.resolve(dirname, "tmpl/classMembersPartial.hbs")
-generator.template = fs.readFileSync(template).toString()
-generator.partials = [
-  name : "classMembers"
-  str : fs.readFileSync(cmPartial).toString()
-]
+generator.template = require("./tmpl/pojo.hbs")
+generator.partials = {
+  classMembers : require("./tmpl/classMembersPartial.hbs")
+}
 
 deref = require('deref')();
 
@@ -36,9 +29,7 @@ generator.parser = (datos) ->
     datos.extra.package = "#{datos.extra.package}.#{datos.version}"
     datos.extra.enableAnnotations ?= true
 
-
   for schema in schemas
-
 #   normSchema = deref(schema, schemas, true)  #Expanded
     normSchema = deref(schema, schemas) 
 

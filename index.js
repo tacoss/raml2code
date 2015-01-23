@@ -29,7 +29,12 @@ function processData(fileName, self, callback, options) {
         });
 
       }
-      data2code.process(data, options.generator);
+      try{
+        data2code.process(data, options.generator);
+      }catch(e){
+        self.emit('error', new PluginError(PLUGIN_NAME,e));
+      }
+
     } else {
       self.emit('error', new PluginError(PLUGIN_NAME, 'Generator not supplied'));
     }

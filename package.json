@@ -1,6 +1,6 @@
 {
   "name": "raml2code",
-  "version": "0.0.37",
+  "version": "0.8.38",
   "description": "Raml spec to code",
   "main": "index.js",
   "scripts": {
@@ -19,14 +19,17 @@
   "bugs": {
     "url": "https://github.com/gextech/raml2code/issues"
   },
-  "homepage": "https://github.com/gextech/raml2code",
+  "homepage":
+
+  "https://github.com/gextech/raml2code",
   "dependencies": {
-    "data2code": "~0.0.1",
-    "gulp-util": "~3.0.1",
-    "raml-parser": "~0.8.7",
-    "through2": "~0.6.3",
-    "lodash": "^2.4.1",
-    "deref": "0.2.6"
+    "data2code": "0.0.3",
+    "gulp-util": "3.0.1",
+    "raml-parser": "0.8.7",
+    "through2": "0.6.3",
+    "lodash": "2.4.1",
+    "deref": "0.2.6",
+    "raml-client-generator" : "0.0.6"
   },
   "devDependencies": {
     "chai": "^1.10.0",
