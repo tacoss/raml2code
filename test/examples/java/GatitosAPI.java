@@ -23,9 +23,22 @@ public interface GatitosAPI {
       @Body Cat cat);
 
   @GET("/v1/cats/{catId}")
+  Observable<Cat> getGatitoByIdAndClientSecretAndOrderByAndFilterBy(
+      @Path("catId") String catId,
+      @Query("clientSecret") String clientSecret,
+      @Query("orderBy") String orderBy,
+      @Query("filterBy") String filterBy);
+
+  @GET("/v1/cats/{catId}")
   Observable<Cat> getGatitoByIdAndOrderByAndFilterBy(
       @Path("catId") String catId,
       @Query("orderBy") String orderBy,
+      @Query("filterBy") String filterBy);
+
+  @GET("/v1/cats/{catId}")
+  Observable<Cat> getGatitoByIdAndClientSecretAndFilterBy(
+      @Path("catId") String catId,
+      @Query("clientSecret") String clientSecret,
       @Query("filterBy") String filterBy);
 
   @GET("/v1/cats/{catId}")
@@ -34,9 +47,20 @@ public interface GatitosAPI {
       @Query("filterBy") String filterBy);
 
   @GET("/v1/cats/{catId}")
+  Observable<Cat> getGatitoByIdAndClientSecretAndOrderBy(
+      @Path("catId") String catId,
+      @Query("clientSecret") String clientSecret,
+      @Query("orderBy") String orderBy);
+
+  @GET("/v1/cats/{catId}")
   Observable<Cat> getGatitoByIdAndOrderBy(
       @Path("catId") String catId,
       @Query("orderBy") String orderBy);
+
+  @GET("/v1/cats/{catId}")
+  Observable<Cat> getGatitoByIdAndClientSecret(
+      @Path("catId") String catId,
+      @Query("clientSecret") String clientSecret);
 
   @GET("/v1/cats/{catId}")
   Observable<Cat> getGatitoById(
