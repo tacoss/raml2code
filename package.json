@@ -23,7 +23,7 @@
 
   "https://github.com/gextech/raml2code",
   "dependencies": {
-    "data2code": "0.0.3",
+    "data2code": "0.0.4",
     "gulp-util": "3.0.1",
     "raml-parser": "0.8.7",
     "through2": "0.6.3",

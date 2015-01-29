@@ -51,7 +51,10 @@ generator.parser = (data) ->
     model.uri = first.uri
     model.className = "#{first.displayName}Resource"
     model.methods = v
-    parsed.push {name: "#{data.version}/#{model.className}.groovy" , model}
+    result = {}
+    version =  if data.version then "#{data.version}/"  else ""
+    result["#{version}#{model.className}.groovy"] = model
+    parsed.push result
   parsed
 
 

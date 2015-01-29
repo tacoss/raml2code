@@ -45,7 +45,10 @@ generator.parser = (datos) ->
 
     model.extra = datos.extra
     if someData.classMembers.length > 0
-      parsed.push {name: datos.version + "/#{model.className}.groovy" , model}
+      result = {}
+      version =  if datos.version then "#{datos.version}/"  else ""
+      result["#{version}#{model.className}.groovy"] = model
+      parsed.push result
     else
       #if there is not properties it must be a Map maps are not created
       console.log "----> #{model.className}.groovy is too abstract to create a file using List or Map"
