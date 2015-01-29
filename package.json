@@ -29,6 +29,7 @@
     "through2": "0.6.3",
     "lodash": "2.4.1",
     "deref": "0.2.6",
+    "json-schema-2-groovy-pojo": "0.0.2",
     "raml-client-generator" : "0.0.6"
   },
   "devDependencies": {
