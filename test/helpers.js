@@ -15,12 +15,15 @@ helpers.wrapAssertion= function(fn, done) {
 helpers.test = function (generator, done, extra, sampleFile, validateWith, logContent ) {
 
   logContent = logContent || false;
+
   var raml2codeInstance = raml2code({generator: generator, extra: extra});
   var ramlPath = path.join(__dirname, './raml/cats.raml');
-  var examplePath = path.join(__dirname, "./examples/" + sampleFile);
+  if(sampleFile !== undefined){
+    var examplePath = path.join(__dirname, "./examples/" + sampleFile);
+    var exampleContents = fs.readFileSync(examplePath);
+  }
 
   var ramlContents = fs.readFileSync(ramlPath);
-  var exampleContents = fs.readFileSync(examplePath);
 
   raml2codeInstance.write(new gutil.File({
     path: ramlPath,
@@ -37,10 +40,12 @@ helpers.test = function (generator, done, extra, sampleFile, validateWith, logCo
           console.log(content);
           console.log("==================================================")
         }
-        exampleContents = exampleContents.toString('utf8').split('\n');
-        content.split('\n').forEach(function (e, i) {
-          e.trim().should.equal(exampleContents[i].trim(), "In line " + i + " " + sampleFile + " " + validateWith);
-        });
+        if(exampleContents !== undefined){
+          exampleContents = exampleContents.toString('utf8').split('\n');
+          content.split('\n').forEach(function (e, i) {
+            e.trim().should.equal(exampleContents[i].trim(), "In line " + i + " " + sampleFile + " " + validateWith);
+          });
+        }
       }, done);
     }
   });
