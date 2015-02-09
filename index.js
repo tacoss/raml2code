@@ -16,13 +16,14 @@ function processData(fileName, self, callback, options) {
       data.extra = options.extra;
       options.generator.handleRender = function (results) {
         results.forEach(function (element, index, array) {
-          if (element.name && element.content) {
+          var key = Object.keys(element)[0];
+          if (key && element[key]) {
             var fileG = new gutil.File({
-              path: element.name,
-              contents: new Buffer(element.content)
+              path: key,
+              contents: new Buffer(element[key])
             });
             self.push(fileG);
-            gutil.log(gutil.colors.cyan('Generating file'), element.name);
+            gutil.log(gutil.colors.cyan('Generating file'), key);
           } else {
             self.emit('error', new PluginError(PLUGIN_NAME, 'Data array element must contain name and content properties'));
           }

@@ -85,8 +85,13 @@ generator.parser = (data) ->
     data.extra.package = "#{data.extra.package}.#{data.version}"
     data.extra.importPojos = "#{data.extra.importPojos}.#{data.version}"
     model.extra = data.extra
+
+  result = {}
+  version =  if data.version then "#{data.version}/"  else ""
   model.className = data.title.split(" ").join("")
-  parsed.push {name: "#{data.version}/#{model.className}.java" , model}
+  result["#{version}#{model.className}.java"] = model
+  parsed.push result
+
   parsed
 
 #mask array taken from mozilla

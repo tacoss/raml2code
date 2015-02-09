@@ -23,12 +23,13 @@
 
   "https://github.com/gextech/raml2code",
   "dependencies": {
-    "data2code": "0.0.3",
+    "data2code": "0.0.4",
     "gulp-util": "3.0.1",
     "raml-parser": "0.8.7",
     "through2": "0.6.3",
     "lodash": "2.4.1",
     "deref": "0.2.6",
+    "json-schema-2-groovy-pojo": "0.0.3",
     "raml-client-generator" : "0.0.6"
   },
   "devDependencies": {
