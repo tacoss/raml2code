@@ -61,9 +61,8 @@ describe('raml2code basic test', function () {
       var simpleGen = {};
       simpleGen.template = '{{title}}';
       simpleGen.parser = function (data) {
-        return [{ name: "test.test", model: {title:data.title + " finos"}}]
+        return [{  "test.test" : {title:data.title + " finos"}}]
       };
-
       var raml2codeInstance = raml2code({generator:simpleGen});
       var ramlPath = path.join(__dirname, 'raml/cats.raml');
       var ramlContents = fs.readFileSync(ramlPath);
@@ -74,8 +73,8 @@ describe('raml2code basic test', function () {
 
       raml2codeInstance.on('data', function(file){
         wrapAssertion(function () {
-        file.path.should.equal('test.test');
-        file.contents.toString('utf8').should.equal("Gatitos API finos");
+          file.path.should.equal('test.test');
+          file.contents.toString('utf8').should.equal("Gatitos API finos");
         }, done);
       });
 

@@ -31,8 +31,11 @@ generator.parser = (data) ->
       variable: camelCase
 
   model = context(data, spec)
+  result = {}
+  version =  if data.version then "#{data.version}/" else ""
+  result["#{version}#{camelCase(model.title)}Client.js"] = model
+  parsed.push result
 
-  parsed.push {name: model.version + "/#{camelCase(model.title)}Client.js" , model}
   parsed
 
 

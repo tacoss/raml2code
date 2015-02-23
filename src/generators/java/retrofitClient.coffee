@@ -58,7 +58,7 @@ generator.parser = (data) ->
     if notReqArgs and notReqArgs.length > 0
 
       reqArgs = _.difference(method.args, notReqArgs)
-      permutations = (2 * notReqArgs.length) - 1
+      permutations = (Math.pow(2, notReqArgs.length)) - 1
 
       while permutations >= 0
         shallowMethod = _.cloneDeep(method)
@@ -85,8 +85,13 @@ generator.parser = (data) ->
     data.extra.package = "#{data.extra.package}.#{data.version}"
     data.extra.importPojos = "#{data.extra.importPojos}.#{data.version}"
     model.extra = data.extra
+
+  result = {}
+  version =  if data.version then "#{data.version}/"  else ""
   model.className = data.title.split(" ").join("")
-  parsed.push {name: "#{data.version}/#{model.className}.java" , model}
+  result["#{version}#{model.className}.java"] = model
+  parsed.push result
+
   parsed
 
 #mask array taken from mozilla

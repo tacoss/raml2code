@@ -6,22 +6,9 @@ describe('should generate a Pojo', function () {
 
   var generator = require("../../lib/generators/groovy/pojo");
   var catDTO = function(done){
-    test(generator, done, {package: 'org.gex', enableAnnotations: false}, "groovy/CatDTO.groovy" , "v1/Cat.groovy")
-  };
-  var catDTOJSR303 = function(done){
-    test(generator, done, {package: 'org.gex'}, "groovy/CatDTOJSR303.groovy", "v1/Cat.groovy")
-  };
-  var widgetDTOInlineRef = function(done){
-    test(generator, done, {package: 'org.gex'}, "groovy/WidgetInline.groovy", "v1/Widget.groovy")
-  };
-
-  var widgetDTOInlinePropertyRef = function(done){
-    test(generator, done, {package: 'org.gex'}, "groovy/WidgetInlineProperty.groovy", "v1/WidgetInlineProperty.groovy")
+    test(generator, done, {package: 'org.gex', enableAnnotations: false}, undefined , "v1/ComplexCat.groovy")
   };
 
   it('from a RAML file', catDTO );
-  it('from a RAML file with bean validation', catDTOJSR303 );
-  it('from a Schema with inline ref', widgetDTOInlineRef );
-  it('from a Schema with inline Property ref', widgetDTOInlinePropertyRef );
 
 });
