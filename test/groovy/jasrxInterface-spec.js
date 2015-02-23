@@ -6,31 +6,23 @@ describe('RAML to JAX-RS', function () {
   var generator = require("../../lib/generators/groovy/jaxrsInterface");
 
   var gatitosResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitosResource.groovy", "v1/GatitosResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/jersey-resources/GatitosResource.groovy", "v1/GatitosResource.groovy")
   };
   var gatitoByIdResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitoByIdResource.groovy", "v1/GatitoByIdResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/jersey-resources//GatitoByIdResource.groovy", "v1/GatitoByIdResource.groovy")
   };
 
   var gatitoByIdPictureResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitoByIdPictureResource.groovy", "v1/GatitoByIdPictureResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/jersey-resources//GatitoByIdPictureResource.groovy", "v1/GatitoByIdPictureResource.groovy")
   };
 
   var gatitopByIdFormResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/GatitopByIdFormResource.groovy", "v1/GatitopByIdFormResource.groovy")
+    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/jersey-resources//GatitopByIdFormResource.groovy", "v1/GatitopByIdFormResource.groovy")
   };
-  var settingsResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/SettingsResource.groovy", "v1/SettingsResource.groovy")
-  };
-  var arrayPrimitivesResource = function (done) {
-    test(generator, done, {package: 'org.gex', importPojos: 'org.gex.dto'}, "groovy/ArrayPrimitivesResource.groovy", "v1/ArrayPrimitivesResource.groovy")
-  };
-
 
   it('should generate a resource interface', gatitosResource);
   it('should generate a resourceById interface', gatitoByIdResource);
   it('should generate a GatitoByIdPictureResource upload interface', gatitoByIdPictureResource);
   it('should generate a GatitopByIdFormResource upload interface', gatitopByIdFormResource);
-  it('should generate a SettingsResource', settingsResource);
-  it('should generate a SettingsResource', arrayPrimitivesResource);
+
 });

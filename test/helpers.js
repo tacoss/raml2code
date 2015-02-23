@@ -16,10 +16,12 @@ helpers.test = function (generator, done, extra, sampleFile, validateWith, logCo
 
   logContent = logContent || false;
 
+  var fixtures = path.join(__dirname, '../node_modules/raml2code-fixtures/');
+  var sampleFiles = path.join(__dirname, '../node_modules/raml2code-fixtures/code-reference/');
   var raml2codeInstance = raml2code({generator: generator, extra: extra});
-  var ramlPath = path.join(__dirname, './raml/cats.raml');
+  var ramlPath = path.join(__dirname, '../node_modules/raml2code-fixtures/raml/index.raml');
   if(sampleFile !== undefined){
-    var examplePath = path.join(__dirname, "./examples/" + sampleFile);
+    var examplePath = sampleFiles + sampleFile;
     var exampleContents = fs.readFileSync(examplePath);
   }
 
