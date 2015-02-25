@@ -1,8 +1,4 @@
 var test = require("../helpers").test;
-var chai = require('chai');
-chai.should();
-
-
 
 describe('RAML to Retrofit client ', function () {
 

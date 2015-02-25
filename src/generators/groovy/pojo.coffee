@@ -1,5 +1,5 @@
 schema2groovy = require('json-schema-2-groovy-pojo/lib/generators/pojo');
-utilSchemas = require('../util/schemas')
+utilSchemas = require('raml2code-utils/lib/schemas')
 
 originalParser = schema2groovy.parser
 schema2groovy.parser = (datos) ->

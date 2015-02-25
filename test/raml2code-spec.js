@@ -5,10 +5,9 @@ var gutil = require('gulp-util');
 var stream = require('stream');
 var path = require('path');
 var fs = require('fs');
-var wrapAssertion = require("./helpers").wrapAssertion;
 var chai = require('chai');
 chai.should();
-
+var testUtils = require("raml2code-fixtures");
 describe('raml2code basic test', function () {
 
   describe('in streaming mode', function() {
@@ -28,7 +27,7 @@ describe('raml2code basic test', function () {
   describe('in buffer mode', function() {
     it('emits syntax erros in bad RAML file', function(done) {
       var raml2codeInstance =  raml2code();
-      var ramlPath = path.join(__dirname, 'raml/cats.bad.raml');
+      var ramlPath = testUtils.ramlPath +'cats.bad.raml';
       var ramlContents = fs.readFileSync(ramlPath);
 
       raml2codeInstance.once('error', function(error) {
@@ -43,7 +42,7 @@ describe('raml2code basic test', function () {
     });
     it('emits syntax erros if generator is not provided', function(done) {
       var raml2codeInstance = raml2code();
-      var ramlPath = path.join(__dirname, 'raml/cats.raml');
+      var ramlPath = testUtils.ramlPath +'index.raml';
       var ramlContents = fs.readFileSync(ramlPath);
 
       raml2codeInstance.on('error', function(error) {
@@ -64,7 +63,7 @@ describe('raml2code basic test', function () {
         return [{  "test.test" : {title:data.title + " finos"}}]
       };
       var raml2codeInstance = raml2code({generator:simpleGen});
-      var ramlPath = path.join(__dirname, 'raml/cats.raml');
+      var ramlPath = testUtils.ramlPath +'index.raml';
       var ramlContents = fs.readFileSync(ramlPath);
       raml2codeInstance.write(new gutil.File({
         path: ramlPath,
@@ -72,9 +71,10 @@ describe('raml2code basic test', function () {
       }));
 
       raml2codeInstance.on('data', function(file){
-        wrapAssertion(function () {
+        testUtils.wrapAssertion(function () {
           file.path.should.equal('test.test');
-          file.contents.toString('utf8').should.equal("Gatitos API finos");
+          file.contents.toString('utf8').should.equal("Fixture API finos");
+          done();
         }, done);
       });
 

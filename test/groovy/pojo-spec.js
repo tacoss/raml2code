@@ -1,6 +1,4 @@
 var test = require("../helpers").test;
-var chai = require('chai');
-chai.should();
 
 describe('should generate a Pojo', function () {
 

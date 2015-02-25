@@ -2,7 +2,7 @@ var test = require("../helpers").test;
 var chai = require('chai');
 chai.should();
 
-describe('RAML to jsClient', function () {
+xdescribe('RAML to jsClient', function () {
 
   var generator = require("../../lib/generators/javascript/jsClient");
 

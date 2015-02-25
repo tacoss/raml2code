@@ -30,7 +30,9 @@
     "lodash": "2.4.1",
     "deref": "0.2.6",
     "json-schema-2-groovy-pojo": "0.0.3",
-    "raml-client-generator" : "0.0.6"
+    "raml-client-generator" : "0.0.6",
+    "raml2code-retrofit" : "0.0.1",
+    "raml2code-jaxrs-interfaces": "0.0.1"
   },
   "devDependencies": {
     "chai": "^1.10.0",
@@ -41,6 +43,6 @@
     "gulp-mocha": "2.0.0",
     "mocha": "^2.0.1",
     "run-sequence": "^1.0.2",
-    "raml2code-fixtures": "0.0.2"
+    "raml2code-fixtures": "0.0.3"
   }
 }
