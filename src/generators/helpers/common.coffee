@@ -1,6 +1,6 @@
 module.exports.helpers = ->
 
-  [{name:'debug', fn: (optionalValue)->
+  {'debug': (optionalValue)->
     console.log "Current Context"
     console.log "===================="
     console.log this
@@ -9,4 +9,4 @@ module.exports.helpers = ->
       console.log "===================="
       console.log optionalValue
     return
-  }]
+  }
