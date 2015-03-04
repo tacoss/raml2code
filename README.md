@@ -89,7 +89,7 @@ gulp.task('default', ['build']);
 [gradle-gulp-plugin](https://github.com/filipblondeel/gradle-gulp-plugin)
 
 ## And example of project could be found here:
-[raml2code-Example](https://github.com/atomsfat/raml2code-example
+[raml2code-Example](https://github.com/atomsfat/raml2code-example)
 
   
 ## You don't like our generators, DIY
