@@ -20,7 +20,7 @@ interface {{className}} {
   @{{annotation}}{{#if consumes}}
   @Consumes({{consumes}}){{/if}}
   Response {{{name}}}({{#each args}}{{#if @index}},{{/if}}
-    {{{kind}}}{{{type}}} {{name}}{{/each}});
+    {{#if default}}@DefaultValue("{{default}}"){{/if}} {{{kind}}}{{{type}}} {{name}}{{/each}});
 
 {{/methods}}
 
