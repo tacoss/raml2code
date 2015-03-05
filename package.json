@@ -1,6 +1,6 @@
 {
   "name": "raml2code",
-  "version": "0.8.40",
+  "version": "0.8.41",
   "description": "Raml spec to code",
   "main": "index.js",
   "scripts": {
@@ -19,21 +19,12 @@
   "bugs": {
     "url": "https://github.com/gextech/raml2code/issues"
   },
-  "homepage":
-
-  "https://github.com/gextech/raml2code",
+  "homepage": "https://github.com/gextech/raml2code",
   "dependencies": {
     "data2code": "0.0.4",
     "gulp-util": "3.0.1",
     "raml-parser": "0.8.7",
-    "through2": "0.6.3",
-    "lodash": "2.4.1",
-    "deref": "0.2.6",
-    "json-schema-2-groovy-pojo": "0.0.3",
-    "raml-client-generator" : "0.0.6",
-    "raml2code-retrofit" : "0.0.1",
-    "raml2code-jaxrs-interfaces": "0.0.2",
-    "raml2code-utils": "0.0.2"
+    "through2": "0.6.3"
   },
   "devDependencies": {
     "chai": "^1.10.0",
@@ -43,7 +34,7 @@
     "gulp-jasmine": "^1.0.1",
     "gulp-mocha": "2.0.0",
     "mocha": "^2.0.1",
-    "run-sequence": "^1.0.2",
-    "raml2code-fixtures": "0.0.6"
+    "raml2code-fixtures": "0.0.8",
+    "run-sequence": "^1.0.2"
   }
 }
