@@ -18,7 +18,7 @@ interface GatitosResource {
    */
   @GET
   Response getGatitos(
-    @QueryParam("searchBy")String searchBy);
+    @DefaultValue("grumpy") @QueryParam("searchBy")String searchBy);
 
   /***
    * @return Response This must be a valid Cat JSON object.
