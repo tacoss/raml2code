@@ -19,29 +19,45 @@ of the [RAML specification](http://raml.org/spec.html).
   * This module generate code from a RAML definition
   * It uses Handlebars templates
 
-## It's a Gulp-plugin
+## It's a Gulp-plugin so to try
+1. Install gulp
+```bash
+ npm install -G gulp
+```
+
+2. install the generators you needed
+```bash
+ npm install --save-dev raml2code-groovy-pojo
+```
+
+3. configure the gulpfile.js
 ```js
 var gulp = require('gulp');
 var raml2code = require('raml2code');
-var genDTO = require("raml2code/lib/generators/groovy/raml2DTO.js");
+//Install a generators:
+var genDTO = require("raml2code-groovy-pojo");
 
-gulp.task("test", function(){
+gulp.task("dtos", function(){
   gulp.src('./test/cats.raml')
     .pipe(raml2code({generator: genDTO, extra: {package:'com.gex'}}))
     .pipe(gulp.dest('build'));
 });
-
 ```
 
-## Sample gulpfile
+4. Run the generator
+```bash
+  gulp dtos
+```
+
+## Sample gulpfile.js
 
 ```js
 var gulp = require('gulp');
 
 var raml2code = require("raml2code");
-var genPojos = require("raml2code/lib/generators/groovy/pojo");
-var genJaxRS = require("raml2code/lib/generators/groovy/jaxrsInterface");
-var genRetrofitClient = require("raml2code/lib/generators/groovy/retrofitClient");
+var genPojos = require("raml2code-groovy-pojo");
+var genJaxRS = require("raml2code-jaxrs-interfaces");
+var genRetrofitClient = require("raml2code-retrofit");
 
 var raml = require('gulp-raml');
 
@@ -83,16 +99,18 @@ gulp.task('default', ['build']);
 
 ```
 
-## We use the Gradle with the gulp plugin to build or loved Java project
+
+## A full example of using using raml2code could be found here:
+[raml2code-Example](https://github.com/atomsfat/raml2code-example)
+
+## We use the Gradle with the gulp plugin to build and integrate with Java.
 [gradle](https://www.gradle.org/)
 
 [gradle-gulp-plugin](https://github.com/filipblondeel/gradle-gulp-plugin)
 
-## And example of project could be found here:
-[raml2codeFullSpringExample](https://github.com/atomsfat/raml2codeFullSpringExample)
 
   
-## You don't like our generators, DIY
+## You can make your own generators, DIY
 
 A generator is a simple object with the following properties:
 
@@ -103,33 +121,16 @@ A generator is a simple object with the following properties:
     [{ name: "test.test", model: {title:data.title + " finos"}}]
  * Optional properties:
     * helpers -> Handlebars helpers.  
-    * partials -> Handlebars partials. 
+    * partials -> Handlebars partials.
 
 
-## Generators included and tested
-  * Groovy POJO
-    This generator use json-schema spec heavily, when using $ref certain rules apply:
-      * If the json schema has $ref and the schema referred has title we will use it to make a reference. For
-       example the property owner on:
-         [cat.schema.json](src/test/raml/cat.schema.json)
-       it will result on the property Owner in [CatDTO.groovy](src/test/examples/CatDTO.groovy)
-      * if the json schema has a property of type object like food on :
-        [cat.schema.json](src/test/raml/cat.schema.json)
-       it will result on a inner class called Food in [CatDTO.groovy](src/test/examples/CatDTO.groovy)
+## Generators create and in use by GEX.
+  * [raml2code-groovy-pojo](https://www.npmjs.com/package/raml2code-pojo)
+  * [raml2code-jaxrs-interfaces](https://www.npmjs.com/package/raml2code-jaxrs-interfaces)
+  * [raml2code-js-client-mulesoft](https://www.npmjs.com/package/raml2code-js-client-mulesoft)
+  * [raml2code-retrofit](https://www.npmjs.com/package/raml2code-retrofit)
 
-    More info on $ref definitions, http://json-schema.org/latest/json-schema-core.html#anchor30
-  * JAX-RS Interface
-      We use the optional resource.displayName to name resource classes, if you use this generator don't forget to provide it.
-      Example:
-      ```groovy
-        /cats:
-          displayName: Gatitos
-      ```
-      Will generate GatitosResource
-
-  * RETROFIT Client java interface
-  * raml-client-generator javascript client generator from mulesoft
-    [raml-client-generator](https://github.com/mulesoft/raml-client-generator)
+If you create a generator let us know to add to this list.
 
     
 

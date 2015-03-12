@@ -1,3 +1,10 @@
+1.8.0 / 2015-06-06
+==================
+  * Making a refactor, separating generators to it's own module, updating reamde
+
+0.8.41 / 2015-06-05
+==================
+  * Adding default values to retrofit arguments
 
 0.8.40 / 2015-02-09
 ==================
@@ -10,7 +17,7 @@ Fixing issue #4
 
 0.8.38
 ==================
-Changing Versioning, adding support to generate a js client
+Changing version schema, adding support to generate a js client
 
 - Moving retrofit client to src/generators/java this could break some already setup projects
 - Now it generates jsClient it uses [raml-client-generator](https://github.com/mulesoft/raml-client-generator)
