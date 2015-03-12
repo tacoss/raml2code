@@ -1,6 +1,6 @@
 {
   "name": "raml2code",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Raml spec to code",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/gextech/raml2code",
   "dependencies": {
-    "data2code": "0.0.6",
+    "data2code": "0.0.7",
     "gulp-util": "3.0.1",
     "raml-parser": "0.8.7",
     "through2": "0.6.3"
