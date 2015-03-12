@@ -1,21 +1,20 @@
-var through = require('through2');
-var gutil = require('gulp-util');
-var data2code = new require('data2code');
-var util = require('util');
-var path = require('path');
+'use strict';
+var through = require('through2'),
+ gutil = require('gulp-util');
 var PluginError = gutil.PluginError;
 
 // consts
-const PLUGIN_NAME = 'raml2code';
+var PLUGIN_NAME = 'raml2code';
 
 function processData(fileName, self, callback, options) {
   var raml = require('raml-parser');
-
+  var data2code = require('data2code');
   raml.loadFile(fileName.path).then(function (data) {
     if (options && options.generator) {
       data.extra = options.extra;
-      options.generator.handleRender = function (results) {
-        results.forEach(function (element, index, array) {
+      try {
+        var results = data2code.process(data, options.generator);
+        results.forEach(function (element) {
           var key = Object.keys(element)[0];
           if (key && element[key]) {
             var fileG = new gutil.File({
@@ -28,12 +27,8 @@ function processData(fileName, self, callback, options) {
             self.emit('error', new PluginError(PLUGIN_NAME, 'Data array element must contain name and content properties'));
           }
         });
-
-      }
-      try{
-        data2code.process(data, options.generator);
-      }catch(e){
-        self.emit('error', new PluginError(PLUGIN_NAME,e));
+      } catch (e) {
+        self.emit('error', new PluginError(PLUGIN_NAME, e));
       }
 
     } else {
@@ -41,7 +36,6 @@ function processData(fileName, self, callback, options) {
     }
     callback();
   }, function (error) {
-    var message = util.format('Parse error%s: %s', error);
     self.emit('error', new PluginError(PLUGIN_NAME, error));
     callback();
   });
@@ -60,4 +54,4 @@ module.exports = function (options) {
     }
   });
   return stream;
-}
+};
