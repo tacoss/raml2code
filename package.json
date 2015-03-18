@@ -23,7 +23,7 @@
   "dependencies": {
     "data2code": "0.0.7",
     "gulp-util": "3.0.1",
-    "raml-parser": "0.8.7",
+    "raml-parser": "0.8.10",
     "through2": "0.6.3"
   },
   "devDependencies": {
