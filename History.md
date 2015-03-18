@@ -1,8 +1,11 @@
-1.8.0 / 2015-06-06
+1.8.3 / 2015-03-18
+==================
+  * Updating raml-js-parser to 0.8.10
+1.8.0 / 2015-03-06
 ==================
   * Making a refactor, separating generators to it's own module, updating reamde
 
-0.8.41 / 2015-06-05
+0.8.41 / 2015-03-05
 ==================
   * Adding default values to retrofit arguments
 

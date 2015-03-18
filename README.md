@@ -10,6 +10,7 @@
 
 2. install the generators you needed
 ```bash
+ npm install --save-dev raml2code
  npm install --save-dev raml2code-groovy-pojo
 ```
 
