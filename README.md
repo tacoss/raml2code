@@ -1,4 +1,4 @@
-# Raml to code generator
+:q>:# Raml to code generator
 
 [![Build Status](https://img.shields.io/travis/gextech/raml2code/master.svg?style=flat)](https://travis-ci.org/gextech/raml2code)
 
@@ -34,7 +34,7 @@ gulp.task("dtos", function(){
 ```
 
 ## Generators create and in use by GEX.
-  * [raml2code-groovy-pojo](https://www.npmjs.com/package/raml2code-pojo)
+  * [raml2code-groovy-pojo](https://www.npmjs.com/package/raml2code-groovy-pojo)
   * [raml2code-jaxrs-interfaces](https://www.npmjs.com/package/raml2code-jaxrs-interfaces)
   * [raml2code-js-client-mulesoft](https://www.npmjs.com/package/raml2code-js-client-mulesoft)
   * [raml2code-retrofit](https://www.npmjs.com/package/raml2code-retrofit)
