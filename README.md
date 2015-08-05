@@ -1,4 +1,4 @@
-:q>:# Raml to code generator
+:# Raml to code generator
 
 [![Build Status](https://img.shields.io/travis/gextech/raml2code/master.svg?style=flat)](https://travis-ci.org/gextech/raml2code)
 
@@ -19,7 +19,7 @@
 var gulp = require('gulp');
 var raml2code = require('raml2code');
 //Install a generators:
-var genDTO = require("raml2code-retrofit");
+var genDTO = require("raml2code-groovy-pojo");
 
 gulp.task("dtos", function(){
   gulp.src('./test/cats.raml')
